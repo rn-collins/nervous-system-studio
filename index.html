@@ -1,0 +1,2099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Nervous System Studio — a personalized set-and-setting platform to understand how sensory environments, routines, and optional cannabis experiences relate to calm, focus, creativity, sleep, and overstimulation." />
+<meta name="theme-color" content="#f6f2ec" />
+<title>Nervous System Studio — Design your environment around your nervous system</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" />
+<style>
+:root{
+  /* Warm off-white + soft neutrals + muted earth tones */
+  --bg:            #f6f2ec;   /* warm off-white */
+  --surface:       #fffdf9;   /* card surface */
+  --surface-2:     #f0eae1;   /* subtle raised */
+  --ink:           #2f2a24;   /* near-black warm, strong contrast on bg */
+  --ink-soft:      #5a5148;   /* secondary text, AA on bg */
+  --line:          #e2d9cc;   /* hairline */
+  --clay:          #9c6b4e;   /* muted terracotta accent */
+  --clay-deep:     #7d5238;   /* darker accent for text/contrast */
+  --sage:          #6f7d63;   /* muted sage */
+  --sage-deep:     #55604b;
+  --sand:          #cdbfa8;
+  --focus:         #3f5d78;   /* accessible focus ring (blue-slate) */
+  --danger:        #8a3b34;
+  --radius:        18px;
+  --radius-sm:     12px;
+  --shadow:        0 1px 2px rgba(47,42,36,.04), 0 8px 28px rgba(47,42,36,.06);
+  --maxw:          1080px;
+  --font: 'Georgia', 'Iowan Old Style', 'Palatino Linotype', serif;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--sans); font-size:17px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--font); font-weight:600; line-height:1.2; color:var(--ink); margin:0 0 .5em}
+h1{font-size:2.1rem; letter-spacing:-.01em}
+h2{font-size:1.6rem}
+h3{font-size:1.2rem}
+p{margin:0 0 1em}
+a{color:var(--clay-deep)}
+img{max-width:100%}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 20px}
+.narrow{max-width:680px; margin:0 auto; padding:0 20px}
+
+/* Accessibility: visible focus everywhere */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible,
+textarea:focus-visible, [tabindex]:focus-visible, .chip:focus-visible{
+  outline:3px solid var(--focus); outline-offset:2px; border-radius:6px;
+}
+.skip{position:absolute; left:-999px; top:0; background:var(--ink); color:#fff; padding:10px 16px; z-index:100; border-radius:0 0 8px 0}
+.skip:focus{left:0}
+
+/* Buttons */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:.5em;
+  font-family:var(--sans); font-size:1rem; font-weight:600; cursor:pointer;
+  padding:13px 22px; border-radius:999px; border:1.5px solid transparent;
+  text-decoration:none; transition:background .15s, border-color .15s, transform .05s; min-height:48px;
+}
+@media (prefers-reduced-motion: reduce){ .btn{transition:none} *{scroll-behavior:auto !important} }
+.btn-primary{background:var(--clay-deep); color:#fff}
+.btn-primary:hover{background:#6a4530}
+.btn-secondary{background:transparent; color:var(--ink); border-color:var(--sand)}
+.btn-secondary:hover{background:var(--surface-2)}
+.btn-ghost{background:transparent; color:var(--clay-deep); padding:10px 14px}
+.btn-ghost:hover{background:var(--surface-2)}
+.btn-block{width:100%}
+.btn:disabled{opacity:.5; cursor:not-allowed}
+
+/* Header / nav */
+header.site{position:sticky; top:0; z-index:40; background:rgba(246,242,236,.9); backdrop-filter:saturate(1.1) blur(8px); border-bottom:1px solid var(--line)}
+.nav{display:flex; align-items:center; gap:16px; height:64px}
+.brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink); font-family:var(--font); font-weight:600; font-size:1.1rem}
+.brand .mark{width:26px; height:26px; flex:none}
+.nav .spacer{flex:1}
+.nav-links{display:flex; align-items:center; gap:6px}
+.nav-links a{color:var(--ink-soft); text-decoration:none; padding:8px 12px; border-radius:8px; font-size:.95rem; font-weight:600}
+.nav-links a:hover{background:var(--surface-2); color:var(--ink)}
+.nav-links a[aria-current="page"]{color:var(--clay-deep); background:var(--surface-2)}
+.menu-toggle{display:none; background:transparent; border:1.5px solid var(--sand); border-radius:10px; padding:8px 10px; cursor:pointer; min-height:44px}
+@media (max-width:860px){
+  .nav-links{position:fixed; inset:64px 0 auto 0; background:var(--surface); flex-direction:column; align-items:stretch; padding:12px 16px; border-bottom:1px solid var(--line); gap:2px; box-shadow:var(--shadow)}
+  .nav-links[hidden]{display:none}
+  .nav-links a{padding:12px 10px}
+  .menu-toggle{display:inline-flex}
+}
+
+/* Cards */
+.card{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow)}
+.card + .card{margin-top:16px}
+.grid{display:grid; gap:16px}
+@media (min-width:720px){ .grid.cols-2{grid-template-columns:1fr 1fr} .grid.cols-3{grid-template-columns:repeat(3,1fr)} .grid.cols-4{grid-template-columns:repeat(4,1fr)} }
+.eyebrow{font-family:var(--sans); text-transform:uppercase; letter-spacing:.14em; font-size:.72rem; font-weight:700; color:var(--clay); margin-bottom:12px}
+.muted{color:var(--ink-soft)}
+.small{font-size:.9rem}
+.pill{display:inline-block; background:var(--surface-2); border:1px solid var(--line); color:var(--ink-soft); border-radius:999px; padding:4px 12px; font-size:.82rem; font-weight:600; margin:0 6px 6px 0}
+.section{padding:64px 0}
+.section.tight{padding:40px 0}
+.center{text-align:center}
+.hr{height:1px; background:var(--line); border:0; margin:32px 0}
+
+/* Forms */
+label.field{display:block; margin-bottom:18px}
+label.field > .lab{display:block; font-weight:600; margin-bottom:6px; font-size:.95rem}
+label.field .hint{font-weight:400; color:var(--ink-soft); font-size:.85rem}
+input[type=text], input[type=email], input[type=date], input[type=time], input[type=number], select, textarea{
+  width:100%; font-family:var(--sans); font-size:1rem; color:var(--ink);
+  background:var(--surface); border:1.5px solid var(--sand); border-radius:var(--radius-sm);
+  padding:12px 14px; min-height:48px;
+}
+textarea{min-height:110px; resize:vertical}
+.choices{display:flex; flex-wrap:wrap; gap:10px; margin-top:4px}
+.chip{display:inline-flex; align-items:center; gap:8px; background:var(--surface); border:1.5px solid var(--sand); border-radius:999px; padding:10px 16px; cursor:pointer; font-size:.95rem; font-weight:600; color:var(--ink); min-height:44px}
+.chip input{position:absolute; opacity:0; width:1px; height:1px}
+.chip[data-on="true"]{background:var(--sage-deep); border-color:var(--sage-deep); color:#fff}
+.chip .tick{opacity:0}
+.chip[data-on="true"] .tick{opacity:1}
+fieldset{border:0; padding:0; margin:0 0 18px}
+legend{font-weight:600; margin-bottom:8px; padding:0; font-size:.95rem}
+
+/* Range/scores */
+.scorerow{display:grid; grid-template-columns:1fr; gap:6px; margin-bottom:16px}
+.scorerow .top{display:flex; justify-content:space-between; align-items:baseline}
+.scorerow output{font-weight:700; color:var(--clay-deep); font-variant-numeric:tabular-nums}
+input[type=range]{width:100%; accent-color:var(--sage-deep); min-height:32px}
+
+/* Dashboard layout */
+.app-shell{display:block}
+.metric{display:flex; flex-direction:column; gap:4px}
+.metric .n{font-family:var(--font); font-size:2rem; color:var(--clay-deep)}
+.metric .l{font-size:.85rem; color:var(--ink-soft); font-weight:600}
+
+/* Bars for insights */
+.bar{height:10px; background:var(--surface-2); border-radius:999px; overflow:hidden; border:1px solid var(--line)}
+.bar > span{display:block; height:100%; background:var(--sage-deep)}
+
+/* Log list */
+.logitem{display:flex; gap:14px; align-items:flex-start; padding:16px; border:1px solid var(--line); border-radius:var(--radius-sm); background:var(--surface)}
+.logitem + .logitem{margin-top:10px}
+.logitem .tag{font-size:.78rem; font-weight:700; color:var(--sage-deep)}
+
+/* Empty state */
+.empty{text-align:center; padding:40px 20px; border:1.5px dashed var(--sand); border-radius:var(--radius); background:var(--surface)}
+.empty .em-ic{width:44px; height:44px; margin:0 auto 12px; color:var(--clay)}
+
+/* Toast */
+#toast{position:fixed; left:50%; bottom:24px; transform:translateX(-50%); background:var(--ink); color:#fff; padding:12px 18px; border-radius:12px; box-shadow:var(--shadow); z-index:80; font-size:.95rem}
+#toast[hidden]{display:none}
+
+/* Footer */
+footer.site{border-top:1px solid var(--line); background:var(--surface); margin-top:48px}
+footer.site .cols{display:grid; gap:24px; padding:40px 0}
+@media(min-width:720px){ footer.site .cols{grid-template-columns:2fr 1fr 1fr} }
+footer.site a{display:block; color:var(--ink-soft); text-decoration:none; padding:4px 0; font-size:.92rem}
+footer.site a:hover{color:var(--ink)}
+.disclaimer-band{background:var(--surface-2); border-top:1px solid var(--line); font-size:.82rem; color:var(--ink-soft)}
+.disclaimer-band .wrap{padding:16px 20px}
+
+/* Hero */
+.hero{padding:72px 0 48px}
+.hero h1{font-size:2.6rem; max-width:16ch}
+.hero p.sub{font-size:1.15rem; color:var(--ink-soft); max-width:60ch}
+.hero .ctas{display:flex; flex-wrap:wrap; gap:12px; margin-top:24px}
+@media(min-width:900px){ .hero h1{font-size:3.2rem} }
+
+/* progress */
+.progress{height:6px; background:var(--surface-2); border-radius:999px; overflow:hidden; margin-bottom:24px}
+.progress > span{display:block; height:100%; background:var(--clay); transition:width .2s}
+@media (prefers-reduced-motion: reduce){ .progress>span{transition:none} }
+
+.stepdots{font-size:.85rem; color:var(--ink-soft); font-weight:600; margin-bottom:8px}
+.blueprint-h{display:flex; align-items:center; gap:12px; margin-bottom:4px}
+.bp-ic{width:30px;height:30px;flex:none;color:var(--sage-deep)}
+dl.bp{margin:0}
+dl.bp dt{font-weight:700; margin-top:14px; font-size:.9rem; text-transform:uppercase; letter-spacing:.06em; color:var(--clay)}
+dl.bp dd{margin:2px 0 0}
+.avoid{color:var(--danger)}
+.tabs{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px}
+.tab{background:var(--surface); border:1.5px solid var(--sand); border-radius:999px; padding:8px 16px; font-weight:600; cursor:pointer; min-height:44px}
+.tab[aria-selected="true"]{background:var(--clay-deep); color:#fff; border-color:var(--clay-deep)}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* =====================================================================
+   PREMIUM LAYER — elevated typography, color, components, motion
+   (cascades over the base styles above)
+   ===================================================================== */
+:root{
+  --bg:#f5f1ea;
+  --bg-2:#efe8dd;
+  --surface:#fffef9;
+  --surface-2:#efe7db;
+  --ink:#2a2521;
+  --ink-soft:#5c5349;
+  --ink-faint:#867a6c;
+  --line:#e6ddce;
+  --line-strong:#d8ccb8;
+  --clay:#a06a49;
+  --clay-deep:#7a4d30;
+  --clay-wash:#f3e7dc;
+  --sage:#68765b;
+  --sage-deep:#4e5a44;
+  --sage-wash:#e9ece1;
+  --sand:#c9baa1;
+  --gold:#b98d3e;
+  --focus:#355a7a;
+  --danger:#8a3b34;
+  --radius:20px;
+  --radius-sm:14px;
+  --radius-lg:28px;
+  --shadow-sm:0 1px 2px rgba(42,37,33,.05), 0 4px 14px rgba(42,37,33,.05);
+  --shadow:0 2px 6px rgba(42,37,33,.05), 0 18px 44px rgba(42,37,33,.09);
+  --shadow-lg:0 30px 70px rgba(42,37,33,.14);
+  --maxw:1120px;
+  --serif:'Fraunces', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --sans:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font:var(--serif);
+}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+body{font-family:var(--sans); color:var(--ink); background:var(--bg); font-size:17px; line-height:1.62; letter-spacing:-.002em}
+h1,h2,h3,h4{font-family:var(--serif); font-weight:600; letter-spacing:-.02em; color:var(--ink)}
+h1{font-size:clamp(2.1rem,5.2vw,3.4rem); line-height:1.06}
+h2{font-size:clamp(1.6rem,3.6vw,2.35rem); line-height:1.12}
+h3{font-size:1.25rem; letter-spacing:-.01em}
+.wrap{max-width:var(--maxw)}
+.narrow{max-width:720px}
+.reading{max-width:660px; margin:0 auto; padding:0 20px}
+.eyebrow{color:var(--clay); font-family:var(--sans); font-weight:700; font-size:.74rem; letter-spacing:.16em}
+.lede{font-size:1.2rem; color:var(--ink-soft); line-height:1.55; max-width:60ch}
+.muted{color:var(--ink-soft)}
+.faint{color:var(--ink-faint)}
+.section{padding:clamp(52px,8vw,104px) 0}
+.section.tight{padding:clamp(36px,5vw,60px) 0}
+.section-alt{background:linear-gradient(180deg,var(--bg) 0%, var(--bg-2) 100%)}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--line-strong),transparent);border:0;margin:0}
+.center{text-align:center}
+.stack-sm > * + *{margin-top:10px}
+
+/* ---- Buttons: refined ---- */
+.btn{font-family:var(--sans); font-weight:600; font-size:1rem; border-radius:999px; padding:14px 26px; min-height:52px; letter-spacing:.01em; box-shadow:none; position:relative; transition:transform .16s ease, background .16s, border-color .16s, box-shadow .16s}
+.btn-primary{background:var(--clay-deep); color:#fff; box-shadow:0 8px 20px rgba(122,77,48,.22)}
+.btn-primary:hover{background:#673f27; box-shadow:0 12px 26px rgba(122,77,48,.28)}
+.btn-secondary{background:var(--surface); border-color:var(--line-strong); color:var(--ink)}
+.btn-secondary:hover{background:var(--surface-2); border-color:var(--sand)}
+.btn-lg{padding:16px 30px; min-height:56px; font-size:1.05rem}
+.btn:not(.btn-block):hover{transform:translateY(-1px)}
+@media (prefers-reduced-motion: reduce){ .btn:hover{transform:none} }
+.btn svg{width:20px;height:20px}
+
+/* ---- Header / nav: refined ---- */
+header.site{background:rgba(245,241,234,.82); backdrop-filter:saturate(1.2) blur(12px); border-bottom:1px solid rgba(230,221,206,.7)}
+.nav{height:72px; gap:20px}
+.brand{font-family:var(--serif); font-size:1.12rem; letter-spacing:-.02em; gap:11px}
+.brand .mark{width:30px;height:30px}
+.nav-links{gap:2px}
+.nav-links a{font-family:var(--sans); font-weight:500; font-size:.95rem; color:var(--ink-soft); padding:9px 13px; border-radius:10px}
+.nav-links a:hover{color:var(--ink); background:rgba(233,224,209,.6)}
+.nav-links a[aria-current="page"]{color:var(--clay-deep); background:transparent; font-weight:600}
+.nav-links a.nav-cta{background:var(--clay-deep); color:#fff; font-weight:600; padding:10px 18px; margin-left:6px; box-shadow:0 6px 16px rgba(122,77,48,.2)}
+.nav-links a.nav-cta:hover{background:#673f27; color:#fff}
+@media(max-width:860px){
+  .nav-links{gap:2px; padding:14px 16px 20px; box-shadow:var(--shadow)}
+  .nav-links a{padding:13px 12px; font-size:1rem; border-bottom:1px solid var(--line)}
+  .nav-links a:last-child{border-bottom:0}
+  .nav-links a.nav-cta{margin:10px 0 0; text-align:center; border-bottom:0}
+}
+.menu-toggle{border-color:var(--line-strong); border-radius:12px; font-weight:600; color:var(--ink); gap:8px}
+
+/* ---- Cards: refined + interactive ---- */
+.card{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:28px; box-shadow:var(--shadow-sm)}
+.card + .card{margin-top:18px}
+a.card, .card-link{display:block; text-decoration:none; color:inherit; transition:transform .18s ease, box-shadow .18s, border-color .18s}
+a.card:hover, .card-link:hover{transform:translateY(-3px); box-shadow:var(--shadow); border-color:var(--line-strong)}
+@media (prefers-reduced-motion: reduce){ a.card:hover,.card-link:hover{transform:none} }
+.card-pad-lg{padding:clamp(28px,4vw,44px)}
+.grid{gap:20px}
+
+/* ---- Icon medallion ---- */
+.medallion{width:52px;height:52px;border-radius:15px;display:inline-flex;align-items:center;justify-content:center;background:var(--clay-wash);color:var(--clay-deep);flex:none;border:1px solid var(--line)}
+.medallion.sage{background:var(--sage-wash);color:var(--sage-deep)}
+.medallion svg{width:26px;height:26px}
+
+/* ---- Hero ---- */
+.hero{position:relative; padding:clamp(56px,9vw,108px) 0 clamp(40px,6vw,72px); overflow:hidden}
+.hero::before{content:""; position:absolute; inset:0; z-index:-1;
+  background:
+    radial-gradient(60% 55% at 80% 8%, rgba(160,106,73,.10), transparent 60%),
+    radial-gradient(50% 50% at 8% 90%, rgba(104,118,91,.10), transparent 60%);
+}
+.hero .kicker{display:inline-flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:7px 15px 7px 12px;font-size:.8rem;font-weight:600;color:var(--ink-soft);box-shadow:var(--shadow-sm);margin-bottom:22px}
+.hero .kicker .dot{width:8px;height:8px;border-radius:50%;background:var(--sage);flex:none}
+.hero h1{max-width:17ch; margin-bottom:20px}
+.hero .sub{font-size:clamp(1.08rem,2vw,1.28rem); color:var(--ink-soft); max-width:56ch; line-height:1.5}
+.hero .ctas{margin-top:30px; gap:14px}
+.hero .reassure{margin-top:22px; display:flex; flex-wrap:wrap; gap:8px 20px; font-size:.9rem; color:var(--ink-faint)}
+.hero .reassure span{display:inline-flex;align-items:center;gap:7px}
+.hero .reassure svg{width:16px;height:16px;color:var(--sage-deep);flex:none}
+
+/* ---- Preview panel in hero ---- */
+.previewcard{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-lg); padding:24px; box-shadow:var(--shadow-lg)}
+.previewcard .row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.previewcard .row:last-child{border-bottom:0}
+.mini-bar{height:8px;width:120px;background:var(--surface-2);border-radius:999px;overflow:hidden;border:1px solid var(--line)}
+.mini-bar > span{display:block;height:100%;background:var(--sage-deep)}
+
+/* ---- Steps ---- */
+.step{position:relative; padding-left:0}
+.step .num{font-family:var(--serif); font-size:1.05rem; font-weight:600; width:38px;height:38px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--clay-deep);color:#fff;margin-bottom:14px}
+.step h3{margin-bottom:6px}
+
+/* ---- Audience cards ---- */
+.aud{display:flex;gap:14px;align-items:flex-start}
+.aud .medallion{width:44px;height:44px;border-radius:12px}
+.aud .medallion svg{width:22px;height:22px}
+
+/* ---- Quote / testimonial ---- */
+.quote{font-family:var(--serif); font-size:clamp(1.4rem,3vw,2rem); line-height:1.32; color:var(--ink); letter-spacing:-.02em}
+.quote-source{margin-top:14px; font-size:.92rem; color:var(--ink-faint); font-weight:600}
+
+/* ---- Stat band ---- */
+.band{background:var(--sage-deep); color:#fdfbf6; border-radius:var(--radius-lg); padding:clamp(32px,5vw,56px)}
+.band h2{color:#fff}
+.band .muted{color:rgba(255,255,255,.82)}
+.band .btn-secondary{background:rgba(255,255,255,.12); border-color:rgba(255,255,255,.28); color:#fff}
+.band .btn-secondary:hover{background:rgba(255,255,255,.2)}
+.band a{color:#fff}
+
+/* ---- FAQ accordion ---- */
+.faq{border:1px solid var(--line); border-radius:var(--radius); background:var(--surface); overflow:hidden}
+.faq details{border-bottom:1px solid var(--line)}
+.faq details:last-child{border-bottom:0}
+.faq summary{list-style:none; cursor:pointer; padding:20px 24px; font-weight:600; font-size:1.05rem; display:flex; justify-content:space-between; align-items:center; gap:16px; color:var(--ink); min-height:56px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:hover{background:var(--surface-2)}
+.faq summary .chev{flex:none; transition:transform .2s; color:var(--clay); font-size:1.4rem; line-height:1}
+@media (prefers-reduced-motion: reduce){ .faq summary .chev{transition:none} }
+.faq details[open] summary .chev{transform:rotate(45deg)}
+.faq .ans{padding:0 24px 22px; color:var(--ink-soft); max-width:70ch}
+.faq .ans p:last-child{margin-bottom:0}
+
+/* ---- Pills / badges ---- */
+.pill{background:var(--surface-2); border:1px solid var(--line); color:var(--ink-soft); font-weight:600; padding:5px 13px}
+.badge{display:inline-flex;align-items:center;gap:7px;background:var(--sage-wash);border:1px solid var(--line);color:var(--sage-deep);border-radius:999px;padding:6px 14px;font-size:.82rem;font-weight:600}
+.badge svg{width:15px;height:15px}
+
+/* ---- Footer: refined ---- */
+footer.site{background:var(--bg-2); border-top:1px solid var(--line)}
+footer.site .cols{padding:clamp(44px,6vw,68px) 0 40px}
+@media(min-width:760px){ footer.site .cols{grid-template-columns:2.2fr 1fr 1fr 1fr} }
+footer.site .eyebrow{margin-bottom:14px}
+footer.site a{font-size:.93rem; color:var(--ink-soft)}
+footer.site a:hover{color:var(--clay-deep)}
+.disclaimer-band{background:var(--bg-2)}
+.disclaimer-band .wrap{border-top:1px solid var(--line); padding:18px 20px; max-width:var(--maxw); margin:0 auto}
+
+/* ---- Forms: refined ---- */
+label.field > .lab{font-size:.92rem}
+input[type=text],input[type=email],input[type=date],input[type=time],input[type=number],select,textarea{
+  border-color:var(--line-strong); border-radius:var(--radius-sm); background:var(--surface); transition:border-color .15s, box-shadow .15s}
+input:focus, select:focus, textarea:focus{border-color:var(--clay); box-shadow:0 0 0 3px rgba(160,106,73,.12); outline:none}
+input:focus-visible, select:focus-visible, textarea:focus-visible{outline:3px solid var(--focus); outline-offset:2px}
+.chip{border-color:var(--line-strong); transition:transform .1s, background .15s, border-color .15s}
+.chip:hover{border-color:var(--sand)}
+.chip[data-on="true"]{background:var(--sage-deep); border-color:var(--sage-deep)}
+
+/* ---- Progress ---- */
+.progress{height:7px; background:var(--surface-2); border:1px solid var(--line)}
+.progress > span{background:linear-gradient(90deg,var(--clay),var(--gold))}
+
+/* ---- Tabs (blueprint) ---- */
+.tab{border-color:var(--line-strong); transition:background .15s,border-color .15s,color .15s}
+.tab[aria-selected="true"]{background:var(--clay-deep); border-color:var(--clay-deep)}
+
+/* ---- Metric ---- */
+.metric .n{font-family:var(--serif)}
+
+/* ---- Reveal on scroll (progressive, reduced-motion safe) ---- */
+.reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease}
+.reveal.in{opacity:1; transform:none}
+@media (prefers-reduced-motion: reduce){ .reveal{opacity:1 !important; transform:none !important; transition:none} }
+
+/* ---- Utility ---- */
+.mt-0{margin-top:0}.mb-0{margin-bottom:0}
+.flex{display:flex}.items-center{align-items:center}.gap-12{gap:12px}.wrap-gap{flex-wrap:wrap;gap:12px}
+.maxw-52{max-width:52ch}.maxw-46{max-width:46ch}
+.tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+hr.hr{background:var(--line); margin:40px 0}
+</style>
+</head>
+<body>
+<a href="#main" class="skip">Skip to content</a>
+<div id="app"></div>
+<div id="toast" hidden role="status" aria-live="polite"></div>
+<script>
+"use strict";
+/* ============================================================
+   Nervous System Studio — V1
+   Single-file app. Client-side router + localStorage store.
+   ============================================================ */
+
+/* ---------- DATA MODEL ----------
+   store schema (localStorage key: 'nss.v1'):
+   {
+     user: { id, name, email, createdAt } | null,
+     waitlist: [ { email, createdAt } ],
+     sensoryProfile: {              // one per user
+        desiredStates:[], sensitivities:[], helpfulInputs:[],
+        aesthetics:[], cannabisUse:'none|current|curious',
+        cannabisGoals:[], productFormats:[], updatedAt
+     } | null,
+     environments: [ { id, name } ],   // reusable room presets (derived)
+     routines: [ { id, name } ],
+     products: [ { id, label, format } ],
+     logs: [ { id, ...fields, scores:{...}, createdAt } ],
+     insights: [ derived at runtime ],
+     blueprints: derived at runtime
+   }
+--------------------------------------------------------------- */
+
+const LS_KEY = 'nss.v1';
+const uid = () => Math.random().toString(36).slice(2,9);
+
+const DEFAULT_STATE = {
+  user:null, waitlist:[], sensoryProfile:null,
+  environments:[], routines:[], products:[], logs:[]
+};
+
+function load(){
+  try{ const raw = localStorage.getItem(LS_KEY); return raw ? Object.assign({}, DEFAULT_STATE, JSON.parse(raw)) : structuredCloneSafe(DEFAULT_STATE); }
+  catch(e){ return structuredCloneSafe(DEFAULT_STATE); }
+}
+function structuredCloneSafe(o){ return JSON.parse(JSON.stringify(o)); }
+let STATE = load();
+function save(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(STATE)); }catch(e){ toast('Storage unavailable in this browser.'); } }
+
+/* ---------- helpers ---------- */
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.hidden = false;
+  clearTimeout(t._t); t._t = setTimeout(()=>{ t.hidden = true; }, 2800);
+}
+function fmtDate(iso){
+  try{ const d = new Date(iso); return d.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}); }catch(e){ return iso; }
+}
+function fmtTime(t){ return t || ''; }
+function isLoggedIn(){ return !!STATE.user; }
+function hasProfile(){ return !!STATE.sensoryProfile; }
+
+/* Option vocabularies (shared across quiz + log) */
+const OPT = {
+  desiredStates: ['Calm','Focus','Creativity','Sleep support','Less overstimulation','Grounded / present'],
+  sensitivities: ['Bright light','Loud or sudden sound','Visual clutter','Strong scents','Certain textures','Screens / blue light','Social intensity','Temperature'],
+  helpfulInputs: ['Warm low light','Natural daylight','Soft ambient sound','Silence','Nature sounds','Calming scent','Soft textures','Tidy space','Warmth','Movement / stretching'],
+  aesthetics: ['Warm minimal','Natural / earthy','Soft & cozy','Airy & bright','Muted & moody','Textured & tactile'],
+  cannabisGoals: ['Wind down in the evening','Ease into creative work','Support sleep routine','Reduce overstimulation','Social ease','Simply curious / exploring'],
+  productFormats: ['Flower','Vaporizer','Edible','Tincture','Beverage','Topical','Prefer not to say'],
+  lighting: ['Warm','Neutral','Cool','Daylight','Candle / very warm'],
+  brightness: ['Very dim','Dim','Moderate','Bright'],
+  clutter: ['Very tidy','Tidy','Some clutter','High clutter'],
+  sound: ['Silence','Soft ambient','Music','Nature sounds','Noisy / busy'],
+  scent: ['None','Fresh / clean','Herbal','Floral','Woody / earthy','Strong'],
+  texture: ['Soft','Smooth','Rough','Mixed','Not notable'],
+  social: ['Alone','One other person','Small group','Busy / crowded'],
+  screens: ['None','A little','Moderate','Heavy'],
+  moods: ['Calm','Neutral','Tense','Anxious','Low','Energized','Scattered'],
+  bodyStates: ['Relaxed','Restless','Tired','Tense','Achy','Energized','Neutral'],
+  rooms: ['Bedroom','Living room','Home office','Kitchen','Outdoors','Studio','Other']
+};
+
+const SCORE_FIELDS = [
+  {key:'calm', label:'Calm'},
+  {key:'focus', label:'Focus'},
+  {key:'creativity', label:'Creativity'},
+  {key:'sleepSupport', label:'Sleep support'},
+  {key:'anxiety', label:'Anxiety'},
+  {key:'overstimulation', label:'Overstimulation'},
+  {key:'bodyComfort', label:'Body comfort'}
+];
+
+/* Safety line reused across app */
+const SAFETY_LINE = 'Nervous System Studio is a self-reflection tool for personal insight. It does not diagnose, treat, cure, or prevent any condition, and does not provide medical advice.';
+
+/* ============================================================
+   ROUTER
+   ============================================================ */
+const ROUTES = {}; // name -> render function returning HTML string
+const APP_ROUTES = ['dashboard','add-log','journal','insights','blueprint']; // require login
+
+function navigate(hash){ if(location.hash === hash){ render(); } else { location.hash = hash; } }
+window.addEventListener('hashchange', render);
+
+function currentRoute(){
+  let h = location.hash.replace(/^#\/?/, '');
+  const [path, query] = h.split('?');
+  const parts = path.split('/').filter(Boolean);
+  return { name: parts[0] || 'home', parts, query:new URLSearchParams(query||'') };
+}
+
+const MARK = `<svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#f3e7dc" stroke="#d8ccb8"/><path d="M5 18c3.5 0 3.5-7 7-7s3.5 9 7 9 3.5-11 7-11" stroke="#7a4d30" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+
+function header(){
+  const r = currentRoute().name;
+  const cur = (n)=> r===n ? ' aria-current="page"' : '';
+  const authLinks = isLoggedIn()
+    ? `<a href="#/dashboard"${cur('dashboard')}>Dashboard</a>
+       <a href="#/journal"${cur('journal')}>Journal</a>
+       <a href="#/insights"${cur('insights')}>Insights</a>
+       <a href="#/blueprint"${cur('blueprint')}>Blueprint</a>
+       <a href="#/account"${cur('account')}>Account</a>
+       <a href="#/add-log" class="nav-cta">Add log</a>`
+    : `<a href="#/how-it-works"${cur('how-it-works')}>How it works</a>
+       <a href="#/who-its-for"${cur('who-its-for')}>Who it's for</a>
+       <a href="#/research"${cur('research')}>Research</a>
+       <a href="#/faq"${cur('faq')}>FAQ</a>
+       <a href="#/sensory-profile" class="nav-cta">Take the Sensory Profile</a>`;
+  return `
+  <header class="site">
+    <div class="wrap nav">
+      <a class="brand" href="#/home" aria-label="Nervous System Studio home">${MARK}<span>Nervous System Studio</span></a>
+      <div class="spacer"></div>
+      <button class="menu-toggle" id="menuBtn" aria-expanded="false" aria-controls="navlinks">Menu</button>
+      <nav class="nav-links" id="navlinks" aria-label="Primary">${authLinks}</nav>
+    </div>
+  </header>`;
+}
+
+function footer(){
+  const year = new Date().getFullYear();
+  return `
+  <footer class="site">
+    <div class="wrap cols grid">
+      <div>
+        <a class="brand" href="#/home" aria-label="Nervous System Studio home" style="margin-bottom:14px">${MARK}<span>Nervous System Studio</span></a>
+        <p class="muted small" style="max-width:38ch">A personalized set-and-setting platform for understanding how your environment relates to how you feel. Built for self-reflection — never diagnosis.</p>
+        <p class="badge" style="margin-top:14px">${ICON.lock} Your entries stay on your device</p>
+      </div>
+      <nav aria-label="Product">
+        <p class="eyebrow">Product</p>
+        <a href="#/sensory-profile">Sensory Profile</a>
+        <a href="#/how-it-works">How it works</a>
+        <a href="#/dashboard">Dashboard</a>
+        <a href="#/blueprint">My Blueprint</a>
+        <a href="#/waitlist">Join the beta</a>
+      </nav>
+      <nav aria-label="Company">
+        <p class="eyebrow">Company</p>
+        <a href="#/who-its-for">Who it's for</a>
+        <a href="#/research">Research &amp; approach</a>
+        <a href="#/faq">FAQ</a>
+        <a href="#/contact">Contact</a>
+      </nav>
+      <nav aria-label="Trust">
+        <p class="eyebrow">Trust</p>
+        <a href="#/disclaimer">Safety &amp; legal</a>
+        <a href="#/disclaimer">Privacy</a>
+        <a href="#/contact">Get in touch</a>
+      </nav>
+    </div>
+    <div class="disclaimer-band"><div class="wrap" style="display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:space-between">
+      <span class="small faint">© ${year} Nervous System Studio. Research preview.</span>
+      <span class="small faint" style="max-width:70ch">${esc(SAFETY_LINE)} Cannabis is not legal everywhere and carries risks — follow the laws where you live.</span>
+    </div></div>
+  </footer>`;
+}
+
+function layout(inner, opts={}){
+  return header() + `<main id="main" tabindex="-1">${inner}</main>` + footer();
+}
+
+function render(){
+  const {name, parts} = currentRoute();
+  // guard app routes
+  if(APP_ROUTES.includes(name) && !isLoggedIn()){
+    document.getElementById('app').innerHTML = layout(views.gate());
+    afterRender(); return;
+  }
+  const fn = views[name] || views.notfound;
+  document.getElementById('app').innerHTML = layout(fn(parts));
+  window.scrollTo(0,0);
+  afterRender();
+}
+
+/* wire up dynamic behaviours after each render */
+function afterRender(){
+  // mobile menu
+  const mb = document.getElementById('menuBtn');
+  const nl = document.getElementById('navlinks');
+  if(mb && nl){
+    const isMobile = ()=> window.matchMedia('(max-width:860px)').matches;
+    if(isMobile()) nl.hidden = true; else nl.hidden = false;
+    mb.onclick = ()=>{ const open = nl.hidden; nl.hidden = !open; mb.setAttribute('aria-expanded', String(open)); };
+    window.onresize = ()=>{ if(!isMobile()) nl.hidden=false; else if(mb.getAttribute('aria-expanded')!=='true') nl.hidden=true; };
+  }
+  // chips (multi/single select)
+  document.querySelectorAll('.chip input').forEach(inp=>{
+    const chip = inp.closest('.chip');
+    chip.setAttribute('data-on', String(inp.checked));
+    inp.addEventListener('change', ()=>{
+      if(inp.type==='radio'){
+        document.querySelectorAll(`.chip input[name="${CSS.escape(inp.name)}"]`).forEach(o=>o.closest('.chip').setAttribute('data-on', String(o.checked)));
+      } else {
+        chip.setAttribute('data-on', String(inp.checked));
+      }
+    });
+  });
+  // range live output
+  document.querySelectorAll('input[type=range]').forEach(rg=>{
+    const out = document.getElementById(rg.id+'-out');
+    if(out){ const upd=()=> out.textContent = rg.value; rg.addEventListener('input', upd); upd(); }
+  });
+  // waitlist form
+  const wf = document.getElementById('waitForm');
+  if(wf){
+    wf.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const email = document.getElementById('wl-email').value.trim();
+      const err = document.getElementById('wl-email-err');
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ err.textContent='Please enter a valid email address.'; document.getElementById('wl-email').focus(); return; }
+      err.textContent='';
+      if(!STATE.waitlist.some(w=>w.email===email)) STATE.waitlist.push({email, createdAt:new Date().toISOString()});
+      save();
+      wf.closest('.narrow').querySelector('.card').innerHTML =
+        `<div class="center" style="padding:8px"><div class="bp-ic" style="margin:0 auto 10px">${ICON.calm}</div><h3>You're on the list</h3><p class="muted small">Thanks — we'll reach out to <strong>${esc(email)}</strong> as beta spots open. In the meantime, you can start your Sensory Profile.</p><a class="btn btn-primary" href="#/sensory-profile">Take the Sensory Profile</a></div>`;
+      toast('Added to the beta list.');
+    });
+  }
+  // account reset
+  const rb = document.getElementById('resetBtn');
+  if(rb){ rb.onclick = ()=>{
+    if(confirm('Reset all preview data and sign out? This cannot be undone.')){
+      STATE = structuredCloneSafe(DEFAULT_STATE); save(); toast('All data cleared.'); navigate('#/home');
+    }
+  }; }
+  // scroll reveal (reduced-motion safe: CSS forces visible if reduced)
+  const reveals = document.querySelectorAll('.reveal:not(.in)');
+  if(reveals.length && 'IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+    reveals.forEach(el=>io.observe(el));
+  } else {
+    reveals.forEach(el=>el.classList.add('in'));
+  }
+  // run any page hook
+  if(typeof window._pageHook === 'function'){ const h = window._pageHook; window._pageHook = null; h(); }
+}
+
+/* ============================================================
+   VIEWS
+   ============================================================ */
+const views = {};
+
+const ICON = {
+  calm:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 12c4 0 4-5 8-5s4 5 8 5" stroke-linecap="round"/><path d="M4 17c4 0 4-3 8-3s4 3 8 3" stroke-linecap="round"/></svg>`,
+  focus:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg>`,
+  sleep:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M20 14a8 8 0 1 1-9.5-9.5A6.5 6.5 0 0 0 20 14z" stroke-linejoin="round"/></svg>`,
+  creative:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2" stroke-linecap="round"/><circle cx="12" cy="12" r="3"/></svg>`,
+  book:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M19 3v18"/></svg>`,
+  plus:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>`,
+  check:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  lock:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>`,
+  compass:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z" stroke-linejoin="round"/></svg>`,
+  leaf:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 20c0-8 6-14 16-15C19 14 13 20 4 20z" stroke-linejoin="round"/><path d="M9 15c2-3 5-5 8-6" stroke-linecap="round"/></svg>`,
+  home:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 11 12 4l8 7" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 10v10h12V10" stroke-linejoin="round"/></svg>`,
+  spark:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4" stroke-linecap="round"/><path d="M12 8a4 4 0 0 0 4 4 4 4 0 0 0-4 4 4 4 0 0 0-4-4 4 4 0 0 0 4-4z" stroke-linejoin="round"/></svg>`,
+  people:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/><path d="M16 6a3 3 0 0 1 0 6M18 20c0-2-1-3.5-3-4.5"/></svg>`,
+  shield:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3 5 6v6c0 4 3 7 7 9 4-2 7-5 7-9V6z" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  mail:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>`
+};
+
+/* ---------- HOME ---------- */
+views.home = () => `
+  <section class="hero">
+    <div class="wrap">
+      <div class="grid cols-2" style="align-items:center;gap:48px">
+        <div>
+          <span class="kicker"><span class="dot" aria-hidden="true"></span>Set &amp; setting, made personal</span>
+          <h1>Design your environment around your nervous system.</h1>
+          <p class="sub">A personalized set-and-setting platform that helps you understand how sensory environments, routines, and optional cannabis experiences relate to your calm, focus, creativity, sleep, and overstimulation.</p>
+          <div class="ctas flex wrap-gap">
+            <a class="btn btn-primary btn-lg" href="#/sensory-profile">Take the Sensory Profile</a>
+            <a class="btn btn-secondary btn-lg" href="#/how-it-works">See how it works</a>
+          </div>
+          <div class="reassure">
+            <span>${ICON.check} Free five-minute start</span>
+            <span>${ICON.check} No medical claims</span>
+            <span>${ICON.check} Private to your device</span>
+          </div>
+        </div>
+        <div class="reveal in" aria-hidden="false">
+          <div class="previewcard">
+            <p class="eyebrow" style="margin-bottom:4px">Your studio · sample</p>
+            <p class="small faint" style="margin:0 0 14px">A pattern to explore, drawn from your own logs</p>
+            <p style="font-family:var(--serif);font-size:1.32rem;line-height:1.34;margin:0 0 18px;letter-spacing:-.02em">&ldquo;Warm, low lighting appears associated with your calmest evenings.&rdquo;</p>
+            ${['Calm','Focus','Sleep support'].map((l,i)=>`<div class="row"><span class="small" style="font-weight:600">${l}</span><span class="mini-bar"><span style="width:${[86,64,78][i]}%"></span></span></div>`).join('')}
+            <p class="small faint" style="margin:16px 0 0">Illustrative preview. Your insights come only from what you report.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT / positioning -->
+  <section class="section-alt section tight">
+    <div class="wrap center">
+      <span class="badge">${ICON.compass} A new category of tool</span>
+      <h2 style="max-width:20ch;margin:16px auto 12px">Not a weed app. Not a décor app. A nervous-system personalization platform.</h2>
+      <p class="lede center" style="margin:0 auto">You already sense that some rooms settle you and others wind you up. Nervous System Studio helps you find the pattern — with structure, in your own words, and entirely at your pace.</p>
+    </div>
+  </section>
+
+  <!-- WHY IT MATTERS / three pillars -->
+  <section class="section">
+    <div class="wrap">
+      <div class="center" style="max-width:56ch;margin:0 auto 40px">
+        <p class="eyebrow">Why it matters</p>
+        <h2>Small changes to your surroundings can change how a moment feels.</h2>
+      </div>
+      <div class="grid cols-3">
+        ${pillar(ICON.calm,'Notice real patterns','Light, sound, scent, clutter, and routine get logged alongside how you actually felt — so associations surface from evidence, not guesswork.')}
+        ${pillar(ICON.compass,'Test, don\'t guess','Every insight points to one small experiment. Change a single input, observe a few sessions, keep what helps.')}
+        ${pillar(ICON.book,'Get a personal blueprint','Calm, Focus, Sleep, and Creative blueprints translate your patterns into supportive environments you can set up today.')}
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS preview -->
+  <section class="section-alt section">
+    <div class="wrap">
+      <div class="center" style="max-width:52ch;margin:0 auto 44px">
+        <p class="eyebrow">How it works</p>
+        <h2>Three unhurried steps.</h2>
+      </div>
+      <div class="grid cols-3">
+        ${step(1,'Build your Sensory Profile','Tell us the states you\'re reaching for and the inputs that help or overwhelm you. About five minutes.')}
+        ${step(2,'Log a few moments','Capture the setting and how you felt — before and after. Cannabis details are optional and never required.')}
+        ${step(3,'Read your patterns','Rules-based insights and four blueprints show what appears to support you, with a next experiment to try.')}
+      </div>
+      <div class="center" style="margin-top:36px">
+        <a class="btn btn-secondary" href="#/how-it-works">Walk through the full method</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO IT'S FOR -->
+  <section class="section">
+    <div class="wrap">
+      <div class="grid cols-2" style="align-items:center;gap:44px">
+        <div>
+          <p class="eyebrow">Who it's for</p>
+          <h2>For people who pay attention to how they feel.</h2>
+          <p class="muted">Whether you're managing sensitivity to stimulation, protecting your focus, building a calmer evening routine, or simply curious about set and setting, you'll find a considered, judgment-free place to explore.</p>
+          <div class="tag-row" style="margin-top:16px">
+            ${['Highly sensitive people','Focus-seekers','Better-sleep seekers','Creative practitioners','Mindful cannabis explorers','The simply curious'].map(t=>`<span class="pill">${esc(t)}</span>`).join('')}
+          </div>
+          <p class="small" style="margin-top:20px"><a href="#/who-its-for">See who it's for &rarr;</a></p>
+        </div>
+        <div class="card card-pad-lg">
+          <p class="badge" style="margin-bottom:14px">${ICON.leaf} Cannabis is optional</p>
+          <p style="margin:0 0 12px">Many members never log a product at all and still build a rich picture of what a supportive environment feels like for them.</p>
+          <p class="muted small mb-0">When cannabis is part of your exploration, the app records it as one input among many — logged for your own reflection. We make no medical claims and never help you find or buy anything.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section class="section-alt section">
+    <div class="wrap">
+      <div class="center" style="max-width:52ch;margin:0 auto 40px">
+        <p class="eyebrow">Why you can trust it</p>
+        <h2>Careful by design.</h2>
+      </div>
+      <div class="grid cols-3">
+        ${trust(ICON.lock,'Private to your device','In this preview, your profile and logs are stored locally in your browser. Nothing is uploaded or sold.')}
+        ${trust(ICON.shield,'No medical claims','We describe associations in your own logs — never diagnoses, cures, or health advice. Insights are patterns to explore.')}
+        ${trust(ICON.compass,'Honest language','You\'ll see &ldquo;appears associated with,&rdquo; &ldquo;may support,&rdquo; and &ldquo;consider testing&rdquo; — because that\'s what the data can honestly say.')}
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+  <section class="section">
+    <div class="reading center">
+      <p class="quote">&ldquo;I stopped guessing why some evenings felt calm and others didn't. The pattern was in front of me the whole time — I just needed a way to see it.&rdquo;</p>
+      <p class="quote-source">— How a member describes the shift. Composite illustration, not a specific individual.</p>
+    </div>
+  </section>
+
+  <!-- FAQ preview -->
+  <section class="section-alt section">
+    <div class="narrow">
+      <div class="center" style="margin-bottom:32px">
+        <p class="eyebrow">Good questions</p>
+        <h2>The essentials, up front.</h2>
+      </div>
+      ${faqBlock(HOME_FAQS)}
+      <div class="center" style="margin-top:24px"><a class="btn btn-secondary" href="#/faq">Read all FAQs</a></div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="section">
+    <div class="wrap">
+      <div class="band center">
+        <h2 style="max-width:22ch;margin:0 auto 12px">Start with a five-minute Sensory Profile.</h2>
+        <p class="muted" style="max-width:52ch;margin:0 auto 26px">Tell us the states you're reaching for and the inputs that help or overwhelm you. We'll shape everything else around it.</p>
+        <div class="flex wrap-gap" style="justify-content:center">
+          <a class="btn btn-primary btn-lg" href="#/sensory-profile">Take the Sensory Profile</a>
+          <a class="btn btn-secondary btn-lg" href="#/waitlist">Join the beta</a>
+        </div>
+      </div>
+    </div>
+  </section>
+`;
+function pillar(ic,t,b){ return `<div class="card"><span class="medallion" style="margin-bottom:16px">${ic}</span><h3>${esc(t)}</h3><p class="muted mb-0" style="font-size:.98rem">${esc(b)}</p></div>`; }
+function step(n,t,b){ return `<div class="card step"><span class="num" aria-hidden="true">${n}</span><h3>${esc(t)}</h3><p class="muted mb-0" style="font-size:.98rem">${esc(b)}</p></div>`; }
+function trust(ic,t,b){ return `<div class="card"><span class="medallion sage" style="margin-bottom:16px">${ic}</span><h3>${esc(t)}</h3><p class="muted mb-0" style="font-size:.98rem">${b}</p></div>`; }
+
+/* FAQ content + renderer */
+const HOME_FAQS = [
+  ['Is this a cannabis app?', 'No. Nervous System Studio is a set-and-setting platform focused on your sensory environment and routines. Cannabis is one optional input you can log if it\'s part of your life — it\'s never required, and the app works fully without it.'],
+  ['Does it give medical or health advice?', 'No. It\'s a self-reflection tool. It does not diagnose, treat, cure, or prevent anything, and it never recommends cannabis for any condition. Insights describe patterns in what <em>you</em> reported and are meant to be explored, not followed as advice.'],
+  ['Where is my data stored?', 'In this research preview, your Sensory Profile and logs are saved locally in your browser on your device. They aren\'t uploaded to a server, shared, or sold. Clearing your browser storage removes them.'],
+  ['How quickly will I see something useful?', 'You\'ll get four starter blueprints from your profile immediately. Personalized insights begin to surface once you\'ve logged a couple of sessions across different settings.']
+];
+function faqBlock(items){
+  return `<div class="faq">${items.map(([q,a])=>`
+    <details>
+      <summary>${esc(q)}<span class="chev" aria-hidden="true">+</span></summary>
+      <div class="ans"><p>${a}</p></div>
+    </details>`).join('')}</div>`;
+}
+
+/* ---------- HOW IT WORKS ---------- */
+views['how-it-works'] = () => `
+  <section class="section tight">
+    <div class="narrow">
+      <p class="eyebrow">How it works</p>
+      <h1>A simple method you can trust.</h1>
+      <p class="lede">Nervous System Studio turns a vague hunch — &ldquo;that room stresses me out&rdquo; — into something you can actually see and test. Here's the whole method, start to finish.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="grid cols-2" style="gap:20px">
+        ${howStep(1,ICON.compass,'Build your Sensory Profile','Answer a short, adaptive quiz about the states you\'re reaching for, the inputs that overwhelm you, the ones that help, and your aesthetic. If cannabis is part of your life, you can add optional context. Takes about five minutes.')}
+        ${howStep(2,ICON.plus,'Log moments as they happen','Capture the setting — room, lighting, sound, scent, clutter, social context, screens — plus your mood and body state beforehand, and seven quick 0–10 ratings afterward. Log as much or as little as you like.')}
+        ${howStep(3,ICON.focus,'Let patterns surface','Once you have a couple of entries, a rules-based engine compares your environments against how you felt and surfaces associations — always described as patterns to explore, never conclusions about you.')}
+        ${howStep(4,ICON.book,'Act on your blueprints','Your Calm, Focus, Sleep, and Creative blueprints translate what you\'ve reported into supportive environments, each with a single next experiment to try.')}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-alt section">
+    <div class="narrow">
+      <div class="center" style="margin-bottom:32px">
+        <p class="eyebrow">What you can log</p>
+        <h2>Rich enough to be meaningful. Light enough to keep up.</h2>
+      </div>
+      <div class="grid cols-2">
+        <div class="card"><h3>Your environment</h3><p class="muted small mb-0">Room, lighting warmth, brightness, clutter, sound, scent, texture, social context, and screen exposure.</p></div>
+        <div class="card"><h3>Your starting state</h3><p class="muted small mb-0">Mood and body state before the session, so shifts are visible in context.</p></div>
+        <div class="card"><h3>How it felt</h3><p class="muted small mb-0">Seven ratings: calm, focus, creativity, sleep support, anxiety, overstimulation, and body comfort.</p></div>
+        <div class="card"><h3>Optional product context</h3><p class="muted small mb-0">If cannabis was part of a session, note the format and your own descriptor. Entirely optional; never medical guidance.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="narrow">
+      <p class="eyebrow">How insights are generated</p>
+      <h2>Transparent by design.</h2>
+      <p class="muted">Your insights aren't a black box. The engine groups your logs by a single environmental factor — say, lighting warmth — and compares the average of a self-reported outcome, like calm, across those groups. When the difference is large and consistent enough to mention responsibly, it surfaces as a pattern to explore, in plain language. No hidden scoring of you, no assumptions, no claims beyond what your own entries show.</p>
+      <div class="card" style="background:var(--surface-2)">
+        <p class="mb-0"><strong>In practice:</strong> if your calm ratings average noticeably higher on warm-lit evenings than cool-lit ones, you'll see &ldquo;Warm lighting appears associated with your calmer entries&rdquo; — with the numbers behind it and a small experiment to test whether it holds.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-alt section">
+    <div class="narrow">
+      <div class="center" style="max-width:54ch;margin:0 auto 40px">
+        <p class="eyebrow">The method, in three moves</p>
+        <h2>Association &rarr; hypothesis &rarr; test.</h2>
+        <p class="muted">This is the backbone of the app, drawn straight from self-tracking and single-case research. It's also why we never overclaim.</p>
+      </div>
+      <div class="grid cols-3">
+        ${step(1,'Notice an association','We surface what <em>co-occurred</em> with how you felt — &ldquo;on warm-lit evenings, calm tended to be higher.&rdquo; Logged close to the moment, which research shows reduces memory distortion.')}
+        ${step(2,'Treat it as a hypothesis','A co-occurrence isn\'t a cause — a hidden factor could explain it. So each pattern is offered as something to explore, never as a conclusion about you.')}
+        ${step(3,'Run a small test','Change one input, repeat it several times, and compare. This within-person (N-of-1) approach is the honest way to learn what actually works for you.')}
+      </div>
+      <div class="card" style="margin-top:22px">
+        <p class="eyebrow" style="margin:0 0 6px">Built-in guardrails</p>
+        <p class="muted small mb-0">We wait for enough entries before surfacing anything, require a meaningful and consistent difference, cap how many patterns we show at once (comparing many factors invents false ones), and flag that extreme days rebound on their own. Where the science is strong — evening light, a dark and cool sleep space, consistent timing, music for calm — we say so; where it's weak, we label it. <a href="#/research">See the evidence &rarr;</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap"><div class="band center">
+      <h2 style="margin:0 auto 12px;max-width:20ch">See your own patterns take shape.</h2>
+      <p class="muted" style="max-width:48ch;margin:0 auto 24px">Start with the Sensory Profile — everything else builds from there.</p>
+      <a class="btn btn-primary btn-lg" href="#/sensory-profile">Take the Sensory Profile</a>
+    </div></div>
+  </section>
+`;
+function howStep(n,ic,t,b){
+  return `<div class="card card-link" style="cursor:default">
+    <div class="flex items-center gap-12" style="margin-bottom:12px">
+      <span class="num" style="font-family:var(--serif);font-size:1.05rem;font-weight:600;width:38px;height:38px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--clay-deep);color:#fff;flex:none" aria-hidden="true">${n}</span>
+      <span class="medallion sage">${ic}</span>
+    </div>
+    <h3>${esc(t)}</h3><p class="muted mb-0" style="font-size:.98rem">${esc(b)}</p></div>`;
+}
+
+/* ---------- WHO IT'S FOR ---------- */
+views['who-its-for'] = () => `
+  <section class="section tight">
+    <div class="narrow">
+      <p class="eyebrow">Who it's for</p>
+      <h1>Built for people who pay attention to how they feel.</h1>
+      <p class="lede">If you've ever noticed that your surroundings change your state — and wished you could do something deliberate about it — you're exactly who we built this for.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="grid cols-2" style="gap:20px">
+        ${audience(ICON.calm,'Highly sensitive & easily overstimulated','You feel bright light, noise, and clutter more than most. The app helps you pinpoint which inputs tip you over — and build settings that give your system room to settle.')}
+        ${audience(ICON.focus,'People protecting their focus','Deep work is precious. Find the sound, light, and clutter conditions where your attention holds, and design a workspace around what your own logs reveal.')}
+        ${audience(ICON.sleep,'Anyone building a calmer evening','Wind-down is a setting, not just a schedule. See which lighting, sound, and routine patterns appear to support your sleep — and shape a consistent, restful ritual.')}
+        ${audience(ICON.creative,'Creative practitioners','Set and setting shape the work. Learn the environments where your ideas open up, and return to them on purpose.')}
+        ${audience(ICON.leaf,'Mindful cannabis explorers','If cannabis is part of your life, treat it as one input among many. Log it alongside your environment for personal reflection — no medical claims, no purchasing, no pressure.')}
+        ${audience(ICON.spark,'The simply curious','You don\'t need a problem to solve. Set-and-setting is a fascinating lens, and this is a considered, private place to explore it.')}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-alt section">
+    <div class="narrow">
+      <p class="eyebrow">Just as important</p>
+      <h2>Who this isn't for.</h2>
+      <p class="muted">This is a self-reflection tool, not a clinical one. It isn't a substitute for professional care, a crisis resource, or a source of medical, psychological, or legal advice. If you're navigating a health concern, please work with a qualified professional — the app can sit alongside that, never in place of it.</p>
+      <p class="small"><a href="#/disclaimer">Read the full safety &amp; legal disclaimer &rarr;</a></p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap"><div class="band center">
+      <h2 style="margin:0 auto 12px;max-width:22ch">Find your supportive environment.</h2>
+      <p class="muted" style="max-width:46ch;margin:0 auto 24px">It starts with understanding your own sensory profile.</p>
+      <a class="btn btn-primary btn-lg" href="#/sensory-profile">Take the Sensory Profile</a>
+    </div></div>
+  </section>
+`;
+function audience(ic,t,b){
+  return `<div class="card"><div class="aud"><span class="medallion">${ic}</span><div><h3 style="margin-bottom:6px">${esc(t)}</h3><p class="muted mb-0" style="font-size:.97rem">${esc(b)}</p></div></div></div>`;
+}
+
+/* ---------- FAQ ---------- */
+const ALL_FAQS = [
+  ['Is Nervous System Studio a cannabis app?', 'No. It\'s a set-and-setting platform focused on your sensory environment, routines, and how they relate to how you feel. Cannabis is one optional input you can log if it\'s part of your life. The app is fully useful without ever logging a product.'],
+  ['Does it provide medical, psychological, or health advice?', 'No. It is a self-reflection and personal-insight tool. It does not diagnose, treat, cure, or prevent any condition, and it does not recommend cannabis for any medical purpose. Insights describe patterns in your own self-reported logs and are meant to be explored, not taken as advice. For health decisions, consult a qualified professional.'],
+  ['How are my insights generated?', 'The engine groups your logs by a single environmental factor and compares the average of a self-reported outcome across those groups. When a difference is large and consistent enough to mention responsibly, it surfaces as a plain-language pattern to explore — with the numbers behind it. There\'s no hidden scoring of you.'],
+  ['Do I have to use cannabis?', 'Not at all. Cannabis is entirely optional and never required. Many members never log a product and still build a rich picture of what a supportive environment feels like for them.'],
+  ['Where is my data stored, and is it private?', 'In this research preview, your Sensory Profile and logs are stored locally in your browser on your device. They are not uploaded to a server, shared, or sold. Clearing your browser storage will remove them, so treat this preview as a personal sketchbook rather than permanent storage.'],
+  ['How soon will I see something useful?', 'Immediately, you\'ll get four starter blueprints shaped by your Sensory Profile. Personalized insights begin to appear once you\'ve logged a couple of sessions across different settings — the more varied your logs, the sharper the patterns.'],
+  ['Will you tell me what to do?', 'No. Every insight points to a small, optional experiment — change one input, observe a few sessions, keep what helps. You stay in charge of what you try and what you conclude.'],
+  ['Is cannabis legal where I am, and can you help me buy it?', 'Cannabis laws vary by place and age, and you are responsible for following the ones where you live. Nervous System Studio does not help you find, buy, or obtain any product, and never will.'],
+  ['What if I\'m going through something difficult?', 'This app isn\'t a crisis resource. If you\'re in distress or thinking about harming yourself, please contact a qualified professional or your local emergency services. In the U.S., you can call or text 988 for the Suicide &amp; Crisis Lifeline.'],
+  ['Is this a finished product?', 'It\'s an early, serious research preview. The core experience — profile, logging, insights, and blueprints — works today. We\'re opening access at a measured pace through the beta list.']
+];
+views.faq = () => `
+  <section class="section tight">
+    <div class="narrow">
+      <p class="eyebrow">Frequently asked</p>
+      <h1>Questions, answered plainly.</h1>
+      <p class="lede">If your question isn't here, <a href="#/contact">get in touch</a> — we read everything.</p>
+    </div>
+  </section>
+  <section class="section" style="padding-top:0">
+    <div class="narrow">
+      ${faqBlock(ALL_FAQS)}
+      <div class="card" style="margin-top:24px;background:var(--surface-2)">
+        <p class="mb-0"><strong>Still deciding?</strong> The fastest way to understand the app is to try it. The Sensory Profile is free and takes about five minutes. <a href="#/sensory-profile">Start now &rarr;</a></p>
+      </div>
+    </div>
+  </section>
+`;
+
+/* ---------- CONTACT ---------- */
+views.contact = () => {
+  window._pageHook = wireContact;
+  return `
+  <section class="section tight">
+    <div class="narrow">
+      <p class="eyebrow">Contact</p>
+      <h1>Get in touch.</h1>
+      <p class="lede">Questions, feedback, press, or partnership — we'd genuinely like to hear from you.</p>
+      <div class="grid cols-2" style="margin-top:24px;align-items:start">
+        <div class="card">
+          <h3>Send a note</h3>
+          <form id="contactForm" novalidate>
+            <label class="field" for="ct-name"><span class="lab">Name</span><input id="ct-name" type="text" autocomplete="name" required/></label>
+            <label class="field" for="ct-email"><span class="lab">Email</span><input id="ct-email" type="email" autocomplete="email" required aria-describedby="ct-email-err"/><span id="ct-email-err" class="small" style="color:var(--danger)"></span></label>
+            <label class="field" for="ct-topic"><span class="lab">Topic</span>
+              <select id="ct-topic"><option>General question</option><option>Product feedback</option><option>Beta access</option><option>Press</option><option>Partnership</option></select>
+            </label>
+            <label class="field" for="ct-msg"><span class="lab">Message</span><textarea id="ct-msg" required placeholder="How can we help?"></textarea></label>
+            <button class="btn btn-primary btn-block" type="submit">Send message</button>
+          </form>
+        </div>
+        <div class="stack-sm">
+          <div class="card"><span class="medallion sage" style="margin-bottom:12px">${ICON.mail}</span><h3>Prefer email?</h3><p class="muted small mb-0">Reach the team directly at <a href="mailto:hello@nervoussystem.studio">hello@nervoussystem.studio</a>. We aim to reply within a few business days.</p></div>
+          <div class="card"><span class="medallion" style="margin-bottom:12px">${ICON.people}</span><h3>Beta &amp; partnerships</h3><p class="muted small mb-0">Interested in early access or collaborating? Mention it in your note, or <a href="#/waitlist">join the beta list</a>.</p></div>
+          <div class="card" style="background:var(--surface-2)"><p class="small mb-0 faint">${esc(SAFETY_LINE)} Please don't share sensitive health information through this form.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>`;
+};
+function wireContact(){
+  const f = document.getElementById('contactForm');
+  if(!f) return;
+  f.addEventListener('submit',(e)=>{
+    e.preventDefault();
+    const email = document.getElementById('ct-email').value.trim();
+    const err = document.getElementById('ct-email-err');
+    const name = document.getElementById('ct-name').value.trim();
+    const msg = document.getElementById('ct-msg').value.trim();
+    if(!name){ toast('Please add your name.'); document.getElementById('ct-name').focus(); return; }
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ err.textContent='Please enter a valid email address.'; document.getElementById('ct-email').focus(); return; }
+    err.textContent='';
+    if(!msg){ toast('Please add a short message.'); document.getElementById('ct-msg').focus(); return; }
+    f.closest('.card').innerHTML = `<div class="center" style="padding:12px"><span class="medallion sage" style="margin:0 auto 12px">${ICON.check}</span><h3>Message ready to send</h3><p class="muted small">Thanks, ${esc(name)}. In this preview, messages aren't transmitted — but your note is captured here so nothing is lost. We'll follow up at <strong>${esc(email)}</strong> once messaging is live.</p><a class="btn btn-secondary" href="#/home">Back to home</a></div>`;
+    toast('Message captured.');
+  });
+}
+
+/* ---------- WAITLIST ---------- */
+views.waitlist = () => `
+  <section class="section tight">
+    <div class="narrow">
+      <p class="eyebrow">Beta access</p>
+      <h1>Join the beta.</h1>
+      <p class="lede">Nervous System Studio opens at a measured pace so every member gets a considered experience. Leave your email and we'll reach out as spots become available.</p>
+      <div class="reassure" style="display:flex;flex-wrap:wrap;gap:8px 20px;font-size:.9rem;color:var(--ink-faint);margin-top:16px">
+        <span class="flex items-center" style="gap:7px">${ICON.check} No spam, ever</span>
+        <span class="flex items-center" style="gap:7px">${ICON.check} Unsubscribe anytime</span>
+        <span class="flex items-center" style="gap:7px">${ICON.check} Start the profile today</span>
+      </div>
+      <div class="card" style="margin-top:24px">
+        <form id="waitForm" novalidate>
+          <label class="field" for="wl-name"><span class="lab">Name <span class="hint">(optional)</span></span>
+            <input id="wl-name" type="text" autocomplete="name" />
+          </label>
+          <label class="field" for="wl-email"><span class="lab">Email address</span>
+            <input id="wl-email" type="email" autocomplete="email" required aria-describedby="wl-email-err" />
+            <span id="wl-email-err" class="small" style="color:var(--danger)"></span>
+          </label>
+          <fieldset>
+            <legend>What are you most hoping to explore? <span class="hint">(optional)</span></legend>
+            <div class="choices">${OPT.desiredStates.map((s,i)=>chip('wl-goal',s,false,true)).join('')}</div>
+          </fieldset>
+          <button class="btn btn-primary btn-block" type="submit">Request beta access</button>
+        </form>
+      </div>
+      <p class="muted small" style="margin-top:16px">${esc(SAFETY_LINE)}</p>
+      <p class="small" style="margin-top:8px"><a href="#/sensory-profile">Or take the Sensory Profile first &rarr;</a></p>
+    </div>
+  </section>
+`;
+views.waitlist._hook = true;
+
+/* ---------- RESEARCH / ABOUT ---------- */
+const EV_PILLARS = [
+  ['Environments shape state', 'Well-supported', 'Light, sound, and temperature have demonstrable effects on arousal, mood, cognition, and sleep. The strongest, most mechanistic effects are evening light on the circadian system and noise on cognition and sleep.', 'Gooley 2011 (JCEM); Basner &amp; McGuire 2018 (IJERPH); de Witte (music meta-analysis)'],
+  ['Sensitivity differs between people', 'Moderate', 'Environmental Sensitivity research suggests people vary in how strongly surroundings affect them — and that more-sensitive people may benefit more from supportive settings (&ldquo;vantage sensitivity&rdquo;). We treat this as a spectrum tendency, never a label or diagnosis.', 'Pluess 2015 (Child Dev Perspectives); Aron &amp; Aron 1997 (JPSP); Lionetti 2018 (Transl. Psychiatry)'],
+  ['Set &amp; setting is a real, bounded lens', 'Moderate', 'The idea that mindset and context shape experience is well established and overlaps with expectancy/placebo science. We frame it descriptively — never as a way to control or guarantee an outcome.', 'Zinberg 1984; Hartogsohn 2016 (J. Psychopharmacology)'],
+  ['Within-person tracking yields real personal insight', 'Well-supported (as method)', 'In-the-moment logging reduces recall bias, and well-designed within-person (N-of-1) experiments can produce valid, individualized evidence — for that person — when they involve real, repeated tests.', 'Shiffman 2008 (Annu. Rev. Clin. Psychol.); Harkin 2016 (Psych. Bulletin); WWC Single-Case Standards']
+];
+const EV_NOT = [
+  'That wall or paint <strong>color</strong> reliably changes your mood or focus (circadian effects come from light spectrum, not decor color).',
+  'That a <strong>messy desk boosts creativity</strong>, or that clutter <em>causes</em> raised cortisol (the key studies failed to replicate or are small and correlational).',
+  'That <strong>diffusing a scent</strong> works like an anxiety medication (inhaled evidence is weak and confounded by expectancy).',
+  'Any personal reading of <strong>HRV or cortisol</strong> as a &ldquo;stress score&rdquo; — these are noisy and unreliable at the individual level.',
+  'That environment <strong>reliably controls the cannabis experience</strong> — the largest meta-analysis to date found no significant contextual effect.',
+  'That the app <strong>treats, cures, prevents, or diagnoses</strong> anything, or changes your nervous system.'
+];
+const EV_REFS = [
+  ['Gooley et al. 2011', 'Exposure to room light before bedtime suppresses melatonin. J. Clinical Endocrinology &amp; Metabolism.', 'https://pubmed.ncbi.nlm.nih.gov/21193540/'],
+  ['Zeitzer et al. 2000', 'Sensitivity of the human circadian pacemaker to nocturnal light. J. Physiology.', 'https://pmc.ncbi.nlm.nih.gov/articles/PMC2270041/'],
+  ['Phillips et al. 2019', 'High sensitivity and interindividual variability in melatonin suppression by evening light. PNAS.', 'https://www.pnas.org/doi/10.1073/pnas.1901824116'],
+  ['Brown et al. 2022', 'Recommendations for daytime, evening, and night-time indoor light exposure (consensus). PLoS Biology.', 'https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3001571'],
+  ['Mason et al. 2022', 'Light exposure during sleep impairs cardiometabolic function. PNAS.', 'https://www.pnas.org/doi/10.1073/pnas.2113290119'],
+  ['Windred et al. 2024', 'Sleep regularity is a stronger predictor of mortality than duration. SLEEP.', 'https://academic.oup.com/sleep/article/47/1/zsad253/7280269'],
+  ['Basner &amp; McGuire 2018', 'WHO review: environmental noise and effects on sleep. IJERPH.', 'https://www.mdpi.com/1660-4601/15/3/519'],
+  ['Saxbe &amp; Repetti 2010', 'No place like home: home tours, cortisol, and mood. Pers. Soc. Psychol. Bulletin.', 'https://journals.sagepub.com/doi/10.1177/0146167209352864'],
+  ['Aron &amp; Aron 1997', 'Sensory-processing sensitivity and its relation to introversion and emotionality. JPSP.', 'https://onlinelibrary.wiley.com/doi/abs/10.1002/9781119102991.ch28'],
+  ['Lionetti et al. 2018', 'Dandelions, tulips and orchids: environmental-sensitivity groups. Translational Psychiatry.', 'https://www.nature.com/articles/s41398-017-0090-6'],
+  ['Pluess 2015', 'Individual differences in environmental sensitivity. Child Development Perspectives.', 'https://srcd.onlinelibrary.wiley.com/doi/abs/10.1111/cdep.12120'],
+  ['Garfinkel et al. 2015', 'Knowing your own heart: interoceptive dimensions. Biological Psychology.', 'https://www.sciencedirect.com/science/article/pii/S0301051114002294'],
+  ['Harkin et al. 2016', 'Does monitoring goal progress promote goal attainment? Psychological Bulletin.', 'https://www.apa.org/pubs/journals/releases/bul-bul0000025.pdf'],
+  ['Shiffman et al. 2008', 'Ecological momentary assessment. Annual Review of Clinical Psychology.', 'https://www.annualreviews.org/content/journals/10.1146/annurev.clinpsy.3.022806.091415'],
+  ['Zinberg 1984', 'Drug, Set, and Setting: the basis for controlled intoxicant use. Yale Univ. Press.', 'https://archive.org/details/drugsetsettingba0000zinb'],
+  ['Childs et al. 2017', 'Dose-related effects of delta-9-THC on emotional responses to stress. Drug &amp; Alcohol Dependence.', 'https://www.sciencedirect.com/science/article/abs/pii/S037687161730220X'],
+  ['Contextual-factors meta-analysis 2024', 'Contextual factors and subjective effects of cannabis. Neuroscience &amp; Biobehavioral Reviews.', 'https://pubmed.ncbi.nlm.nih.gov/39059675/'],
+  ['de Witte et al. 2020', 'Effects of music interventions on stress: meta-analysis. Health Psychology Review.', 'https://pmc.ncbi.nlm.nih.gov/articles/PMC9205498/'],
+  ['Irish et al. 2015', 'The role of sleep hygiene in promoting public health. Sleep Medicine Reviews.', 'https://pmc.ncbi.nlm.nih.gov/articles/PMC4400203/']
+];
+function evGradeTag(g){
+  const strong = /Well-supported/i.test(g);
+  const c = strong ? ['var(--sage-wash)','var(--sage-deep)'] : ['#f4ecdd','#8a6d2f'];
+  return `<span class="badge" style="background:${c[0]};color:${c[1]};border-color:var(--line)">${ICON.check} ${esc(g)}</span>`;
+}
+views.research = () => `
+  <section class="section tight">
+    <div class="narrow">
+      <p class="eyebrow">Research &amp; evidence</p>
+      <h1>Grounded in the literature — and honest about its limits.</h1>
+      <p class="lede">Nervous System Studio is built on peer-reviewed research in environmental psychology, stress physiology, sensitivity science, and self-tracking methodology. Just as importantly, we're candid about where that evidence is strong, where it's mixed, and where popular claims outrun the science.</p>
+      <div class="flex wrap-gap" style="gap:8px;margin-top:14px">${evGradeTag('Well-supported')} ${evGradeTag('Mixed evidence')}</div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:8px">
+    <div class="narrow">
+      <p class="eyebrow">The framework</p>
+      <h2>Four evidence-backed pillars.</h2>
+      <p class="muted maxw-52" style="margin-bottom:24px">Together they justify a personalized set-and-setting tool without any medical claim.</p>
+      ${EV_PILLARS.map(([t,g,b,src],i)=>`
+        <div class="card">
+          <div class="flex items-center" style="gap:12px;flex-wrap:wrap;margin-bottom:8px">
+            <span class="medallion${/Well/.test(g)?' sage':''}" style="width:40px;height:40px">${[ICON.calm,ICON.people,ICON.compass,ICON.focus][i]}</span>
+            <h3 style="margin:0">${t}</h3>
+          </div>
+          <div style="margin-bottom:8px">${evGradeTag(g)}</div>
+          <p class="muted small" style="margin:0 0 8px">${b}</p>
+          <p class="small faint mb-0">Representative sources: ${src}.</p>
+        </div>`).join('')}
+    </div>
+  </section>
+
+  <section class="section-alt section">
+    <div class="narrow">
+      <p class="eyebrow">Intellectual honesty</p>
+      <h2>What the evidence does <em>not</em> support.</h2>
+      <p class="muted maxw-52">Knowing the boundary of the evidence is what separates a credible tool from a wellness gimmick. We deliberately avoid these claims:</p>
+      <div class="card">
+        <ul class="muted" style="margin:0;padding-left:1.15em">
+          ${EV_NOT.map(x=>`<li style="margin-bottom:10px">${x}</li>`).join('')}
+        </ul>
+      </div>
+      <p class="small faint" style="margin-top:12px">Most environmental effects are modest, context-dependent, and often shown only in short lab studies. We lead with the best-supported levers — light, a dark/cool/quiet sleep space, consistent timing, and music for calm — and offer everything else as a personal pattern to explore.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="narrow">
+      <p class="eyebrow">Method</p>
+      <h2>How we turn that evidence into honest insight.</h2>
+      <div class="grid cols-2" style="margin-top:8px">
+        <div class="card"><h3>Association, not causation</h3><p class="muted small mb-0">Your logs can show what <em>co-occurs</em> with how you felt, not what caused it. So we say &ldquo;appears associated with&rdquo; and &ldquo;a pattern to explore&rdquo; — never &ldquo;causes&rdquo; or &ldquo;will.&rdquo;</p></div>
+        <div class="card"><h3>Enough data first</h3><p class="muted small mb-0">We wait for a minimum number of entries and require a meaningful, consistent difference before surfacing anything — because small samples invent patterns.</p></div>
+        <div class="card"><h3>Guarding against noise</h3><p class="muted small mb-0">We cap how many patterns we show at once (comparing many factors guarantees false hits) and flag that extreme days naturally rebound (regression to the mean).</p></div>
+        <div class="card"><h3>Test it: N-of-1</h3><p class="muted small mb-0">Every insight comes with a small within-person experiment — change one input, repeat several times, compare. That's the one path to trustworthy personal conclusions.</p></div>
+      </div>
+      <div class="card" style="background:var(--surface-2);margin-top:18px">
+        <p class="mb-0 small"><strong>A note on self-report.</strong> Everything here starts from your own ratings, and the act of tracking can itself change what you notice. We treat your logs as a thoughtful sketch, not a measurement — and we never infer a biological state (like cortisol or HRV) about you.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-alt section">
+    <div class="narrow">
+      <p class="eyebrow">Selected references</p>
+      <h2>A starting bibliography.</h2>
+      <p class="muted maxw-52">A representative sample of the primary sources behind the platform. This is a preview list, not an exhaustive review.</p>
+      <div class="card">
+        <ol class="small" style="margin:0;padding-left:1.3em">
+          ${EV_REFS.map(([a,t,u])=>`<li style="margin-bottom:10px"><strong>${a}.</strong> ${t} <a href="${u}" target="_blank" rel="noopener">View source &rarr;</a></li>`).join('')}
+        </ol>
+      </div>
+      <p class="small faint" style="margin-top:12px">Grades reflect the evidence as we read it and are revisited as the literature evolves. This page is for education and transparency; it is not medical, psychological, or legal advice.</p>
+      <p class="small" style="margin-top:8px"><a href="#/how-it-works">See how the method works in the app &rarr;</a> · <a href="#/disclaimer">Full safety &amp; legal disclaimer &rarr;</a></p>
+    </div>
+  </section>
+`;
+
+/* ---------- DISCLAIMER ---------- */
+views.disclaimer = () => `
+  <section class="section">
+    <div class="narrow">
+      <p class="eyebrow">Safety &amp; legal</p>
+      <h1>Safety, privacy &amp; the fine print.</h1>
+      <p class="lede">We'd rather be clear than clever. Here's exactly what this app is, what it isn't, and how to use it responsibly.</p>
+      <div class="card" style="background:var(--surface-2)"><p class="mb-0"><strong>${esc(SAFETY_LINE)}</strong></p></div>
+
+      <h3>Not medical advice</h3>
+      <p class="muted">Nervous System Studio is a self-reflection and personal-insight tool. It does not diagnose, treat, cure, prevent, or manage any medical or psychological condition. Nothing here is medical, psychological, or legal advice. Always consult a qualified professional about health decisions, and never disregard professional advice because of something you read here.</p>
+
+      <h3>About cannabis</h3>
+      <p class="muted">Cannabis use is entirely optional within this app and is never required to benefit from it. We do not recommend cannabis for any medical purpose, do not tell you what or whether to consume, and do not help you find, buy, or obtain any product. Cannabis affects people differently, can carry health and dependency risks, and may impair coordination and judgment. It is not legal everywhere and may be restricted by age. You are responsible for knowing and following the laws that apply where you live. Do not drive or operate machinery while impaired.</p>
+
+      <h3>No physiological or clinical claims</h3>
+      <p class="muted">We make no claim that this app changes your nervous system, brain, or body, or that it induces any physiological process. Insights and blueprints describe associations in your self-reported logs only. They are patterns to explore, not clinical findings or guarantees of any outcome.</p>
+
+      <h3>If you are struggling</h3>
+      <p class="muted">This app is not for crisis support. If you are in emotional distress or thinking about harming yourself, please contact a qualified professional or your local emergency services right away. In the U.S., you can call or text 988 to reach the Suicide &amp; Crisis Lifeline.</p>
+
+      <h3>Your data</h3>
+      <p class="muted">In this preview, your Sensory Profile and logs are stored locally in your browser on this device. Clearing your browser storage will remove them. Do not use this preview to store information you cannot afford to lose.</p>
+
+      <p class="small" style="margin-top:24px"><a href="#/research">Learn more about our approach &rarr;</a></p>
+    </div>
+  </section>
+`;
+
+/* ---------- GATE (app routes without login) ---------- */
+views.gate = () => `
+  <section class="section">
+    <div class="narrow center">
+      <div class="bp-ic" style="margin:0 auto 12px">${ICON.calm}</div>
+      <h1>Create your space first</h1>
+      <p class="muted">The dashboard, journal, insights, and blueprints open up once you've started a Sensory Profile. It takes about five minutes and shapes everything else.</p>
+      <div class="ctas center" style="justify-content:center; display:flex; gap:12px; flex-wrap:wrap; margin-top:8px">
+        <a class="btn btn-primary" href="#/sensory-profile">Take the Sensory Profile</a>
+        <a class="btn btn-secondary" href="#/waitlist">Join the Beta</a>
+      </div>
+    </div>
+  </section>
+`;
+
+/* ---------- NOT FOUND ---------- */
+views.notfound = () => `
+  <section class="section">
+    <div class="narrow center">
+      <h1>Page not found</h1>
+      <p class="muted">That page doesn't exist. Let's get you back to a calm place.</p>
+      <a class="btn btn-primary" href="#/home">Return home</a>
+    </div>
+  </section>
+`;
+
+/* ---------- ACCOUNT ---------- */
+views.account = () => {
+  if(!isLoggedIn()) return views.gate();
+  const u = STATE.user;
+  return `
+  <section class="section">
+    <div class="narrow">
+      <p class="eyebrow">Account</p>
+      <h1>Your account</h1>
+      <div class="card">
+        <p><strong>${esc(u.name||'Member')}</strong><br><span class="muted small">${esc(u.email||'No email on file')}</span></p>
+        <p class="muted small">Member since ${fmtDate(u.createdAt)}. Your data is stored locally on this device.</p>
+      </div>
+      <div class="card">
+        <h3>Reset preview data</h3>
+        <p class="muted small">This clears your profile, logs, and sign-in from this browser. This cannot be undone.</p>
+        <button class="btn btn-secondary" id="resetBtn" type="button">Reset all data &amp; sign out</button>
+      </div>
+      <p class="small"><a href="#/disclaimer">Safety &amp; legal disclaimer &rarr;</a></p>
+    </div>
+  </section>`;
+};
+
+/* chip renderer */
+function chip(name, label, checked, multi){
+  const type = multi ? 'checkbox' : 'radio';
+  return `<label class="chip"><input type="${type}" name="${esc(name)}" value="${esc(label)}"${checked?' checked':''}/><span>${esc(label)}</span><span class="tick" aria-hidden="true">✓</span></label>`;
+}
+
+/* ============================================================
+   SENSORY PROFILE QUIZ
+   ============================================================ */
+let quizState = null;
+function initQuiz(){
+  const p = STATE.sensoryProfile;
+  quizState = {
+    step:0,
+    data:{
+      desiredStates: p? [...p.desiredStates]:[],
+      sensitivities: p? [...p.sensitivities]:[],
+      helpfulInputs: p? [...p.helpfulInputs]:[],
+      aesthetics: p? [...p.aesthetics]:[],
+      cannabisUse: p? p.cannabisUse:'',
+      cannabisGoals: p? [...p.cannabisGoals]:[],
+      productFormats: p? [...p.productFormats]:[]
+    }
+  };
+}
+
+function quizSteps(){
+  const d = quizState.data;
+  const steps = [
+    { key:'desiredStates', legend:'Which states are you reaching for?',
+      hint:'Choose all that feel true right now.', options:OPT.desiredStates, multi:true, required:true },
+    { key:'sensitivities', legend:'What tends to overwhelm you?',
+      hint:'Sensitivity sits on a spectrum, not a label — pick the inputs you find intense, draining, or hard to settle from.', options:OPT.sensitivities, multi:true, required:false },
+    { key:'helpfulInputs', legend:'What helps you settle or focus?',
+      hint:'Inputs that tend to feel supportive.', options:OPT.helpfulInputs, multi:true, required:false },
+    { key:'aesthetics', legend:'Which aesthetics feel like you?',
+      hint:'This shapes the tone of your blueprints.', options:OPT.aesthetics, multi:true, required:false },
+    { key:'cannabisUse', legend:'Is cannabis part of your exploration?',
+      hint:'Entirely optional. This never changes the core of your profile.',
+      options:['No, not for me','I currently use cannabis','Curious / exploring'], multi:false, required:true, single:true }
+  ];
+  // conditional cannabis steps
+  if(d.cannabisUse === 'I currently use cannabis' || d.cannabisUse === 'Curious / exploring'){
+    steps.push({ key:'cannabisGoals', legend:'What are you hoping cannabis might support?',
+      hint:'Personal goals only — not medical use.', options:OPT.cannabisGoals, multi:true, required:false });
+    steps.push({ key:'productFormats', legend:'Which formats do you tend to reach for?',
+      hint:'Helps you log faster later. Optional.', options:OPT.productFormats, multi:true, required:false });
+  }
+  return steps;
+}
+
+views['sensory-profile'] = () => {
+  if(!quizState) initQuiz();
+  const steps = quizSteps();
+  const total = steps.length;
+  if(quizState.step >= total){ return quizReview(); }
+  const s = steps[quizState.step];
+  const d = quizState.data;
+  const pct = Math.round((quizState.step/total)*100);
+  const selected = s.single ? [d[s.key]] : (d[s.key]||[]);
+  const chips = s.options.map(o=>{
+    const on = s.single ? d[s.key]===o : (d[s.key]||[]).includes(o);
+    return chip('q_'+s.key, o, on, s.multi);
+  }).join('');
+  window._pageHook = ()=> wireQuizStep(s);
+  return `
+  <section class="section">
+    <div class="narrow">
+      <h1 class="visually-hidden">Sensory Profile quiz</h1>
+      <div class="stepdots">Step ${quizState.step+1} of ${total} · Sensory Profile</div>
+      <div class="progress" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100" aria-label="Quiz progress"><span style="width:${pct}%"></span></div>
+      <fieldset>
+        <legend style="font-family:var(--font);font-size:1.5rem;margin-bottom:6px">${esc(s.legend)}</legend>
+        <p class="muted small" style="margin-top:-2px">${esc(s.hint)}${s.required?' <span aria-hidden="true">·</span> <span style="color:var(--clay-deep)">Required</span>':''}</p>
+        <div class="choices" id="quizChoices">${chips}</div>
+      </fieldset>
+      <p id="quizErr" class="small" style="color:var(--danger);min-height:1.2em" role="alert"></p>
+      <div style="display:flex; gap:12px; margin-top:8px">
+        ${quizState.step>0? '<button class="btn btn-secondary" id="qBack" type="button">Back</button>':'<a class="btn btn-secondary" href="#/home">Cancel</a>'}
+        <button class="btn btn-primary" id="qNext" type="button" style="flex:1">${quizState.step===total-1?'Review':'Continue'}</button>
+      </div>
+    </div>
+  </section>`;
+};
+
+function wireQuizStep(s){
+  const d = quizState.data;
+  const collect = ()=>{
+    const inputs = [...document.querySelectorAll('#quizChoices input')];
+    if(s.single){ const c = inputs.find(i=>i.checked); d[s.key] = c? c.value : ''; }
+    else { d[s.key] = inputs.filter(i=>i.checked).map(i=>i.value); }
+  };
+  const back = document.getElementById('qBack');
+  if(back) back.onclick = ()=>{ collect(); quizState.step--; render(); };
+  document.getElementById('qNext').onclick = ()=>{
+    collect();
+    const err = document.getElementById('quizErr');
+    if(s.required){
+      const empty = s.single ? !d[s.key] : (!d[s.key]||d[s.key].length===0);
+      if(empty){ err.textContent = 'Please choose at least one option to continue.'; return; }
+    }
+    err.textContent='';
+    quizState.step++; render();
+  };
+}
+
+function quizReview(){
+  const d = quizState.data;
+  const row = (label, val)=>{
+    const v = Array.isArray(val)? (val.length? val.join(', '):'—') : (val||'—');
+    return `<dt style="font-weight:700;margin-top:12px">${esc(label)}</dt><dd class="muted" style="margin:2px 0 0">${esc(v)}</dd>`;
+  };
+  window._pageHook = ()=>{
+    document.getElementById('qEdit').onclick = ()=>{ quizState.step=0; render(); };
+    document.getElementById('profForm').addEventListener('submit', onSaveProfile);
+  };
+  const cannabisShown = d.cannabisUse==='I currently use cannabis' || d.cannabisUse==='Curious / exploring';
+  return `
+  <section class="section">
+    <div class="narrow">
+      <p class="eyebrow">Almost there</p>
+      <h1>Review your Sensory Profile</h1>
+      <p class="muted">This shapes your dashboard, insights, and blueprints. You can update it any time.</p>
+      <div class="card">
+        <dl style="margin:0">
+          ${row('Desired states', d.desiredStates)}
+          ${row('Sensitivities', d.sensitivities)}
+          ${row('Helpful inputs', d.helpfulInputs)}
+          ${row('Aesthetic preferences', d.aesthetics)}
+          ${row('Cannabis', d.cannabisUse)}
+          ${cannabisShown? row('Cannabis goals', d.cannabisGoals):''}
+          ${cannabisShown? row('Common formats', d.productFormats):''}
+        </dl>
+      </div>
+      <form id="profForm">
+        <div class="card">
+          <h3>Save &amp; create your space</h3>
+          <label class="field" for="pf-name"><span class="lab">Your name <span class="hint">(optional)</span></span>
+            <input id="pf-name" type="text" autocomplete="name" value="${esc(STATE.user?STATE.user.name:'')}"/>
+          </label>
+          <label class="field" for="pf-email"><span class="lab">Email <span class="hint">(optional — to save your beta spot)</span></span>
+            <input id="pf-email" type="email" autocomplete="email" value="${esc(STATE.user?STATE.user.email:'')}"/>
+          </label>
+          <div style="display:flex; gap:12px; flex-wrap:wrap">
+            <button class="btn btn-secondary" id="qEdit" type="button">Edit answers</button>
+            <button class="btn btn-primary" type="submit" style="flex:1">Save profile &amp; open dashboard</button>
+          </div>
+        </div>
+      </form>
+      <p class="muted small">${esc(SAFETY_LINE)}</p>
+    </div>
+  </section>`;
+}
+
+/* ============================================================
+   DASHBOARD
+   ============================================================ */
+views.dashboard = () => {
+  const p = STATE.sensoryProfile;
+  const logs = STATE.logs.slice().sort((a,b)=> b.createdAt.localeCompare(a.createdAt));
+  const name = (STATE.user && STATE.user.name) ? STATE.user.name.split(' ')[0] : 'there';
+  const ins = computeInsights();
+  const greeting = `<p class="eyebrow">Your studio</p><h1>Hello, ${esc(name)}.</h1>`;
+
+  // Empty state (no logs yet)
+  const recent = logs.slice(0,3);
+  const avg = (k)=>{ const v = logs.map(l=>l.scores[k]).filter(n=>typeof n==='number'); return v.length? Math.round(v.reduce((a,b)=>a+b,0)/v.length):null; };
+
+  const focusStates = (p && p.desiredStates.length)? p.desiredStates.slice(0,4) : ['Calm','Focus'];
+
+  const metricsCard = logs.length ? `
+    <div class="card">
+      <p class="eyebrow">Your averages · self-reported</p>
+      <div class="grid cols-4">
+        ${['calm','focus','creativity','sleepSupport'].map(k=>{
+          const label = SCORE_FIELDS.find(f=>f.key===k).label;
+          const a = avg(k);
+          return `<div class="metric"><span class="n">${a==null?'—':a}<span class="muted" style="font-size:1rem">/10</span></span><span class="l">${esc(label)}</span></div>`;
+        }).join('')}
+      </div>
+      <p class="muted small" style="margin:12px 0 0">Averages across ${logs.length} ${logs.length===1?'entry':'entries'}. These reflect what you reported, not a score of you.</p>
+    </div>` : '';
+
+  const insightPreview = logs.length ? `
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px">
+        <p class="eyebrow" style="margin:0">A pattern to explore</p>
+        <a class="small" href="#/insights">All insights &rarr;</a>
+      </div>
+      <p style="font-family:var(--font);font-size:1.2rem;line-height:1.4;margin:10px 0 0">${ins.length? esc(ins[0].text): 'Keep logging to surface your first pattern.'}</p>
+    </div>` : '';
+
+  const recentCard = logs.length ? `
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px">
+        <p class="eyebrow" style="margin:0">Recent entries</p>
+        <a class="small" href="#/journal">Open journal &rarr;</a>
+      </div>
+      ${recent.map(logRow).join('')}
+    </div>` : '';
+
+  const body = logs.length===0 ? `
+    <div class="empty">
+      <div class="em-ic">${ICON.book}</div>
+      <h3>Your journal is empty — and that's the perfect start</h3>
+      <p class="muted small" style="max-width:46ch;margin:0 auto 16px">Add your first entry: the room you're in, the light and sound around you, and how you feel. One entry is all it takes to begin noticing patterns.</p>
+      <a class="btn btn-primary" href="#/add-log">Add your first log</a>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <p class="eyebrow">From your Sensory Profile</p>
+      <h3>You're exploring: ${esc(focusStates.join(', '))}</h3>
+      <p class="muted small">We'll shape your insights and blueprints around these. Update them any time in your profile.</p>
+      <a class="btn btn-ghost" href="#/sensory-profile">Update Sensory Profile &rarr;</a>
+    </div>
+  ` : `
+    ${metricsCard}
+    <div class="grid cols-2">
+      ${insightPreview}
+      ${recentCard}
+    </div>
+    <div class="card">
+      <p class="eyebrow">Your blueprints</p>
+      <h3>Turn your patterns into supportive environments</h3>
+      <p class="muted small">Calm, Focus, Sleep, and Creative blueprints tuned to what you've reported.</p>
+      <a class="btn btn-secondary" href="#/blueprint">Open My Blueprint</a>
+    </div>
+  `;
+
+  return `
+  <section class="section tight">
+    <div class="wrap">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:20px">
+        <div>${greeting}<p class="muted" style="margin:0">${logs.length? 'Here\'s what your entries are showing.':'A calm place to notice how your environment relates to how you feel.'}</p></div>
+        <a class="btn btn-primary" href="#/add-log">${ICON.plus} Add log</a>
+      </div>
+      ${body}
+    </div>
+  </section>`;
+};
+
+function logRow(l){
+  const state = l.desiredState || '—';
+  return `<a class="logitem" href="#/journal/${esc(l.id)}" style="text-decoration:none;color:inherit">
+    <div class="bp-ic" style="width:24px;height:24px;color:var(--sage-deep)">${ICON.calm}</div>
+    <div style="flex:1">
+      <div style="display:flex;justify-content:space-between;gap:8px"><strong>${esc(state)}</strong><span class="muted small">${fmtDate(l.date||l.createdAt)}</span></div>
+      <div class="muted small">${esc(l.room||'—')}${l.lighting?' · '+esc(l.lighting)+' light':''}${l.sound?' · '+esc(l.sound):''}</div>
+    </div>
+  </a>`;
+}
+
+/* ============================================================
+   ADD LOG
+   ============================================================ */
+views['add-log'] = () => {
+  const sel = (name, label, options)=> `
+    <label class="field" for="lg-${name}"><span class="lab">${esc(label)} <span class="hint">(optional)</span></span>
+      <select id="lg-${name}" name="${name}">
+        <option value="">Select…</option>
+        ${options.map(o=>`<option value="${esc(o)}">${esc(o)}</option>`).join('')}
+      </select>
+    </label>`;
+  const p = STATE.sensoryProfile;
+  const stateOpts = (p && p.desiredStates.length)? p.desiredStates : OPT.desiredStates;
+  const now = new Date();
+  const dateVal = now.toISOString().slice(0,10);
+  const timeVal = now.toTimeString().slice(0,5);
+  const cannabisEnabled = p && (p.cannabisUse==='I currently use cannabis' || p.cannabisUse==='Curious / exploring');
+
+  window._pageHook = wireAddLog;
+  return `
+  <section class="section tight">
+    <div class="narrow">
+      <p class="eyebrow">New entry</p>
+      <h1>Add a log</h1>
+      <p class="muted">Capture your environment and how you feel. Logging close to the moment keeps it accurate — research shows in-the-moment notes drift less than looking back. Everything except date is optional; log what you noticed.</p>
+      <form id="logForm" novalidate>
+        <div class="card">
+          <h3>When &amp; where</h3>
+          <div class="grid cols-2">
+            <label class="field" for="lg-date"><span class="lab">Date</span><input id="lg-date" name="date" type="date" value="${dateVal}" required/></label>
+            <label class="field" for="lg-time"><span class="lab">Time <span class="hint">(optional)</span></span><input id="lg-time" name="time" type="time" value="${timeVal}"/></label>
+          </div>
+          <label class="field" for="lg-desiredState"><span class="lab">Desired state <span class="hint">(what you were reaching for)</span></span>
+            <select id="lg-desiredState" name="desiredState"><option value="">Select…</option>${stateOpts.map(o=>`<option value="${esc(o)}">${esc(o)}</option>`).join('')}</select>
+          </label>
+          ${sel('room','Room / location',OPT.rooms)}
+        </div>
+
+        <div class="card">
+          <h3>The setting</h3>
+          <div class="grid cols-2">
+            ${sel('lighting','Lighting (warmth)',OPT.lighting)}
+            ${sel('brightness','Brightness',OPT.brightness)}
+            ${sel('clutter','Clutter level',OPT.clutter)}
+            ${sel('sound','Sound',OPT.sound)}
+            ${sel('scent','Scent',OPT.scent)}
+            ${sel('texture','Texture',OPT.texture)}
+            ${sel('social','Social context',OPT.social)}
+            ${sel('screens','Screen exposure',OPT.screens)}
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Before you began</h3>
+          <div class="grid cols-2">
+            ${sel('moodBefore','Mood before',OPT.moods)}
+            ${sel('bodyBefore','Body state before',OPT.bodyStates)}
+          </div>
+        </div>
+
+        ${cannabisEnabled? `
+        <div class="card">
+          <h3>Cannabis / product <span class="hint" style="font-weight:400;font-size:.85rem;color:var(--ink-soft)">— optional</span></h3>
+          <p class="muted small">Only if it was part of this session. Leave blank otherwise. This is a record for your own reflection, not medical guidance.</p>
+          <label class="chip" style="margin-bottom:12px"><input type="checkbox" id="lg-usedProduct" name="usedProduct"/><span>A product was part of this session</span><span class="tick" aria-hidden="true">✓</span></label>
+          <div id="productFields" hidden>
+            <div class="grid cols-2">
+              ${sel('productFormat','Format',OPT.productFormats.filter(f=>f!=='Prefer not to say'))}
+              <label class="field" for="lg-productLabel"><span class="lab">Label / name <span class="hint">(optional)</span></span><input id="lg-productLabel" name="productLabel" type="text" placeholder="e.g. Evening blend"/></label>
+              <label class="field" for="lg-productAmount"><span class="lab">Amount / dose note <span class="hint">(optional, your own words)</span></span><input id="lg-productAmount" name="productAmount" type="text" placeholder="e.g. small amount"/></label>
+            </div>
+          </div>
+        </div>`:''}
+
+        <div class="card">
+          <h3>How it felt <span class="hint" style="font-weight:400;font-size:.85rem;color:var(--ink-soft)">— 0 to 10, your read</span></h3>
+          ${SCORE_FIELDS.map(f=>scoreSlider(f.key,f.label)).join('')}
+          <label class="field" for="lg-notes" style="margin-top:8px"><span class="lab">Notes <span class="hint">(optional)</span></span>
+            <textarea id="lg-notes" name="notes" placeholder="Anything you want to remember about this moment…"></textarea>
+          </label>
+        </div>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a class="btn btn-secondary" href="#/dashboard">Cancel</a>
+          <button class="btn btn-primary" type="submit" style="flex:1">Save log</button>
+        </div>
+      </form>
+      <p class="muted small" style="margin-top:16px">${esc(SAFETY_LINE)}</p>
+    </div>
+  </section>`;
+};
+
+function scoreSlider(key,label){
+  return `<div class="scorerow">
+    <div class="top"><label class="lab" for="lg-${key}" style="margin:0">${esc(label)}</label><output id="lg-${key}-out" for="lg-${key}">5</output></div>
+    <input id="lg-${key}" name="${key}" type="range" min="0" max="10" step="1" value="5" aria-describedby="lg-${key}-out"/>
+  </div>`;
+}
+
+function wireAddLog(){
+  const chk = document.getElementById('lg-usedProduct');
+  const pf = document.getElementById('productFields');
+  if(chk && pf){
+    const upd = ()=>{ pf.hidden = !chk.checked; };
+    chk.addEventListener('change', upd); upd();
+  }
+  document.getElementById('logForm').addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const f = e.target;
+    const get = (n)=> { const el = f.elements[n]; return el? el.value : ''; };
+    const date = get('date');
+    if(!date){ toast('Please choose a date.'); document.getElementById('lg-date').focus(); return; }
+    const scores = {};
+    SCORE_FIELDS.forEach(s=> scores[s.key] = Number(get(s.key)));
+    const used = f.elements['usedProduct'] && f.elements['usedProduct'].checked;
+    const log = {
+      id:uid(), date, time:get('time'), desiredState:get('desiredState'),
+      room:get('room'), lighting:get('lighting'), brightness:get('brightness'),
+      clutter:get('clutter'), sound:get('sound'), scent:get('scent'), texture:get('texture'),
+      social:get('social'), screens:get('screens'), moodBefore:get('moodBefore'), bodyBefore:get('bodyBefore'),
+      usedProduct:!!used,
+      product: used ? { format:get('productFormat'), label:get('productLabel'), amount:get('productAmount') } : null,
+      scores, notes:get('notes'),
+      createdAt:new Date(date + 'T' + (get('time')||'12:00')).toISOString()
+    };
+    STATE.logs.push(log);
+    // maintain products list
+    if(used && log.product && (log.product.label || log.product.format)){
+      STATE.products.push({ id:uid(), label:log.product.label||log.product.format, format:log.product.format });
+    }
+    save();
+    toast('Log saved.');
+    navigate('#/journal');
+  });
+}
+
+/* ============================================================
+   JOURNAL
+   ============================================================ */
+views.journal = (parts) => {
+  // detail view
+  if(parts[1]){ return journalDetail(parts[1]); }
+  const logs = STATE.logs.slice().sort((a,b)=> b.createdAt.localeCompare(a.createdAt));
+  if(logs.length===0){
+    return `
+    <section class="section tight"><div class="narrow">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px">
+        <div><p class="eyebrow">Journal</p><h1>Your journal</h1></div>
+        <a class="btn btn-primary" href="#/add-log">${ICON.plus} Add log</a>
+      </div>
+      <div class="empty">
+        <div class="em-ic">${ICON.book}</div>
+        <h3>No entries yet</h3>
+        <p class="muted small" style="max-width:44ch;margin:0 auto 16px">Each entry is a small act of self-reflection. Log a moment and start building your picture.</p>
+        <a class="btn btn-primary" href="#/add-log">Add your first log</a>
+      </div>
+    </div></section>`;
+  }
+  return `
+  <section class="section tight"><div class="narrow">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px">
+      <div><p class="eyebrow">Journal · ${logs.length} ${logs.length===1?'entry':'entries'}</p><h1>Your journal</h1></div>
+      <a class="btn btn-primary" href="#/add-log">${ICON.plus} Add log</a>
+    </div>
+    ${logs.map(logRow).join('')}
+  </div></section>`;
+};
+
+function journalDetail(id){
+  const l = STATE.logs.find(x=>x.id===id);
+  if(!l){ return `<section class="section"><div class="narrow"><h1>Entry not found</h1><a class="btn btn-secondary" href="#/journal">Back to journal</a></div></section>`; }
+  const field = (label,val)=> val? `<dt style="font-weight:700;margin-top:12px;font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;color:var(--clay)">${esc(label)}</dt><dd class="muted" style="margin:2px 0 0">${esc(val)}</dd>`:'';
+  window._pageHook = ()=>{
+    const db = document.getElementById('delBtn');
+    if(db) db.onclick = ()=>{ if(confirm('Delete this entry? This cannot be undone.')){ STATE.logs = STATE.logs.filter(x=>x.id!==id); save(); toast('Entry deleted.'); navigate('#/journal'); } };
+  };
+  return `
+  <section class="section tight"><div class="narrow">
+    <p class="small"><a href="#/journal">&larr; Back to journal</a></p>
+    <p class="eyebrow">${fmtDate(l.date||l.createdAt)}${l.time?' · '+esc(l.time):''}</p>
+    <h1>${esc(l.desiredState||'Entry')}</h1>
+    <div class="card">
+      <p class="eyebrow">How it felt · self-reported</p>
+      <div class="grid cols-2">
+        ${SCORE_FIELDS.map(f=>`<div><div style="display:flex;justify-content:space-between"><span class="small" style="font-weight:600">${esc(f.label)}</span><span class="small muted">${l.scores[f.key]}/10</span></div><div class="bar"><span style="width:${(l.scores[f.key]/10*100)}%"></span></div></div>`).join('')}
+      </div>
+    </div>
+    <div class="card">
+      <p class="eyebrow">The setting</p>
+      <dl style="margin:0">
+        ${field('Room / location', l.room)}
+        ${field('Lighting', l.lighting)}
+        ${field('Brightness', l.brightness)}
+        ${field('Clutter', l.clutter)}
+        ${field('Sound', l.sound)}
+        ${field('Scent', l.scent)}
+        ${field('Texture', l.texture)}
+        ${field('Social context', l.social)}
+        ${field('Screen exposure', l.screens)}
+        ${field('Mood before', l.moodBefore)}
+        ${field('Body state before', l.bodyBefore)}
+        ${l.usedProduct && l.product? field('Product', [l.product.format,l.product.label,l.product.amount].filter(Boolean).join(' · ')):''}
+      </dl>
+    </div>
+    ${l.notes? `<div class="card"><p class="eyebrow">Notes</p><p style="margin:0">${esc(l.notes)}</p></div>`:''}
+    <button class="btn btn-secondary" id="delBtn" type="button">Delete entry</button>
+  </div></section>`;
+}
+
+function onSaveProfile(e){
+  e.preventDefault();
+  const d = quizState.data;
+  STATE.sensoryProfile = {
+    desiredStates:d.desiredStates, sensitivities:d.sensitivities, helpfulInputs:d.helpfulInputs,
+    aesthetics:d.aesthetics, cannabisUse:d.cannabisUse, cannabisGoals:d.cannabisGoals,
+    productFormats:d.productFormats, updatedAt:new Date().toISOString()
+  };
+  const name = document.getElementById('pf-name').value.trim();
+  const email = document.getElementById('pf-email').value.trim();
+  if(!STATE.user){
+    STATE.user = { id:uid(), name, email, createdAt:new Date().toISOString() };
+  } else { STATE.user.name=name; STATE.user.email=email; }
+  if(email && !STATE.waitlist.some(w=>w.email===email)){
+    STATE.waitlist.push({email, createdAt:new Date().toISOString()});
+  }
+  save();
+  quizState = null;
+  toast('Sensory Profile saved.');
+  navigate('#/dashboard');
+}
+
+/* ============================================================
+   INSIGHTS ENGINE (rules-based)
+   Compares average outcome scores across environment groupings.
+   ============================================================ */
+function avgFor(logs, key){ const v = logs.map(l=>l.scores[key]).filter(n=>typeof n==='number'); return v.length? v.reduce((a,b)=>a+b,0)/v.length : null; }
+
+/* ------------------------------------------------------------------
+   Evidence-informed thresholds (see Research Dossier §4):
+   - Require a minimum total sample and per-group sample before surfacing
+     anything (guards against small-sample noise).
+   - Require a meaningful average gap (guards against trivial differences).
+   - Cap the number of surfaced patterns (guards against the
+     multiple-comparisons problem — tracking many variables guarantees
+     some spurious "findings").
+   - Grade each pattern's confidence by how much data supports it, and
+     always frame as association + hypothesis + a test to run (N-of-1).
+   ------------------------------------------------------------------ */
+const NSS_MIN_LOGS = 4;      // minimum total entries before any insight
+const NSS_MIN_GROUP = 2;     // each compared group needs >= this many entries
+const NSS_GAP = 1.5;         // minimum gap (0-10 scale) to be worth mentioning
+const NSS_MAX_INSIGHTS = 4;  // cap simultaneous patterns (multiple comparisons)
+
+function computeInsights(){
+  const logs = STATE.logs;
+  if(logs.length < NSS_MIN_LOGS) return [];
+
+  // Compare the highest vs lowest group for a field/outcome, honoring min-group size.
+  function groups(field, outcome){
+    const g = {};
+    logs.forEach(l=>{ const v=l[field]; if(!v) return; (g[v]=g[v]||[]).push(l); });
+    const rows = Object.entries(g)
+      .map(([v,ls])=>({v, n:ls.length, a:avgFor(ls,outcome)}))
+      .filter(r=>r.a!=null && r.n>=NSS_MIN_GROUP);
+    if(rows.length<2) return null;
+    rows.sort((x,y)=>y.a-x.a);
+    return rows;
+  }
+  // Confidence grade from the data supporting a comparison.
+  function grade(topN, botN){
+    const m = Math.min(topN, botN), tot = logs.length;
+    if(m>=5 && tot>=12) return 'Moderate';
+    if(m>=3 && tot>=8)  return 'Emerging';
+    return 'Preliminary';
+  }
+
+  const cand = [];
+  const add = (rows, spec)=>{
+    if(!rows) return;
+    const top=rows[0], bot=rows[rows.length-1];
+    const gap = top.a - bot.a;
+    if(gap < NSS_GAP) return;
+    if(spec.excludeTop && spec.excludeTop.includes(top.v)) return;
+    cand.push({
+      tag: spec.tag,
+      gap,
+      confidence: grade(top.n, bot.n),
+      n: top.n + bot.n,
+      text: spec.text(top,bot),
+      detail: spec.detail(top,bot),
+      experiment: spec.experiment(top,bot)
+    });
+  };
+
+  add(groups('lighting','calm'), {
+    tag:'Calm',
+    text:(t)=>`${t.v} lighting appears associated with your calmer entries.`,
+    detail:(t,b)=>`Calm averaged ${t.a.toFixed(1)}/10 on ${lc(t.v)}-lit entries (${t.n}) versus ${b.a.toFixed(1)}/10 on ${lc(b.v)}-lit ones (${b.n}). This is a correlation in your logs, not a cause.`,
+    experiment:(t)=>`For your next 3 evenings, deliberately set ${lc(t.v)} lighting and log your calm score. If it holds across repeats, the pattern is likely real for you.`
+  });
+  add(groups('clutter','overstimulation'), {
+    tag:'Overstimulation',
+    text:(t,b)=>`Higher clutter may be associated with more overstimulation for you.`,
+    detail:(t,b)=>`Overstimulation averaged ${t.a.toFixed(1)}/10 in “${t.v}” spaces (${t.n}) versus ${b.a.toFixed(1)}/10 in “${b.v}” spaces (${b.n}). Other factors could explain this — treat it as a lead, not a verdict.`,
+    experiment:(t,b)=>`Try clearing one surface before a few sessions in your usual space and log overstimulation. Compare the tidier runs to the cluttered ones.`
+  });
+  add(groups('sound','focus'), {
+    tag:'Focus',
+    text:(t)=>`Your higher-focus entries tend to involve ${lc(t.v)}.`,
+    detail:(t,b)=>`Focus averaged ${t.a.toFixed(1)}/10 with ${lc(t.v)} (${t.n}) versus ${b.a.toFixed(1)}/10 with ${lc(b.v)} (${b.n}). A pattern to explore for deep work.`,
+    experiment:(t)=>`Pick two focus blocks this week with ${lc(t.v)} and two without, keeping everything else similar, then compare your focus scores.`
+  });
+  add(groups('screens','anxiety'), {
+    tag:'Anxiety',
+    text:()=>`Heavier screen exposure may be associated with higher reported anxiety.`,
+    detail:(t,b)=>`Anxiety averaged ${t.a.toFixed(1)}/10 with “${t.v}” screen exposure (${t.n}) versus ${b.a.toFixed(1)}/10 with “${b.v}” (${b.n}). Direction and cause aren't established by this alone.`,
+    experiment:()=>`Try a lighter-screen evening a few times and log anxiety, comparing against your heavier-screen entries.`
+  });
+  add(groups('lighting','sleepSupport'), {
+    tag:'Sleep',
+    text:(t)=>`${t.v} lighting appears associated with better sleep-support entries.`,
+    detail:(t,b)=>`Sleep support averaged ${t.a.toFixed(1)}/10 with ${lc(t.v)} lighting (${t.n}) versus ${b.a.toFixed(1)}/10 with ${lc(b.v)} (${b.n}). Consistent with evening-light research, but this is your own pattern to test.`,
+    experiment:(t)=>`Keep evening lighting ${lc(t.v)} and low for several nights and log sleep support; compare with brighter evenings.`
+  });
+  add(groups('sound','calm'), {
+    tag:'Calm',
+    text:(t)=>`${t.v} appears associated with your calmer entries.`,
+    detail:(t,b)=>`Calm averaged ${t.a.toFixed(1)}/10 with ${lc(t.v)} (${t.n}) versus ${b.a.toFixed(1)}/10 with ${lc(b.v)} (${b.n}).`,
+    experiment:(t)=>`Deliberately choose ${lc(t.v)} for a few sessions and log calm, comparing to sessions without it.`
+  });
+
+  // Cannabis set-and-setting pattern (only if enough product sessions)
+  const prod = logs.filter(l=>l.usedProduct);
+  if(prod.length>=NSS_MIN_LOGS){
+    const busy = (l)=> ['Noisy / busy','Music'].includes(l.sound) || l.clutter==='High clutter' || l.brightness==='Bright';
+    const hi = prod.filter(busy), lo = prod.filter(l=>!busy(l));
+    if(hi.length>=NSS_MIN_GROUP && lo.length>=NSS_MIN_GROUP){
+      const hiO = avgFor(hi,'overstimulation'), loO = avgFor(lo,'overstimulation');
+      if(hiO!=null && loO!=null && (hiO-loO)>=NSS_GAP){
+        cand.push({ tag:'Set & setting', gap:hiO-loO, confidence:grade(hi.length,lo.length), n:hi.length+lo.length,
+          text:`On product sessions, higher-stimulation settings may feel more intense for you.`,
+          detail:`Overstimulation averaged ${hiO.toFixed(1)}/10 in busier settings (${hi.length}) versus ${loO.toFixed(1)}/10 in calmer ones (${lo.length}). This mirrors the general set-and-setting idea, but the research on environment and cannabis is mixed — treat it purely as your own reflection, not guidance.`,
+          experiment:`If you choose to, compare a few calmer-setting sessions against busier ones and log overstimulation.` });
+      }
+    }
+  }
+
+  // Rank by effect size, then cap (multiple-comparisons guard).
+  cand.sort((a,b)=> b.gap - a.gap);
+  return cand.slice(0, NSS_MAX_INSIGHTS);
+}
+function lc(s){ return String(s||'').toLowerCase(); }
+function confBadge(c){
+  const map={Moderate:'sage', Emerging:'', Preliminary:''};
+  return `<span class="badge${c==='Moderate'?'':' '}" style="background:${c==='Moderate'?'var(--sage-wash)':'var(--surface-2)'};color:${c==='Moderate'?'var(--sage-deep)':'var(--ink-soft)'}">${ICON.check} ${esc(c)} confidence</span>`;
+}
+
+views.insights = () => {
+  const logs = STATE.logs;
+  const ins = computeInsights();
+  const remaining = Math.max(0, NSS_MIN_LOGS - logs.length);
+  if(logs.length < NSS_MIN_LOGS){
+    return `
+    <section class="section tight"><div class="narrow">
+      <p class="eyebrow">Insights</p><h1>Patterns to explore</h1>
+      <div class="empty">
+        <div class="em-ic">${ICON.focus}</div>
+        <h3>${logs.length===0?'No entries yet':`${logs.length} ${logs.length===1?'entry':'entries'} so far`}</h3>
+        <p class="muted small" style="max-width:52ch;margin:0 auto 16px">To surface a pattern responsibly, we wait until you have at least <strong>${NSS_MIN_LOGS} entries</strong> across a few different settings — small samples produce false patterns. ${remaining>0?`About <strong>${remaining} more</strong> to go.`:''}</p>
+        <a class="btn btn-primary" href="#/add-log">Add a log</a>
+      </div>
+      <div class="card" style="margin-top:16px;background:var(--surface-2)">
+        <p class="small mb-0">Why the wait? Insights here are grounded in self-tracking research: a handful of days is a tiny, noisy sample, and comparing many factors at once can invent patterns that aren't there. We'd rather show you fewer, sturdier observations. <a href="#/research">How this works &rarr;</a></p>
+      </div>
+    </div></section>`;
+  }
+  const body = ins.length ? ins.map(i=>`
+    <div class="card">
+      <div class="flex items-center" style="gap:10px;flex-wrap:wrap;margin-bottom:6px">
+        <span class="pill">${esc(i.tag)}</span>
+        ${confBadge(i.confidence)}
+        <span class="small faint">${i.n} entries compared</span>
+      </div>
+      <p style="font-family:var(--serif);font-size:1.28rem;line-height:1.34;letter-spacing:-.01em;margin:4px 0 8px">${esc(i.text)}</p>
+      <p class="muted small" style="margin:0 0 14px">${esc(i.detail)}</p>
+      <div style="background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:14px 16px">
+        <p class="eyebrow" style="margin:0 0 4px">Test it — a small experiment</p>
+        <p class="small mb-0">${esc(i.experiment)}</p>
+      </div>
+    </div>`).join('') : `
+    <div class="empty">
+      <div class="em-ic">${ICON.focus}</div>
+      <h3>No strong patterns yet</h3>
+      <p class="muted small" style="max-width:48ch;margin:0 auto">Your entries so far don't show a difference large or consistent enough to call out responsibly. That's a feature, not a bug — keep logging across different settings and sturdier patterns will surface.</p>
+    </div>`;
+  return `
+  <section class="section tight"><div class="narrow">
+    <p class="eyebrow">Insights · from ${logs.length} entries</p>
+    <h1>Patterns to explore</h1>
+    <p class="lede">These describe <strong>associations</strong> in your own self-reports — what tended to co-occur, not what caused what. Each one is a hypothesis with a small experiment to test it.</p>
+    ${body}
+    <div class="card" style="background:var(--surface-2)">
+      <p class="eyebrow" style="margin:0 0 6px">How to read these honestly</p>
+      <ul class="muted small" style="margin:0;padding-left:1.1em">
+        <li style="margin-bottom:6px">These are <strong>your self-reports</strong>. The act of tracking can itself shift what you notice — so treat logs as a sketch, not a measurement.</li>
+        <li style="margin-bottom:6px"><strong>Correlation isn't cause.</strong> A hidden factor (mood, sleep, the day itself) could explain a pattern. The way to find out is to test it.</li>
+        <li style="margin-bottom:0">A great day often follows a bad one on its own (<em>regression to the mean</em>). Repeating an experiment several times is what separates signal from rebound.</li>
+      </ul>
+    </div>
+    <p class="muted small">${esc(SAFETY_LINE)} <a href="#/research">See the evidence behind this &rarr;</a></p>
+  </div></section>`;
+};
+
+/* ============================================================
+   MY BLUEPRINT
+   ============================================================ */
+function bestValue(field, outcome, fallback){
+  const logs = STATE.logs;
+  const groups = {};
+  logs.forEach(l=>{ const v=l[field]; if(!v) return; (groups[v]=groups[v]||[]).push(l); });
+  const rows = Object.entries(groups).map(([v,ls])=>({v,a:avgFor(ls,outcome)})).filter(r=>r.a!=null);
+  if(!rows.length) return null;
+  rows.sort((x,y)=>y.a-x.a);
+  return rows[0].v;
+}
+
+function buildBlueprints(){
+  const p = STATE.sensoryProfile || {aesthetics:[],helpfulInputs:[],sensitivities:[],cannabisUse:'',cannabisGoals:[]};
+  const hasData = STATE.logs.length>=2;
+  const cannabis = (p.cannabisUse==='I currently use cannabis' || p.cannabisUse==='Curious / exploring');
+  const aesthetic = p.aesthetics[0] || 'warm, natural';
+
+  // pull personalized bests where available, else sensible defaults
+  const calmLight = (hasData && bestValue('lighting','calm')) || 'Warm';
+  const focusSound = (hasData && bestValue('sound','focus')) || 'Silence';
+  const sleepLight = (hasData && bestValue('lighting','sleepSupport')) || 'Candle / very warm';
+  const calmScent = (hasData && bestValue('scent','calm')) || 'Woody / earthy';
+  const createScent = (hasData && bestValue('scent','creativity')) || 'Fresh / clean';
+
+  const note = (personalized)=> personalized && hasData ? ' <span class="pill" style="background:var(--sage-deep);color:#fff;border-color:var(--sage-deep)">from your logs</span>' : '';
+  // Evidence tags per guidance row (see Research Dossier). Rows are [label, html, evidence].
+  const WELL='Well-supported', MIX='Mixed evidence', PREF='Personal preference';
+
+  return [
+    { id:'calm', icon:ICON.calm, title:'Calm Blueprint',
+      intro:'A setting that may support settling and downshifting.',
+      rows:[
+        ['Lighting', `${calmLight} and low in the evening. Reducing light intensity late lowers alerting signals to the circadian system — one of the better-supported environmental levers.${note(hasData && bestValue('lighting','calm'))}`, WELL],
+        ['Sound', 'Silence, soft ambient sound, or self-chosen music. Music has some of the most consistent evidence for reducing anxiety; sudden or busy audio tends to do the opposite.', WELL],
+        ['Decor / clutter', 'Keep surfaces clear. Cluttered spaces have been correlated with higher stress in some studies, though cause isn\'t established — worth testing for yourself.', MIX],
+        ['Scent', `${calmScent} or none, kept gentle. Scent–calm links are real for some people but heavily shaped by personal association, so treat this as preference, not medicine.${note(hasData && bestValue('scent','calm'))}`, PREF],
+        ['Color direction', `Muted earth tones — clay, sand, soft olive — matching your ${lc(aesthetic)} preference. Chosen for aesthetic comfort; broad "calming color" claims aren\'t well supported.`, PREF],
+        ['Texture', 'Soft, warm textures you can sink into — a blanket, a worn cushion. A comfort choice.', PREF],
+        ['Routine', 'A short, consistent wind-down: dim the lights, put screens away, one slow activity in the same order. Consistency itself is a well-supported habit lever.', WELL],
+      ],
+      cannabis: cannabis ? 'If cannabis is part of your evening, you can log it alongside your setting and watch your own calm scores. Note: the research on whether environment shapes the cannabis experience is mixed, so treat this purely as self-reflection — not medical guidance, dosing, or a way to guarantee a calm experience.' : null,
+      avoid:['Bright or cool light in the last hour','Loud or sudden sound','Heavy screen time right before','Comparing yourself on an off day'],
+      experiment:'Run a small test: for 3–4 evenings, keep lighting warm and low; on other evenings, don\'t. Log calm each time and compare the two sets. Repeating it is what turns a hunch into something real.' },
+
+    { id:'focus', icon:ICON.focus, title:'Focus Blueprint',
+      intro:'A setting that may support sustained attention.',
+      rows:[
+        ['Lighting', 'Brighter, cooler or natural daylight while you work — daytime light exposure is reasonably well linked to alertness. Avoid glare.', WELL],
+        ['Sound', `${focusSound}. ${hasData && bestValue('sound','focus')?'This came from your own logs. ':'Test silence versus soft ambient and keep what helps. '}Chronic background noise reliably impairs concentration, so protecting your soundscape matters.${note(hasData && bestValue('sound','focus'))}`, WELL],
+        ['Decor / clutter', 'Low clutter in your field of view; clear the desk to one task. Competing visual input draws on limited attention (lab evidence); the real-world size is uncertain, so test it.', MIX],
+        ['Routine', 'A clear start ritual, a single focus block, notifications silenced. Monitoring one clear goal is among the best-supported behavior levers.', WELL],
+        ['Scent', 'Fresh, clean, or none — nothing heavy or sedating. A preference lever, not a proven cognitive booster.', PREF],
+        ['Color direction', 'Low-distraction palette with one small accent. Aesthetic comfort; "color boosts focus" claims are weak.', PREF],
+        ['Texture', 'Firm, supportive seating; minimal fidget surfaces. A comfort choice.', PREF],
+      ],
+      cannabis: cannabis ? 'Cannabis affects concentration differently for different people and can hinder it. If you explore it, log honestly and let your own focus scores speak. This is not a recommendation or endorsement.' : null,
+      avoid:['High clutter','Busy or noisy background','Frequent screen switching','Multitasking'],
+      experiment:'Pick two focus blocks with your candidate setup and two without, keeping the task similar, then compare focus scores across the four. More repeats, more confidence.' },
+
+    { id:'sleep', icon:ICON.sleep, title:'Sleep Blueprint',
+      intro:'A supportive evening environment — not a treatment for sleep problems.',
+      rows:[
+        ['Lighting', `${sleepLight}. Keep light warm and as low as is comfortable in the hours before bed; light sensitivity varies a lot between people, so find your own level. Evening-light effects on the body clock are well established.${note(hasData && bestValue('lighting','sleepSupport'))}`, WELL],
+        ['Darkness', 'Make the sleep space as dark as feasible. Even modest light during sleep has been shown to affect overnight physiology — a well-supported reason to dim and cover light sources.', WELL],
+        ['Temperature', 'Keep the room on the cool side. A cool, comfortable bedroom supports sleep; heat above your comfort zone tends to fragment it.', WELL],
+        ['Sound', 'Quiet, or steady soft sound. Nighttime noise fragments sleep even when you don\'t fully wake, so lowering it is worthwhile.', WELL],
+        ['Routine', 'Most supported of all: keep sleep and wake times consistent, with a calm, screen-light wind-down. Regular timing is strongly linked to better outcomes in large studies.', WELL],
+        ['Scent', 'Subtle and familiar, or none. A comfort preference, not a sleep aid.', PREF],
+        ['Texture', 'Comfortable bedding and soft, warm layers. A comfort choice.', PREF],
+      ],
+      cannabis: cannabis ? 'Some people include cannabis in an evening routine; effects on sleep vary between people and can change over time. Observe your own sleep-support scores if you wish, but this is not a sleep aid, treatment, or medical claim.' : null,
+      avoid:['Bright or cool light late','A light or warm sleep space','Stimulating sound or content','Irregular bed/wake times'],
+      experiment:'For several nights, keep the room dark, cool, and your bedtime consistent; note sleep support. Compare with your less-consistent nights. If sleep problems persist, please talk with a qualified professional.' },
+
+    { id:'creative', icon:ICON.creative, title:'Creative Blueprint',
+      intro:'A setting that may support open, playful thinking.',
+      rows:[
+        ['Lighting', 'Warm and comfortable, with some natural light if you can. Soft, not harsh — a comfort-led choice.', PREF],
+        ['Sound', 'Whatever loosens you — soft music or ambient sound. Music\'s mood effects are reasonably supported; test what opens you up.', MIX],
+        ['Decor / clutter', 'A little curated texture can feel inspiring; keep it from tipping into overwhelm. (The popular "mess boosts creativity" study failed to replicate, so trust your own experience over the myth.)', MIX],
+        ['Routine', 'A low-pressure warm-up, then protected, unstructured making time. Reducing interruptions is the dependable part.', MIX],
+        ['Scent', `${createScent} or a scent you link with ease. Personal association matters more than any universal effect.${note(hasData && bestValue('scent','creativity'))}`, PREF],
+        ['Color direction', `Textured, characterful tones in your ${lc(aesthetic)} direction. An aesthetic choice to enjoy.`, PREF],
+        ['Texture', 'Varied, tactile materials within reach. Comfortable but not sleepy.', PREF],
+      ],
+      cannabis: cannabis ? 'If cannabis is part of your creative practice, your set and setting still shape the experience. Log the environment alongside it and let your own creativity scores surface what fits. Personal exploration only — not advice.' : null,
+      avoid:['Harsh lighting','Rigid, sterile spaces','Constant interruptions','Pressure to perform'],
+      experiment:'Try your candidate setup for a few short, judgment-free making sessions and skip it for a few others; compare your creativity scores across both.' },
+  ];
+}
+
+views.blueprint = () => {
+  const bps = buildBlueprints();
+  const hasData = STATE.logs.length>=2;
+  window._pageHook = ()=>{
+    const tabs = [...document.querySelectorAll('.tab')];
+    const panels = [...document.querySelectorAll('[role=tabpanel]')];
+    tabs.forEach(t=> t.addEventListener('click', ()=>{
+      tabs.forEach(x=>x.setAttribute('aria-selected','false'));
+      panels.forEach(pn=> pn.hidden = true);
+      t.setAttribute('aria-selected','true');
+      document.getElementById(t.getAttribute('aria-controls')).hidden = false;
+    }));
+    // keyboard arrow support
+    tabs.forEach((t,i)=> t.addEventListener('keydown',(e)=>{
+      let n=null; if(e.key==='ArrowRight') n=tabs[(i+1)%tabs.length]; if(e.key==='ArrowLeft') n=tabs[(i-1+tabs.length)%tabs.length];
+      if(n){ e.preventDefault(); n.focus(); n.click(); }
+    }));
+  };
+  const tabBtns = bps.map((b,i)=>`<button class="tab" role="tab" id="tab-${b.id}" aria-controls="panel-${b.id}" aria-selected="${i===0}">${esc(b.title.replace(' Blueprint',''))}</button>`).join('');
+  const panels = bps.map((b,i)=>`
+    <div role="tabpanel" id="panel-${b.id}" aria-labelledby="tab-${b.id}" ${i===0?'':'hidden'}>
+      <div class="card">
+        <div class="blueprint-h"><span class="bp-ic">${b.icon}</span><h2 style="margin:0">${esc(b.title)}</h2></div>
+        <p class="muted">${esc(b.intro)}</p>
+        <dl class="bp">
+          ${b.rows.map(([k,v,ev])=>`<dt>${esc(k)}${ev?' '+evTag(ev):''}</dt><dd>${v}</dd>`).join('')}
+          ${b.cannabis? `<dt>Optional cannabis context</dt><dd class="muted">${esc(b.cannabis)}</dd>`:''}
+          <dt class="avoid">Avoid list</dt><dd><ul style="margin:2px 0 0;padding-left:1.1em">${b.avoid.map(a=>`<li>${esc(a)}</li>`).join('')}</ul></dd>
+          <dt>Next experiment <span class="pill" style="background:var(--clay-wash);border-color:var(--line);color:var(--clay-deep)">N-of-1</span></dt><dd><strong>${esc(b.experiment)}</strong></dd>
+        </dl>
+      </div>
+    </div>`).join('');
+  return `
+  <section class="section tight"><div class="narrow">
+    <p class="eyebrow">My Blueprint</p>
+    <h1>Supportive environments, tuned to you</h1>
+    <p class="lede">Four blueprints drawn from your Sensory Profile${hasData?' and your logs':''}. Each element is tagged by how strong the general evidence is — so you know which levers to trust and which to simply try.</p>
+    <div class="flex wrap-gap" style="gap:8px;margin:14px 0 4px">
+      ${evTag('Well-supported')} ${evTag('Mixed evidence')} ${evTag('Personal preference')}
+    </div>
+    <p class="small faint" style="margin:2px 0 18px">These are supportive-environment suggestions for self-reflection — not prescriptions, treatment, or medical advice. Each blueprint ends with a small within-person (N-of-1) test, the honest way to learn what actually works for you.</p>
+    ${hasData?'':`<div class="card" style="background:var(--surface-2)"><p class="small" style="margin:0">These start from your profile and general evidence. Add a few logs and your blueprints will personalize to what <em>you reported</em>. <a href="#/add-log">Add a log &rarr;</a></p></div>`}
+    <div class="tabs" role="tablist" aria-label="Blueprints">${tabBtns}</div>
+    ${panels}
+    <p class="muted small">${esc(SAFETY_LINE)} <a href="#/research">See the evidence &rarr;</a></p>
+  </div></section>`;
+};
+function evTag(kind){
+  const m = {
+    'Well-supported':['var(--sage-wash)','var(--sage-deep)'],
+    'Mixed evidence':['#f4ecdd','#8a6d2f'],
+    'Personal preference':['var(--surface-2)','var(--ink-soft)']
+  };
+  const c = m[kind] || m['Personal preference'];
+  return `<span class="badge" style="background:${c[0]};color:${c[1]};border-color:var(--line);font-size:.72rem">${esc(kind)}</span>`;
+}
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+if(!location.hash) location.hash = '#/home';
+render();
+</script>
+</body>
+</html>
