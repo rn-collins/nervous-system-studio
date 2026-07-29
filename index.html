@@ -357,7 +357,7 @@ a.card:hover, .card-link:hover{transform:translateY(-3px); box-shadow:var(--shad
 /* ---- Footer: refined ---- */
 footer.site{background:var(--bg-2); border-top:1px solid var(--line)}
 footer.site .cols{padding:clamp(44px,6vw,68px) 0 40px}
-@media(min-width:760px){ footer.site .cols{grid-template-columns:2.2fr 1fr 1fr 1fr} }
+@media(min-width:760px){ footer.site .cols{grid-template-columns:2.2fr 1fr 1fr 1fr 1fr} }
 footer.site .eyebrow{margin-bottom:14px}
 footer.site a{font-size:.93rem; color:var(--ink-soft)}
 footer.site a:hover{color:var(--clay-deep)}
@@ -628,6 +628,11 @@ function footer(){
         <a href="#/disclaimer">Safety &amp; legal</a>
         <a href="#/disclaimer">Privacy</a>
         <a href="#/contact">Get in touch</a>
+      </nav>
+      <nav aria-label="Related tools">
+        <p class="eyebrow">Related tools</p>
+        <a href="https://myelin-ce.vercel.app" target="_blank" rel="noopener">Myelin CE — CE for practitioners</a>
+        <a href="https://wnh-guide.vercel.app" target="_blank" rel="noopener">WNH — Women's Neuro-Health</a>
       </nav>
     </div>
     <div class="disclaimer-band"><div class="wrap" style="display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:space-between">
