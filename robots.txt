@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://nervous-system-studio.vercel.app/sitemap.xml

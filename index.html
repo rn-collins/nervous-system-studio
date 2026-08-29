@@ -9,6 +9,15 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://nervous-system-studio.vercel.app" />
 <meta name="theme-color" content="#f6f2ec" />
+<link rel="canonical" href="https://nervous-system-studio.vercel.app/" />
+<meta property="og:image" content="https://nervous-system-studio.vercel.app/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Nervous System Studio — design the room around the nervous system in it." />
+<meta property="og:site_name" content="Nervous System Studio" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <title>Nervous System Studio — Design your environment around your nervous system</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -22,11 +31,11 @@
   --ink:           #2f2a24;   /* near-black warm, strong contrast on bg */
   --ink-soft:      #5a5148;   /* secondary text, AA on bg */
   --line:          #e2d9cc;   /* hairline */
-  --clay:          #9c6b4e;   /* muted terracotta accent */
+  --clay:          #8d5f45;   /* muted terracotta accent (AA on --bg for eyebrow/dt text) */
   --clay-deep:     #7d5238;   /* darker accent for text/contrast */
   --sage:          #6f7d63;   /* muted sage */
   --sage-deep:     #55604b;
-  --sand:          #cdbfa8;
+  --sand:          #97836b;   /* control borders: 3.58:1 on --surface, 3.26:1 on --bg */
   --focus:         #3f5d78;   /* accessible focus ring (blue-slate) */
   --danger:        #8a3b34;
   --radius:        18px;
@@ -233,6 +242,7 @@ h1,h2,h3,h4{font-family:var(--serif); font-weight:600; letter-spacing:-.02em; co
 h1{font-size:clamp(2.1rem,5.2vw,3.4rem); line-height:1.06}
 h2{font-size:clamp(1.6rem,3.6vw,2.35rem); line-height:1.12}
 h3{font-size:1.25rem; letter-spacing:-.01em}
+.card h2, .step h2, .faq h2{font-size:1.25rem; letter-spacing:-.01em; line-height:1.2}
 .wrap{max-width:var(--maxw)}
 .narrow{max-width:720px}
 .reading{max-width:660px; margin:0 auto; padding:0 20px}
@@ -399,30 +409,7 @@ hr.hr{background:var(--line); margin:40px 0}
 </style>
 <link rel="sitemap" type="application/xml" href="/sitemap.xml"/>
 <meta name="robots" content="index, follow"/>
-<script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
-<script>
-(function(){
-  var p=new URLSearchParams(location.search),u={};
-  ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(function(k){if(p.get(k))u[k]=p.get(k);});
-  if(Object.keys(u).length)sessionStorage.setItem('rn_utm',JSON.stringify(u));
-  window._getUTM=function(){try{return JSON.parse(sessionStorage.getItem('rn_utm')||'{}')}catch(e){return{}}};
-  window.addEventListener('load',function(){
-    fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({event:'page_view',source:'nervous-system-studio',referrer:document.referrer||'direct',utm:window._getUTM()})
-    }).catch(function(){});
-  });
-  var ms=[25,50,75,90],fired={};
-  window.addEventListener('scroll',function(){
-    var h=document.body.scrollHeight-window.innerHeight;if(h<=0)return;
-    var pct=Math.round((window.scrollY/h)*100);
-    ms.forEach(function(m){if(pct>=m&&!fired[m]){fired[m]=1;
-      fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({event:'scroll_depth',source:'nervous-system-studio',depth:m+'%'})}).catch(function(){});
-    }});
-  },{passive:true});
-})()
-</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -1089,7 +1076,7 @@ views.contact = () => {
       <p class="lede">Questions, feedback, press, or partnership — we'd genuinely like to hear from you.</p>
       <div class="grid cols-2" style="margin-top:24px;align-items:start">
         <div class="card">
-          <h3>Send a note</h3>
+          <h2>Send a note</h2>
           <form id="contactForm" novalidate>
             <label class="field" for="ct-name"><span class="lab">Name</span><input id="ct-name" type="text" autocomplete="name" required/></label>
             <label class="field" for="ct-email"><span class="lab">Email</span><input id="ct-email" type="email" autocomplete="email" required aria-describedby="ct-email-err"/><span id="ct-email-err" class="small" style="color:var(--danger)"></span></label>
@@ -1101,8 +1088,8 @@ views.contact = () => {
           </form>
         </div>
         <div class="stack-sm">
-          <div class="card"><span class="medallion sage" style="margin-bottom:12px">${ICON.mail}</span><h3>Prefer email?</h3><p class="muted small mb-0">Reach the team directly at <a href="mailto:hello@nervoussystem.studio">hello@nervoussystem.studio</a>. We aim to reply within a few business days.</p></div>
-          <div class="card"><span class="medallion" style="margin-bottom:12px">${ICON.people}</span><h3>Beta &amp; partnerships</h3><p class="muted small mb-0">Interested in early access or collaborating? Mention it in your note, or <a href="#/waitlist">join the beta list</a>.</p></div>
+          <div class="card"><span class="medallion sage" style="margin-bottom:12px">${ICON.mail}</span><h2>Prefer email?</h2><p class="muted small mb-0">Reach the team directly at <a href="mailto:hello@nervoussystem.studio">hello@nervoussystem.studio</a>. We aim to reply within a few business days.</p></div>
+          <div class="card"><span class="medallion" style="margin-bottom:12px">${ICON.people}</span><h2>Beta &amp; partnerships</h2><p class="muted small mb-0">Interested in early access or collaborating? Mention it in your note, or <a href="#/waitlist">join the beta list</a>.</p></div>
           <div class="card" style="background:var(--surface-2)"><p class="small mb-0 faint">${esc(SAFETY_LINE)} Please don't share sensitive health information through this form.</p></div>
         </div>
       </div>
@@ -1122,7 +1109,7 @@ function wireContact(){
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ err.textContent='Please enter a valid email address.'; document.getElementById('ct-email').focus(); return; }
     err.textContent='';
     if(!msg){ toast('Please add a short message.'); document.getElementById('ct-msg').focus(); return; }
-    f.closest('.card').innerHTML = `<div class="center" style="padding:12px"><span class="medallion sage" style="margin:0 auto 12px">${ICON.check}</span><h3>Message ready to send</h3><p class="muted small">Thanks, ${esc(name)}. In this preview, messages aren't transmitted — but your note is captured here so nothing is lost. We'll follow up at <strong>${esc(email)}</strong> once messaging is live.</p><a class="btn btn-secondary" href="#/home">Back to home</a></div>`;
+    f.closest('.card').innerHTML = `<div class="center" style="padding:12px"><span class="medallion sage" style="margin:0 auto 12px">${ICON.check}</span><h2>Message ready to send</h2><p class="muted small">Thanks, ${esc(name)}. In this preview, messages aren't transmitted — but your note is captured here so nothing is lost. We'll follow up at <strong>${esc(email)}</strong> once messaging is live.</p><a class="btn btn-secondary" href="#/home">Back to home</a></div>`;
     toast('Message captured.');
   });
 }
@@ -1287,20 +1274,20 @@ views.disclaimer = () => `
       <p class="lede">We'd rather be clear than clever. Here's exactly what this app is, what it isn't, and how to use it responsibly.</p>
       <div class="card" style="background:var(--surface-2)"><p class="mb-0"><strong>${esc(SAFETY_LINE)}</strong></p></div>
 
-      <h3>Not medical advice</h3>
+      <h2>Not medical advice</h2>
       <p class="muted">Nervous System Studio is a self-reflection and personal-insight tool. It does not diagnose, treat, cure, prevent, or manage any medical or psychological condition. Nothing here is medical, psychological, or legal advice. Always consult a qualified professional about health decisions, and never disregard professional advice because of something you read here.</p>
 
-      <h3>About cannabis</h3>
+      <h2>About cannabis</h2>
       <p class="muted">Cannabis use is entirely optional within this app and is never required to benefit from it. We do not recommend cannabis for any medical purpose, do not tell you what or whether to consume, and do not help you find, buy, or obtain any product. Cannabis affects people differently, can carry health and dependency risks, and may impair coordination and judgment. It is not legal everywhere and may be restricted by age. You are responsible for knowing and following the laws that apply where you live. Do not drive or operate machinery while impaired.</p>
 
-      <h3>No physiological or clinical claims</h3>
+      <h2>No physiological or clinical claims</h2>
       <p class="muted">We make no claim that this app changes your nervous system, brain, or body, or that it induces any physiological process. Insights and blueprints describe associations in your self-reported logs only. They are patterns to explore, not clinical findings or guarantees of any outcome.</p>
 
-      <h3>If you are struggling</h3>
+      <h2>If you are struggling</h2>
       <p class="muted">This app is not for crisis support. If you are in emotional distress or thinking about harming yourself, please contact a qualified professional or your local emergency services right away. In the U.S., you can call or text 988 to reach the Suicide &amp; Crisis Lifeline.</p>
 
-      <h3>Your data</h3>
-      <p class="muted">In this preview, your Sensory Profile and logs are stored locally in your browser on this device. Clearing your browser storage will remove them. Do not use this preview to store information you cannot afford to lose.</p>
+      <h2>Your data</h2>
+      <p class="muted">In this preview, your Sensory Profile and logs are stored locally in your browser on this device. Clearing your browser storage will remove them. Do not use this preview to store information you cannot afford to lose. Your entries are never transmitted — there is no account server and no analytics on what you log. The host (Vercel) collects anonymous page-performance timings for the site itself; that data contains none of your entries.</p>
 
       <p class="small" style="margin-top:24px"><a href="#/research">Learn more about our approach &rarr;</a></p>
     </div>
@@ -1347,7 +1334,7 @@ views.account = () => {
         <p class="muted small">Member since ${fmtDate(u.createdAt)}. Your data is stored locally on this device.</p>
       </div>
       <div class="card">
-        <h3>Reset preview data</h3>
+        <h2>Reset preview data</h2>
         <p class="muted small">This clears your profile, logs, and sign-in from this browser. This cannot be undone.</p>
         <button class="btn btn-secondary" id="resetBtn" type="button">Reset all data &amp; sign out</button>
       </div>
@@ -1492,7 +1479,7 @@ function quizReview(){
       </div>
       <form id="profForm">
         <div class="card">
-          <h3>Save &amp; create your space</h3>
+          <h2>Save &amp; create your space</h2>
           <label class="field" for="pf-name"><span class="lab">Your name <span class="hint">(optional)</span></span>
             <input id="pf-name" type="text" autocomplete="name" value="${esc(STATE.user?STATE.user.name:'')}"/>
           </label>
@@ -1560,13 +1547,13 @@ views.dashboard = () => {
   const body = logs.length===0 ? `
     <div class="empty">
       <div class="em-ic">${ICON.book}</div>
-      <h3>Your journal is empty — and that's the perfect start</h3>
+      <h2>Your journal is empty — and that's the perfect start</h2>
       <p class="muted small" style="max-width:46ch;margin:0 auto 16px">Add your first entry: the room you're in, the light and sound around you, and how you feel. One entry is all it takes to begin noticing patterns.</p>
       <a class="btn btn-primary" href="#/add-log">Add your first log</a>
     </div>
     <div class="card" style="margin-top:16px">
       <p class="eyebrow">From your Sensory Profile</p>
-      <h3>You're exploring: ${esc(focusStates.join(', '))}</h3>
+      <h2>You're exploring: ${esc(focusStates.join(', '))}</h2>
       <p class="muted small">We'll shape your insights and blueprints around these. Update them any time in your profile.</p>
       <a class="btn btn-ghost" href="#/sensory-profile">Update Sensory Profile &rarr;</a>
     </div>
@@ -1578,7 +1565,7 @@ views.dashboard = () => {
     </div>
     <div class="card">
       <p class="eyebrow">Your blueprints</p>
-      <h3>Turn your patterns into supportive environments</h3>
+      <h2>Turn your patterns into supportive environments</h2>
       <p class="muted small">Calm, Focus, Sleep, and Creative blueprints tuned to what you've reported.</p>
       <a class="btn btn-secondary" href="#/blueprint">Open My Blueprint</a>
     </div>
@@ -1634,7 +1621,7 @@ views['add-log'] = () => {
       <p class="muted">Capture your environment and how you feel. Logging close to the moment keeps it accurate — research shows in-the-moment notes drift less than looking back. Everything except date is optional; log what you noticed.</p>
       <form id="logForm" novalidate>
         <div class="card">
-          <h3>When &amp; where</h3>
+          <h2>When &amp; where</h2>
           <div class="grid cols-2">
             <label class="field" for="lg-date"><span class="lab">Date</span><input id="lg-date" name="date" type="date" value="${dateVal}" required/></label>
             <label class="field" for="lg-time"><span class="lab">Time <span class="hint">(optional)</span></span><input id="lg-time" name="time" type="time" value="${timeVal}"/></label>
@@ -1646,7 +1633,7 @@ views['add-log'] = () => {
         </div>
 
         <div class="card">
-          <h3>The setting</h3>
+          <h2>The setting</h2>
           <div class="grid cols-2">
             ${sel('lighting','Lighting (warmth)',OPT.lighting)}
             ${sel('brightness','Brightness',OPT.brightness)}
@@ -1660,7 +1647,7 @@ views['add-log'] = () => {
         </div>
 
         <div class="card">
-          <h3>Before you began</h3>
+          <h2>Before you began</h2>
           <div class="grid cols-2">
             ${sel('moodBefore','Mood before',OPT.moods)}
             ${sel('bodyBefore','Body state before',OPT.bodyStates)}
@@ -1669,7 +1656,7 @@ views['add-log'] = () => {
 
         ${cannabisEnabled? `
         <div class="card">
-          <h3>Cannabis / product <span class="hint" style="font-weight:400;font-size:.85rem;color:var(--ink-soft)">— optional</span></h3>
+          <h2>Cannabis / product <span class="hint" style="font-weight:400;font-size:.85rem;color:var(--ink-soft)">— optional</span></h2>
           <p class="muted small">Only if it was part of this session. Leave blank otherwise. This is a record for your own reflection, not medical guidance.</p>
           <label class="chip" style="margin-bottom:12px"><input type="checkbox" id="lg-usedProduct" name="usedProduct"/><span>A product was part of this session</span><span class="tick" aria-hidden="true">✓</span></label>
           <div id="productFields" hidden>
@@ -1682,7 +1669,7 @@ views['add-log'] = () => {
         </div>`:''}
 
         <div class="card">
-          <h3>How it felt <span class="hint" style="font-weight:400;font-size:.85rem;color:var(--ink-soft)">— 0 to 10, your read</span></h3>
+          <h2>How it felt <span class="hint" style="font-weight:400;font-size:.85rem;color:var(--ink-soft)">— 0 to 10, your read</span></h2>
           ${SCORE_FIELDS.map(f=>scoreSlider(f.key,f.label)).join('')}
           <label class="field" for="lg-notes" style="margin-top:8px"><span class="lab">Notes <span class="hint">(optional)</span></span>
             <textarea id="lg-notes" name="notes" placeholder="Anything you want to remember about this moment…"></textarea>
@@ -1759,7 +1746,7 @@ views.journal = (parts) => {
       </div>
       <div class="empty">
         <div class="em-ic">${ICON.book}</div>
-        <h3>No entries yet</h3>
+        <h2>No entries yet</h2>
         <p class="muted small" style="max-width:44ch;margin:0 auto 16px">Each entry is a small act of self-reflection. Log a moment and start building your picture.</p>
         <a class="btn btn-primary" href="#/add-log">Add your first log</a>
       </div>
@@ -1883,6 +1870,17 @@ function computeInsights(){
     return 'Preliminary';
   }
 
+  // Ordinal scales, ordered low -> high. A headline may only assert a direction
+  // ("more X means more Y") when the top-scoring group really is the higher rung
+  // of the scale; otherwise it must report what the data actually shows.
+  const ORDINAL = { clutter: OPT.clutter, screens: OPT.screens, brightness: OPT.brightness };
+  function rises(field, top, bot){
+    const a = ORDINAL[field]; if(!a) return null;
+    const i = a.indexOf(top), j = a.indexOf(bot);
+    if(i < 0 || j < 0) return null;
+    return i > j;
+  }
+
   const cand = [];
   const add = (rows, spec)=>{
     if(!rows) return;
@@ -1909,7 +1907,10 @@ function computeInsights(){
   });
   add(groups('clutter','overstimulation'), {
     tag:'Overstimulation',
-    text:(t,b)=>`Higher clutter may be associated with more overstimulation for you.`,
+    text:(t,b)=>{ const up = rises('clutter', t.v, b.v);
+      return up === true  ? `More clutter may be associated with more overstimulation for you.`
+           : up === false ? `Your tidier entries — not the cluttered ones — carry the higher overstimulation scores.`
+           : `“${t.v}” spaces carry your highest overstimulation scores.`; },
     detail:(t,b)=>`Overstimulation averaged ${t.a.toFixed(1)}/10 in “${t.v}” spaces (${t.n}) versus ${b.a.toFixed(1)}/10 in “${b.v}” spaces (${b.n}). Other factors could explain this — treat it as a lead, not a verdict.`,
     experiment:(t,b)=>`Try clearing one surface before a few sessions in your usual space and log overstimulation. Compare the tidier runs to the cluttered ones.`
   });
@@ -1921,7 +1922,10 @@ function computeInsights(){
   });
   add(groups('screens','anxiety'), {
     tag:'Anxiety',
-    text:()=>`Heavier screen exposure may be associated with higher reported anxiety.`,
+    text:(t,b)=>{ const up = rises('screens', t.v, b.v);
+      return up === true  ? `Heavier screen exposure may be associated with higher reported anxiety.`
+           : up === false ? `Your lighter-screen entries — not the heavier ones — carry the higher anxiety scores.`
+           : `“${t.v}” screen exposure carries your highest reported anxiety scores.`; },
     detail:(t,b)=>`Anxiety averaged ${t.a.toFixed(1)}/10 with “${t.v}” screen exposure (${t.n}) versus ${b.a.toFixed(1)}/10 with “${b.v}” (${b.n}). Direction and cause aren't established by this alone.`,
     experiment:()=>`Try a lighter-screen evening a few times and log anxiety, comparing against your heavier-screen entries.`
   });
@@ -1974,7 +1978,7 @@ views.insights = () => {
       <p class="eyebrow">Insights</p><h1>Patterns to explore</h1>
       <div class="empty">
         <div class="em-ic">${ICON.focus}</div>
-        <h3>${logs.length===0?'No entries yet':`${logs.length} ${logs.length===1?'entry':'entries'} so far`}</h3>
+        <h2>${logs.length===0?'No entries yet':`${logs.length} ${logs.length===1?'entry':'entries'} so far`}</h2>
         <p class="muted small" style="max-width:52ch;margin:0 auto 16px">To surface a pattern responsibly, we wait until you have at least <strong>${NSS_MIN_LOGS} entries</strong> across a few different settings — small samples produce false patterns. ${remaining>0?`About <strong>${remaining} more</strong> to go.`:''}</p>
         <a class="btn btn-primary" href="#/add-log">Add a log</a>
       </div>
@@ -1999,7 +2003,7 @@ views.insights = () => {
     </div>`).join('') : `
     <div class="empty">
       <div class="em-ic">${ICON.focus}</div>
-      <h3>No strong patterns yet</h3>
+      <h2>No strong patterns yet</h2>
       <p class="muted small" style="max-width:48ch;margin:0 auto">Your entries so far don't show a difference large or consistent enough to call out responsibly. That's a feature, not a bug — keep logging across different settings and sturdier patterns will surface.</p>
     </div>`;
   return `
@@ -2184,16 +2188,16 @@ render();
     color:#fff;border:none;padding:.55rem 1.1rem;border-radius:2rem;cursor:pointer;
     box-shadow:0 2px 12px rgba(0,0,0,.35)">Contact the Architect</button>
 </div>
-<div id="ca-modal" role="dialog" aria-modal="true"
+<div id="ca-modal" role="dialog" aria-modal="true" aria-labelledby="ca-modal-title"
   style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.8);
   align-items:center;justify-content:center">
   <div style="background:#fff;max-width:420px;width:90%;padding:2rem;border-radius:4px">
-    <h2 style="margin:0 0 1rem">Contact the Architect</h2>
-    <input id="ca-name" placeholder="Name (optional)"
+    <h2 id="ca-modal-title" style="margin:0 0 1rem">Contact the Architect</h2>
+    <input id="ca-name" aria-label="Name (optional)" placeholder="Name (optional)"
       style="width:100%;padding:.6rem;margin-bottom:.75rem;border:1px solid #ccc;box-sizing:border-box"/>
-    <input id="ca-email" type="email" placeholder="Email (required)"
+    <input id="ca-email" type="email" required aria-label="Email (required)" placeholder="Email (required)"
       style="width:100%;padding:.6rem;margin-bottom:.75rem;border:1px solid #ccc;box-sizing:border-box"/>
-    <textarea id="ca-msg" rows="3" placeholder="Message"
+    <textarea id="ca-msg" rows="3" aria-label="Message" placeholder="Message"
       style="width:100%;padding:.6rem;margin-bottom:.75rem;border:1px solid #ccc;box-sizing:border-box;resize:vertical"></textarea>
     <div style="display:flex;gap:.75rem;justify-content:flex-end">
       <button onclick="document.getElementById('ca-modal').style.display='none'"
