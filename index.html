@@ -379,6 +379,9 @@ label.field > .lab{font-size:.92rem}
 input[type=text],input[type=email],input[type=date],input[type=time],input[type=number],select,textarea{
   border-color:var(--line-strong); border-radius:var(--radius-sm); background:var(--surface); transition:border-color .15s, box-shadow .15s}
 input:focus, select:focus, textarea:focus{border-color:var(--clay); box-shadow:0 0 0 3px rgba(160,106,73,.12); outline:none}
+/* the line above suppresses the outline for mouse focus; keyboard focus keeps a
+   real 3px ring at 6.18:1 on the page background, which is what a keyboard user needs */
+input:focus-visible, select:focus-visible, textarea:focus-visible{outline:3px solid var(--focus); outline-offset:2px}
 input:focus-visible, select:focus-visible, textarea:focus-visible{outline:3px solid var(--focus); outline-offset:2px}
 .chip{border-color:var(--line-strong); transition:transform .1s, background .15s, border-color .15s}
 .chip:hover{border-color:var(--sand)}
@@ -406,6 +409,65 @@ input:focus-visible, select:focus-visible, textarea:focus-visible{outline:3px so
 .maxw-52{max-width:52ch}.maxw-46{max-width:46ch}
 .tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 hr.hr{background:var(--line); margin:40px 0}
+
+/* ---------- Method & evidence surfaces ----------------------------------
+   A field-notebook register: numbered rules, ruled working tables, and a
+   disclosure on every claim so the arithmetic is one click away. */
+.guardstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:var(--radius-sm);overflow:hidden;margin:18px 0 16px}
+.guardstrip>div{background:var(--surface);padding:14px 16px}
+.guardstrip .gn{display:block;font-family:var(--font);font-size:1.85rem;line-height:1;color:var(--clay-deep)}
+.guardstrip .gl{display:block;font-size:.82rem;font-weight:700;margin-top:6px;color:var(--ink)}
+.guardstrip .gd{display:block;font-size:.78rem;color:var(--ink-soft);margin-top:2px}
+
+.rulecard{display:grid;grid-template-columns:56px minmax(0,1fr);gap:16px;align-items:start;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px 22px;margin-bottom:12px;box-shadow:var(--shadow)}
+.rulecard>*{min-width:0}
+/* citation strings are long and unbreakable — let them wrap rather than widen the page */
+.rulecard p,.working-body p,.rulecard a,.working-body a{overflow-wrap:anywhere}
+.rulecard h3{margin:0 0 6px;font-size:1.1rem;overflow-wrap:anywhere}
+.rulenum{font-family:var(--font);font-size:1.5rem;line-height:1.9;text-align:center;
+  width:56px;height:56px;flex:none;border-radius:50%;background:var(--surface-2);
+  border:1px solid var(--line);color:var(--clay-deep)}
+
+.workwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:12px 0 0}
+table.work{width:100%;border-collapse:collapse;font-size:.9rem;min-width:22rem}
+table.work tbody th{overflow-wrap:anywhere}
+table.work th,table.work td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.work thead th{font-size:.72rem;text-transform:uppercase;letter-spacing:.09em;
+  color:var(--ink-soft);border-bottom:2px solid var(--sand)}
+table.work tbody th{font-weight:600}
+table.work td{font-variant-numeric:tabular-nums}
+table.work tr.sum th,table.work tr.sum td{font-weight:700;border-bottom:0}
+
+details.working{margin-top:14px;border-top:1px solid var(--line);padding-top:10px}
+details.working>summary{cursor:pointer;font-size:.86rem;font-weight:700;color:var(--clay-deep);
+  list-style:none;display:flex;align-items:center;gap:6px;padding:4px 2px;border-radius:6px}
+details.working>summary::-webkit-details-marker{display:none}
+details.working>summary::before{content:"▸";display:inline-block;transition:transform .15s}
+details.working[open]>summary::before{transform:rotate(90deg)}
+details.working>summary:hover{text-decoration:underline}
+.working-body{padding:8px 2px 2px}
+.working-body p{margin:0 0 8px}
+.working-body p:last-child{margin-bottom:0}
+
+.ladder{display:flex;gap:6px;margin:12px 0 10px}
+.ladder .rung{flex:1;height:8px;border-radius:99px;background:var(--surface-2);
+  border:1px solid var(--line)}
+.ladder .rung.on{background:var(--sage);border-color:var(--sage-deep)}
+
+@media (prefers-reduced-motion: reduce){details.working>summary::before{transition:none}}
+@media (max-width:860px){
+  .guardstrip{grid-template-columns:repeat(2,1fr)}
+  .rulecard{grid-template-columns:44px 1fr;gap:12px;padding:16px}
+  .rulenum{width:44px;height:44px;font-size:1.2rem;line-height:1.9}
+}
+@media (max-width:560px){
+  .guardstrip{grid-template-columns:1fr}
+  table.work{font-size:.84rem}
+  table.work th,table.work td{padding:6px 7px}
+}
 </style>
 <link rel="sitemap" type="application/xml" href="/sitemap.xml"/>
 <meta name="robots" content="index, follow"/>
@@ -608,6 +670,7 @@ function footer(){
         <p class="eyebrow">Product</p>
         <a href="#/sensory-profile">Sensory Profile</a>
         <a href="#/how-it-works">How it works</a>
+        <a href="#/method">How an insight is made</a>
         <a href="#/dashboard">Dashboard</a>
         <a href="#/blueprint">My Blueprint</a>
         <a href="#/waitlist">Join the beta</a>
@@ -616,6 +679,7 @@ function footer(){
         <p class="eyebrow">Company</p>
         <a href="#/who-its-for">Who it's for</a>
         <a href="#/research">Research &amp; approach</a>
+        <a href="#/method">Method &amp; thresholds</a>
         <a href="#/faq">FAQ</a>
         <a href="#/contact">Contact</a>
       </nav>
@@ -699,6 +763,13 @@ function afterRender(){
       toast('Added to the beta list.');
     });
   }
+  // data tools (export / import / sample) — present on several routes
+  const bindClick = (id, fn)=>{ const el = document.getElementById(id); if(el) el.onclick = fn; };
+  bindClick('logExportJson', exportLogsJson);
+  bindClick('logExportCsv', exportLogsCsv);
+  bindClick('loadSample', loadSampleLogs);
+  const imp = document.getElementById('logImport');
+  if(imp) imp.onchange = (e)=>{ const f = e.target.files && e.target.files[0]; if(f) importLogsFromFile(f); e.target.value=''; };
   // account reset
   const rb = document.getElementById('resetBtn');
   if(rb){ rb.onclick = ()=>{
@@ -919,6 +990,11 @@ views['how-it-works'] = () => `
 
   <section class="section" style="padding-top:0">
     <div class="wrap">
+      <div class="narrow" style="margin-bottom:18px">
+        <p class="eyebrow">The four steps</p>
+        <h2>Profile, log, notice, act.</h2>
+        <p class="muted mb-0">Each step feeds the next, and each one is small enough to finish in a sitting.</p>
+      </div>
       <div class="grid cols-2" style="gap:20px">
         ${howStep(1,ICON.compass,'Build your Sensory Profile','Answer a short, adaptive quiz about the states you\'re reaching for, the inputs that overwhelm you, the ones that help, and your aesthetic. If cannabis is part of your life, you can add optional context. Takes about five minutes.')}
         ${howStep(2,ICON.plus,'Log moments as they happen','Capture the setting — room, lighting, sound, scent, clutter, social context, screens — plus your mood and body state beforehand, and seven quick 0–10 ratings afterward. Log as much or as little as you like.')}
@@ -1002,6 +1078,11 @@ views['who-its-for'] = () => `
 
   <section class="section" style="padding-top:0">
     <div class="wrap">
+      <div class="narrow" style="margin-bottom:18px">
+        <p class="eyebrow">Six starting points</p>
+        <h2>Different reasons, the same method.</h2>
+        <p class="muted mb-0">None of these is a category you have to fit. They are the situations people arrive with most often.</p>
+      </div>
       <div class="grid cols-2" style="gap:20px">
         ${audience(ICON.calm,'Highly sensitive & easily overstimulated','You feel bright light, noise, and clutter more than most. The app helps you pinpoint which inputs tip you over — and build settings that give your system room to settle.')}
         ${audience(ICON.focus,'People protecting their focus','Deep work is precious. Find the sound, light, and clutter conditions where your attention holds, and design a workspace around what your own logs reveal.')}
@@ -1260,7 +1341,7 @@ views.research = () => `
         </ol>
       </div>
       <p class="small faint" style="margin-top:12px">Grades reflect the evidence as we read it and are revisited as the literature evolves. This page is for education and transparency; it is not medical, psychological, or legal advice.</p>
-      <p class="small" style="margin-top:8px"><a href="#/how-it-works">See how the method works in the app &rarr;</a> · <a href="#/disclaimer">Full safety &amp; legal disclaimer &rarr;</a></p>
+      <p class="small" style="margin-top:8px"><a href="#/method">See the thresholds the insight engine actually uses &rarr;</a> · <a href="#/how-it-works">See how the method works in the app &rarr;</a> · <a href="#/disclaimer">Full safety &amp; legal disclaimer &rarr;</a></p>
     </div>
   </section>
 `;
@@ -1307,6 +1388,19 @@ views.gate = () => `
       </div>
     </div>
   </section>
+  <section class="section-alt section">
+    <div class="narrow">
+      <p class="eyebrow">What you're signing up for</p>
+      <h2>Six questions, then a habit.</h2>
+      <div class="grid cols-2" style="margin-top:6px">
+        <div class="card"><h3>The profile shapes the questions</h3><p class="muted small mb-0">You'll say which states you're reaching for, what tends to overwhelm you, and what helps you settle. Nothing is diagnosed and nothing is scored — the answers decide which prompts you see and how your blueprints read.</p></div>
+        <div class="card"><h3>Then you log moments</h3><p class="muted small mb-0">A log is one moment described twice: the room around you, and how you felt in it. It takes under a minute, and logging close to the moment matters more than logging thoroughly.</p></div>
+        <div class="card"><h3>Patterns appear slowly, on purpose</h3><p class="muted small mb-0">Nothing is offered until there are at least ${NSS_MIN_LOGS} entries and two settings have each been recorded ${NSS_MIN_GROUP} times, and differences under ${NSS_GAP} points on a 0–10 scale are discarded without being mentioned.</p></div>
+        <div class="card"><h3>Everything stays on this device</h3><p class="muted small mb-0">Your profile and logs are stored in this browser. There is no account server, nothing is transmitted, and you can export the lot to a file whenever you want.</p></div>
+      </div>
+      <p class="small" style="margin-top:16px"><a href="#/method">See exactly how an insight is made &rarr;</a> · <a href="#/research">The evidence behind it &rarr;</a> · <a href="#/disclaimer">Safety &amp; legal &rarr;</a></p>
+    </div>
+  </section>
 `;
 
 /* ---------- NOT FOUND ---------- */
@@ -1316,6 +1410,7 @@ views.notfound = () => `
       <h1>Page not found</h1>
       <p class="muted">That page doesn't exist. Let's get you back to a calm place.</p>
       <a class="btn btn-primary" href="#/home">Return home</a>
+      <p class="small" style="margin-top:22px">Or head somewhere useful: <a href="#/how-it-works">how it works</a>, <a href="#/method">how an insight is made</a>, <a href="#/research">the research behind it</a>, <a href="#/faq">the FAQ</a>, or <a href="#/disclaimer">safety &amp; legal</a>.</p>
     </div>
   </section>
 `;
@@ -1333,12 +1428,19 @@ views.account = () => {
         <p><strong>${esc(u.name||'Member')}</strong><br><span class="muted small">${esc(u.email||'No email on file')}</span></p>
         <p class="muted small">Member since ${fmtDate(u.createdAt)}. Your data is stored locally on this device.</p>
       </div>
+      ${dataToolsCard()}
+      <div class="card">
+        <p class="eyebrow">Where your entries live</p>
+        <h2>On this device, and nowhere else.</h2>
+        <p class="muted small">Your Sensory Profile and every log are stored in this browser's local storage under a single key. There is no account server, so there is nothing to sign in to and nothing to breach — and equally, nothing is backed up. Clearing your browser's site data, using a private window, or switching browsers loses them permanently. If an entry matters, export it.</p>
+        <p class="muted small mb-0">Anyone who can open this browser can read the entries. On a shared device, that is worth knowing before you write something you would not say out loud.</p>
+      </div>
       <div class="card">
         <h2>Reset preview data</h2>
-        <p class="muted small">This clears your profile, logs, and sign-in from this browser. This cannot be undone.</p>
+        <p class="muted small">This clears your profile, your logs — including any sample entries you loaded — and your sign-in from this browser. It does not reach files you have already exported. This cannot be undone.</p>
         <button class="btn btn-secondary" id="resetBtn" type="button">Reset all data &amp; sign out</button>
       </div>
-      <p class="small"><a href="#/disclaimer">Safety &amp; legal disclaimer &rarr;</a></p>
+      <p class="small"><a href="#/method">How an insight is made &rarr;</a> · <a href="#/disclaimer">Safety &amp; legal disclaimer &rarr;</a></p>
     </div>
   </section>`;
 };
@@ -1526,6 +1628,24 @@ views.dashboard = () => {
       <p class="muted small" style="margin:12px 0 0">Averages across ${logs.length} ${logs.length===1?'entry':'entries'}. These reflect what you reported, not a score of you.</p>
     </div>` : '';
 
+  const r = readiness();
+  const readyCard = `
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
+        <p class="eyebrow" style="margin:0">Toward your first pattern</p>
+        <a class="small" href="#/method">What has to be true &rarr;</a>
+      </div>
+      <div class="ladder" role="group" aria-label="Progress toward the insight thresholds">
+        ${[1,2,3,4].map(i=>`<span class="rung${r.logs>=i?' on':''}" aria-hidden="true"></span>`).join('')}
+      </div>
+      <p class="muted small mb-0">${
+        r.meets
+          ? (r.comparable.length
+              ? `${r.logs} entries logged, and ${r.comparable.length} factor${r.comparable.length===1?' has':'s have'} two values recorded at least ${NSS_MIN_GROUP} times each — so comparisons can run. Whether any of them clears the ${NSS_GAP}-point difference floor is a separate question.`
+              : `${r.logs} entries logged, which clears the minimum. No factor yet has two different values recorded ${NSS_MIN_GROUP} times each, so there is still nothing to compare. Varying one thing on purpose does more here than logging another identical evening.`)
+          : `${r.logs} of ${NSS_MIN_LOGS} entries. ${r.needed} more before any comparison is attempted — small samples invent patterns, so the tool stays quiet until then.`}</p>
+    </div>`;
+
   const insightPreview = logs.length ? `
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px">
@@ -1551,6 +1671,7 @@ views.dashboard = () => {
       <p class="muted small" style="max-width:46ch;margin:0 auto 16px">Add your first entry: the room you're in, the light and sound around you, and how you feel. One entry is all it takes to begin noticing patterns.</p>
       <a class="btn btn-primary" href="#/add-log">Add your first log</a>
     </div>
+    ${readyCard}
     <div class="card" style="margin-top:16px">
       <p class="eyebrow">From your Sensory Profile</p>
       <h2>You're exploring: ${esc(focusStates.join(', '))}</h2>
@@ -1559,6 +1680,7 @@ views.dashboard = () => {
     </div>
   ` : `
     ${metricsCard}
+    ${readyCard}
     <div class="grid cols-2">
       ${insightPreview}
       ${recentCard}
@@ -1733,11 +1855,137 @@ function wireAddLog(){
 /* ============================================================
    JOURNAL
    ============================================================ */
+/* ============================================================
+   YOUR DATA — export, re-import, and a sample set to look at.
+   All of it happens on this device: files are built with Blob and a
+   local object URL, and an import is read with FileReader. No request.
+   ============================================================ */
+const LOG_FIELDS = ['date','time','desiredState','room','lighting','brightness','clutter','sound','scent','texture','social','screens','moodBefore','bodyBefore','usedProduct','notes'];
+
+function downloadLocal(name, type, text){
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([text],{type}));
+  a.download = name; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+}
+function exportLogsJson(){
+  downloadLocal('nervous-system-studio-logs.json','application/json', JSON.stringify({
+    exportSchema:'nss-logs-v1',
+    exportedAt:new Date().toISOString(),
+    interpretation:{
+      selfReported:true, associationsNotCauses:true,
+      minimumLogsBeforeAnyInsight:NSS_MIN_LOGS, minimumEntriesPerComparedGroup:NSS_MIN_GROUP,
+      minimumPointDifference:NSS_GAP, maximumInsightsShownAtOnce:NSS_MAX_INSIGHTS,
+      confidenceGrades:'Moderate needs 5 per group and 12 total; Emerging needs 3 and 8; otherwise Preliminary',
+      notDiagnostic:true, notAPhysiologicalMeasurement:true
+    },
+    sensoryProfile: STATE.sensoryProfile,
+    logs: STATE.logs
+  }, null, 2));
+  toast('Logs exported to a file on this device.');
+}
+function exportLogsCsv(){
+  const q = v => `"${String(v==null?'':v).replaceAll('"','""')}"`;
+  const head = ['id',...LOG_FIELDS, ...SCORE_FIELDS.map(f=>f.key), 'createdAt'];
+  const out = [head.map(q).join(',')];
+  STATE.logs.forEach(l=>{
+    out.push([l.id, ...LOG_FIELDS.map(k=>l[k]), ...SCORE_FIELDS.map(f=>l.scores? l.scores[f.key] : ''), l.createdAt].map(q).join(','));
+  });
+  out.push('');
+  out.push(q('Self-reported ratings on a 0-10 scale. Associations only; nothing here is a measurement or a diagnosis.'));
+  downloadLocal('nervous-system-studio-logs.csv','text/csv', out.join('\n'));
+  toast('Logs exported as CSV.');
+}
+function validImportedLog(x){
+  if(!x || typeof x !== 'object') return null;
+  const str = (v,max=200)=> typeof v==='string' ? v.slice(0,max) : '';
+  const scores = {};
+  for(const f of SCORE_FIELDS){
+    const v = x.scores ? Number(x.scores[f.key]) : NaN;
+    if(!Number.isFinite(v) || v<0 || v>10) return null;
+    scores[f.key] = Math.round(v);
+  }
+  const date = str(x.date,10);
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(date)) return null;
+  const out = { id:uid(), date, scores, usedProduct: x.usedProduct===true, product:null };
+  for(const k of LOG_FIELDS) if(k!=='date' && k!=='usedProduct') out[k] = str(x[k], k==='notes'?1000:200);
+  out.createdAt = Number.isFinite(Date.parse(x.createdAt)) ? new Date(x.createdAt).toISOString()
+                : new Date(date + 'T' + (out.time||'12:00')).toISOString();
+  return out;
+}
+function importLogsFromFile(file){
+  const reader = new FileReader();
+  reader.onerror = ()=> toast('That file could not be read.');
+  reader.onload = ()=>{
+    let parsed;
+    try{ parsed = JSON.parse(String(reader.result)); }
+    catch(e){ toast('That file is not valid JSON. Nothing was imported.'); return; }
+    const raw = Array.isArray(parsed) ? parsed : (Array.isArray(parsed.logs) ? parsed.logs : null);
+    if(!raw){ toast('No logs found in that file.'); return; }
+    if(raw.length > 500){ toast('That file holds more than 500 entries and was refused.'); return; }
+    let added = 0, dropped = 0;
+    raw.forEach(x=>{ const l = validImportedLog(x); if(l){ STATE.logs.push(l); added++; } else dropped++; });
+    save(); render();
+    toast(`${added} ${added===1?'entry':'entries'} imported. ${dropped} discarded as invalid.`);
+  };
+  reader.readAsText(file);
+}
+/* A fixed sample set, so the method can be inspected without waiting a fortnight.
+   It is loaded only on request, labelled everywhere it appears, and cleared with a reset. */
+const SAMPLE_LOGS = (()=>{
+  const mk = (day, state, room, lighting, brightness, clutter, sound, screens, scores)=>({
+    id:'sample-'+day, date:`2026-08-${String(day).padStart(2,'0')}`, time:'21:00',
+    desiredState:state, room, lighting, brightness, clutter, sound, scent:'None', texture:'Soft',
+    social:'Alone', screens, moodBefore:'Neutral', bodyBefore:'Neutral',
+    usedProduct:false, product:null, notes:'Sample entry — not yours.',
+    scores, createdAt:`2026-08-${String(day).padStart(2,'0')}T21:00:00.000Z`
+  });
+  const sc = (calm,focus,creativity,sleepSupport,anxiety,overstimulation,bodyComfort)=>
+    ({calm,focus,creativity,sleepSupport,anxiety,overstimulation,bodyComfort});
+  return [
+    mk(4,'Calm','Living room','Warm','Dim','Tidy','Soft ambient','A little',      sc(8,6,6,8,3,2,7)),
+    mk(6,'Calm','Bedroom','Warm','Dim','Tidy','Silence','None',                   sc(9,5,4,9,2,2,8)),
+    mk(8,'Focus','Home office','Cool','Bright','Some clutter','Music','Heavy',    sc(4,7,5,3,6,7,5)),
+    mk(10,'Calm','Living room','Warm','Dim','Tidy','Soft ambient','A little',     sc(8,6,7,8,3,3,7)),
+    mk(12,'Focus','Home office','Cool','Bright','High clutter','Noisy / busy','Heavy', sc(3,5,3,3,7,8,4)),
+    mk(14,'Calm','Bedroom','Warm','Very dim','Very tidy','Silence','None',        sc(9,4,5,9,2,1,8)),
+    mk(16,'Focus','Home office','Cool','Bright','Some clutter','Music','Heavy',   sc(4,7,6,4,6,7,5)),
+    mk(18,'Creativity','Studio','Warm','Moderate','Some clutter','Music','A little', sc(7,6,8,6,4,4,7)),
+    mk(20,'Focus','Home office','Cool','Bright','High clutter','Noisy / busy','Heavy', sc(3,6,4,3,7,8,4)),
+    mk(22,'Calm','Living room','Warm','Dim','Tidy','Nature sounds','None',        sc(8,5,6,8,3,2,8))
+  ];
+})();
+function loadSampleLogs(){
+  const already = STATE.logs.some(l=>String(l.id).startsWith('sample-'));
+  if(already){ toast('The sample set is already loaded.'); return; }
+  STATE.logs = STATE.logs.concat(SAMPLE_LOGS.map(l=>({...l, scores:{...l.scores}})));
+  save(); toast('Ten sample entries added. Clear them from Account → Reset.');
+  navigate('#/insights');
+}
+function dataToolsCard(){
+  const n = STATE.logs.length;
+  return `
+  <div class="card">
+    <p class="eyebrow">Your data</p>
+    <h2>Take your entries with you.</h2>
+    <p class="muted small">Everything below happens on this device. Files are built in the page and handed to your browser; an import reads a file you choose. Nothing is uploaded, and there is no account server to upload it to.</p>
+    <div class="flex wrap-gap" style="gap:10px;margin:14px 0 4px">
+      <button class="btn btn-secondary" id="logExportJson" type="button"${n?'':' disabled'}>Export JSON</button>
+      <button class="btn btn-secondary" id="logExportCsv" type="button"${n?'':' disabled'}>Export CSV</button>
+    </div>
+    <label class="field" for="logImport" style="margin-top:14px"><span class="lab">Import a previously exported file</span>
+      <input id="logImport" type="file" accept="application/json,.json"/>
+    </label>
+    <p class="muted small mb-0">The JSON export carries the thresholds and the interpretation rules alongside the entries, so whoever opens it inherits the same constraints you were shown. Entries that fail validation on import are discarded rather than repaired.</p>
+  </div>`;
+}
+
 views.journal = (parts) => {
   // detail view
   if(parts[1]){ return journalDetail(parts[1]); }
   const logs = STATE.logs.slice().sort((a,b)=> b.createdAt.localeCompare(a.createdAt));
   if(logs.length===0){
+    const r = readiness();
     return `
     <section class="section tight"><div class="narrow">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px">
@@ -1747,9 +1995,47 @@ views.journal = (parts) => {
       <div class="empty">
         <div class="em-ic">${ICON.book}</div>
         <h2>No entries yet</h2>
-        <p class="muted small" style="max-width:44ch;margin:0 auto 16px">Each entry is a small act of self-reflection. Log a moment and start building your picture.</p>
+        <p class="muted small" style="max-width:48ch;margin:0 auto 16px">An entry is one moment, described twice: the room around you, and how you felt in it. Nothing else in this app works until there are a few.</p>
         <a class="btn btn-primary" href="#/add-log">Add your first log</a>
       </div>
+
+      <div class="card">
+        <p class="eyebrow">What an entry captures</p>
+        <h2>Two halves, recorded at the same time.</h2>
+        <div class="grid cols-2" style="margin-top:6px">
+          <div>
+            <h3 style="font-size:1.02rem">The setting</h3>
+            <p class="muted small mb-0">Room, lighting colour and brightness, clutter, sound, scent, texture, who else is there, and how much screen you have had. These are the things you can actually change tomorrow, which is the whole reason they are the ones being recorded.</p>
+          </div>
+          <div>
+            <h3 style="font-size:1.02rem">The state</h3>
+            <p class="muted small mb-0">Calm, focus, creativity, sleep support, anxiety, overstimulation and body comfort, each on a 0–10 scale you set yourself. Plus your mood and body state beforehand, so a rough evening is not mistaken for a bad room.</p>
+          </div>
+        </div>
+        <p class="small" style="margin:16px 0 0"><strong>Log close to the moment if you can.</strong> Ratings written hours later are recalled rather than observed, and recall reliably flattens and reshapes what actually happened. This is the single easiest thing you can do to make everything downstream more honest.</p>
+      </div>
+
+      <div class="card">
+        <p class="eyebrow">What it takes to see a pattern</p>
+        <h2>Four entries, and some variety.</h2>
+        <p class="muted small">Insights stay hidden until there are at least <strong>${NSS_MIN_LOGS} entries</strong>, and until at least two settings have each been logged <strong>${NSS_MIN_GROUP} times</strong>. Four evenings in the same room under the same lamp clear the first rule and fail the second: with nothing to compare against, there is nothing to say.</p>
+        <ol class="muted small" style="margin:12px 0 0;padding-left:1.2em">
+          <li style="margin-bottom:8px"><strong>Entries 1–3.</strong> Nothing appears, deliberately. Three points is a line through noise.</li>
+          <li style="margin-bottom:8px"><strong>Entry 4.</strong> Comparisons begin — but only across factors where two different values have each been recorded twice.</li>
+          <li style="margin-bottom:8px"><strong>Entries 5–8.</strong> Change one thing on purpose. Warm light one evening, cool the next. Silence, then soft ambient sound. Variety is what produces a comparison; repetition alone does not.</li>
+          <li style="margin-bottom:0"><strong>Entry 8 and beyond.</strong> Observations start earning a higher confidence grade, and the arithmetic behind each one is shown on the card.</li>
+        </ol>
+        <p class="small" style="margin:14px 0 0"><a href="#/method">See exactly what has to be true before anything is shown &rarr;</a></p>
+      </div>
+
+      <div class="card" style="background:var(--surface-2)">
+        <p class="eyebrow">Rather see it working first?</p>
+        <h2>Load ten sample entries.</h2>
+        <p class="muted small">A fixed, obviously-fake fortnight of logs — clearly marked as samples in every entry — so you can walk through the insight engine, the confidence grades and the arithmetic before you have written anything of your own. Remove them any time from Account → Reset.</p>
+        <button class="btn btn-secondary" id="loadSample" type="button">Load the sample set</button>
+      </div>
+
+      ${dataToolsCard()}
     </div></section>`;
   }
   return `
@@ -1759,6 +2045,8 @@ views.journal = (parts) => {
       <a class="btn btn-primary" href="#/add-log">${ICON.plus} Add log</a>
     </div>
     ${logs.map(logRow).join('')}
+    <p class="small" style="margin-top:18px"><a href="#/insights">What these entries are showing &rarr;</a> · <a href="#/method">How an insight is made &rarr;</a></p>
+    ${dataToolsCard()}
   </div></section>`;
 };
 
@@ -1860,6 +2148,7 @@ function computeInsights(){
       .filter(r=>r.a!=null && r.n>=NSS_MIN_GROUP);
     if(rows.length<2) return null;
     rows.sort((x,y)=>y.a-x.a);
+    rows.field = field; rows.outcome = outcome;
     return rows;
   }
   // Confidence grade from the data supporting a comparison.
@@ -1895,7 +2184,12 @@ function computeInsights(){
       n: top.n + bot.n,
       text: spec.text(top,bot),
       detail: spec.detail(top,bot),
-      experiment: spec.experiment(top,bot)
+      experiment: spec.experiment(top,bot),
+      // the working, kept so the app can show it rather than assert it
+      field: rows.field, outcome: rows.outcome,
+      groupsCompared: rows.length, groupsSeen: rows.all || rows.length,
+      top: {v:top.v, n:top.n, a:top.a}, bot: {v:bot.v, n:bot.n, a:bot.a},
+      totalLogs: logs.length
     });
   };
 
@@ -1951,6 +2245,9 @@ function computeInsights(){
       const hiO = avgFor(hi,'overstimulation'), loO = avgFor(lo,'overstimulation');
       if(hiO!=null && loO!=null && (hiO-loO)>=NSS_GAP){
         cand.push({ tag:'Set & setting', gap:hiO-loO, confidence:grade(hi.length,lo.length), n:hi.length+lo.length,
+          field:'setting (busier vs calmer)', outcome:'overstimulation', groupsCompared:2, groupsSeen:2,
+          top:{v:'busier settings', n:hi.length, a:hiO}, bot:{v:'calmer settings', n:lo.length, a:loO},
+          totalLogs: logs.length,
           text:`On product sessions, higher-stimulation settings may feel more intense for you.`,
           detail:`Overstimulation averaged ${hiO.toFixed(1)}/10 in busier settings (${hi.length}) versus ${loO.toFixed(1)}/10 in calmer ones (${lo.length}). This mirrors the general set-and-setting idea, but the research on environment and cannabis is mixed — treat it purely as your own reflection, not guidance.`,
           experiment:`If you choose to, compare a few calmer-setting sessions against busier ones and log overstimulation.` });
@@ -1968,6 +2265,196 @@ function confBadge(c){
   return `<span class="badge${c==='Moderate'?'':' '}" style="background:${c==='Moderate'?'var(--sage-wash)':'var(--surface-2)'};color:${c==='Moderate'?'var(--sage-deep)':'var(--ink-soft)'}">${ICON.check} ${esc(c)} confidence</span>`;
 }
 
+/* ============================================================
+   THE GUARDS, MADE INSPECTABLE
+   Every threshold in computeInsights() is a published number with a
+   reason. These helpers let the app show its working instead of
+   asking to be trusted.
+   ============================================================ */
+const GUARD_FIELDS = [
+  ['lighting','Lighting'],['brightness','Brightness'],['clutter','Clutter'],
+  ['sound','Sound'],['scent','Scent'],['texture','Texture'],
+  ['social','Social context'],['screens','Screen exposure'],['room','Room']
+];
+function readiness(){
+  const logs = STATE.logs;
+  const fields = GUARD_FIELDS.map(([key,label])=>{
+    const g = {};
+    logs.forEach(l=>{ const v = l[key]; if(v) g[v] = (g[v]||0)+1; });
+    const values = Object.entries(g).sort((a,b)=>b[1]-a[1]);
+    const usable = values.filter(([,n])=>n>=NSS_MIN_GROUP);
+    return { key, label, values, usable, comparable: usable.length>=2 };
+  });
+  return {
+    logs: logs.length,
+    needed: Math.max(0, NSS_MIN_LOGS - logs.length),
+    meets: logs.length >= NSS_MIN_LOGS,
+    fields,
+    comparable: fields.filter(f=>f.comparable),
+    nearly: fields.filter(f=>!f.comparable && f.values.length>=2)
+  };
+}
+/* The score a further entry in the top group would have to fall below for the
+   gap to drop under the reporting floor — i.e. how fragile the observation is. */
+function flipPoint(i){
+  const x = (i.bot.a + NSS_GAP) * (i.top.n + 1) - i.top.a * i.top.n;
+  if(!isFinite(x)) return null;
+  if(x <= 0) return { kind:'none' };
+  if(x > 10) return { kind:'any' };
+  return { kind:'value', x };
+}
+function nextGrade(i){
+  const m = Math.min(i.top.n, i.bot.n), tot = i.totalLogs;
+  if(i.confidence==='Moderate') return null;
+  if(i.confidence==='Emerging') return { label:'Moderate', group: Math.max(0,5-m), total: Math.max(0,12-tot) };
+  return { label:'Emerging', group: Math.max(0,3-m), total: Math.max(0,8-tot) };
+}
+const FIELD_LABEL = {lighting:'Lighting colour',brightness:'Brightness',clutter:'Clutter',sound:'Sound',scent:'Scent',texture:'Texture',social:'Social context',screens:'Screen exposure',room:'Room'};
+function fieldLabel(f){ return FIELD_LABEL[f] || String(f); }
+function outcomeLabel(o){ const m = SCORE_FIELDS.find(x=>x.key===o); return m ? m.label.toLowerCase() : String(o); }
+function insightWorking(i){
+  const fp = flipPoint(i), ng = nextGrade(i);
+  const gradeRule = i.confidence==='Moderate'
+    ? `Both groups hold at least 5 entries and you have at least 12 in total, so this is graded Moderate — the highest grade this tool issues.`
+    : i.confidence==='Emerging'
+    ? `The smaller of the two groups holds ${Math.min(i.top.n,i.bot.n)} entries and you have ${i.totalLogs} in total, which meets the Emerging rule (3 per group, 8 overall) but not the Moderate one (5 per group, 12 overall).`
+    : `The smaller of the two groups holds ${Math.min(i.top.n,i.bot.n)} ${Math.min(i.top.n,i.bot.n)===1?'entry':'entries'} and you have ${i.totalLogs} in total, below the Emerging rule of 3 per group and 8 overall — so this is graded Preliminary.`;
+  const fragility = !fp ? ''
+    : fp.kind==='none' ? `No single further entry could pull this under the ${NSS_GAP}-point floor; the difference is wider than one observation can undo.`
+    : fp.kind==='any'  ? `One more “${esc(i.top.v)}” entry — at any score at all — would pull the difference under the ${NSS_GAP}-point floor and this observation would stop being shown. It is resting on very little.`
+    : `One more “${esc(i.top.v)}” entry scoring below ${fp.x.toFixed(1)}/10 on ${esc(outcomeLabel(i.outcome))} would pull the difference under the ${NSS_GAP}-point floor, and this observation would stop being shown.`;
+  const grow = !ng ? `This is already at the highest confidence grade the tool issues.`
+    : (ng.group===0 && ng.total===0) ? `It would be graded ${ng.label} on the next recalculation.`
+    : `To reach ${ng.label} it needs ${ng.group>0?`${ng.group} more ${ng.group===1?'entry':'entries'} in the smaller group`:'no more entries in the smaller group'}${ng.group>0&&ng.total>0?' and ':''}${ng.total>0?`${ng.total} more ${ng.total===1?'entry':'entries'} overall`:''}.`;
+  return `
+  <details class="working">
+    <summary>How this was computed</summary>
+    <div class="working-body">
+      <p class="small mb-0"><strong>Comparison.</strong> ${esc(fieldLabel(i.field))} against your ${esc(outcomeLabel(i.outcome))} ratings, across ${i.groupsCompared} group${i.groupsCompared===1?'':'s'} that each met the ${NSS_MIN_GROUP}-entry minimum.</p>
+      <div class="workwrap"><table class="work">
+        <thead><tr><th scope="col">Group</th><th scope="col">Entries</th><th scope="col">Mean ${esc(outcomeLabel(i.outcome))}</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">${esc(i.top.v)}</th><td>${i.top.n}</td><td>${i.top.a.toFixed(2)}/10</td></tr>
+          <tr><th scope="row">${esc(i.bot.v)}</th><td>${i.bot.n}</td><td>${i.bot.a.toFixed(2)}/10</td></tr>
+          <tr class="sum"><th scope="row">Difference</th><td>—</td><td>${i.gap.toFixed(2)} points</td></tr>
+        </tbody>
+      </table></div>
+      <p class="small"><strong>Why it cleared the floor.</strong> ${i.gap.toFixed(2)} is above the ${NSS_GAP}-point minimum difference, so it was eligible to be shown. Differences smaller than that are discarded without being mentioned.</p>
+      <p class="small"><strong>Why it is graded ${esc(i.confidence)}.</strong> ${gradeRule}</p>
+      <p class="small"><strong>How fragile it is.</strong> ${fragility}</p>
+      <p class="small mb-0"><strong>What would strengthen it.</strong> ${grow} <a href="#/method">How these thresholds were chosen &rarr;</a></p>
+    </div>
+  </details>`;
+}
+
+/* ============================================================
+   METHOD — how an insight is made
+   ============================================================ */
+views.method = () => {
+  const r = readiness();
+  const rule = (n,t,b,src)=>`
+    <div class="rulecard">
+      <div class="rulenum">${n}</div>
+      <div>
+        <h3>${t}</h3>
+        <p class="muted small">${b}</p>
+        <p class="small faint mb-0">${src}</p>
+      </div>
+    </div>`;
+  const status = `
+    <div class="card">
+      <p class="eyebrow">Your data, against these rules</p>
+      <h3 style="margin-top:0">${r.logs} ${r.logs===1?'entry':'entries'} logged</h3>
+      <p class="muted small">${
+        r.meets
+          ? `You are past the ${NSS_MIN_LOGS}-entry minimum, so comparisons can run.`
+          : `${r.needed} more ${r.needed===1?'entry'
+             :'entries'} and comparisons begin. Until then nothing is shown, however tempting the early numbers look.`}</p>
+      ${r.comparable.length ? `
+        <p class="small" style="margin-bottom:6px"><strong>Fields that can currently be compared</strong> — at least two of their values have reached ${NSS_MIN_GROUP} entries each:</p>
+        <ul class="small muted" style="margin:0 0 12px;padding-left:1.15em">
+          ${r.comparable.map(f=>`<li>${esc(f.label)} — ${f.usable.map(([v,n])=>`${esc(v)} (${n})`).join(', ')}</li>`).join('')}
+        </ul>` : `<p class="small muted">No field yet has two values with ${NSS_MIN_GROUP} entries each, which is the other half of the requirement. Logging four entries in the same room under the same light produces no comparison at all.</p>`}
+      ${r.nearly.length ? `
+        <p class="small" style="margin-bottom:6px"><strong>Close, but not yet comparable</strong> — these have variety, but not enough repeats:</p>
+        <ul class="small muted" style="margin:0;padding-left:1.15em">
+          ${r.nearly.slice(0,4).map(f=>`<li>${esc(f.label)} — ${f.values.map(([v,n])=>`${esc(v)} (${n})`).join(', ')}</li>`).join('')}
+        </ul>` : ''}
+    </div>`;
+  return `
+  <section class="section tight">
+    <div class="narrow">
+      <p class="eyebrow">Method</p>
+      <h1>How an insight is made — and why most of them never appear.</h1>
+      <p class="lede">This tool reads self-reported logs and offers observations about your environment. That is one small step away from a horoscope, and the only thing separating them is a set of rules about when the tool is allowed to speak. Those rules are published here in full, with the numbers they actually use.</p>
+      <p class="muted">Everything below runs on your device, over entries you wrote yourself. There is no model, no population comparison, and no inference about your body.</p>
+    </div>
+  </section>
+
+  <section class="section-alt section">
+    <div class="narrow">
+      <p class="eyebrow">The five guards</p>
+      <h2>What has to be true before a single sentence is shown.</h2>
+      <p class="muted maxw-52" style="margin-bottom:20px">Each one exists because of a specific, documented way that self-tracking produces confident nonsense.</p>
+      ${rule(NSS_MIN_LOGS,'A minimum of four entries in total','Below four entries there is no comparison to make — only noise wearing the shape of a pattern. Short series are dominated by whatever happened on the day, and an unusually bad first entry will be followed by a better one for purely statistical reasons, with nothing having changed.','Regression to the mean: Barnett, van der Pols &amp; Dobson (2004), <em>International Journal of Epidemiology</em>. <a href="https://doi.org/10.1093/ije/dyh299" target="_blank" rel="noopener">doi:10.1093/ije/dyh299</a>')}
+      ${rule(NSS_MIN_GROUP,'A minimum of two entries in each group being compared','A comparison between “four entries with warm light” and “one entry with cool light” is not a comparison; it is a single evening given a label. Both sides of every comparison must have repeated at least once, or the comparison is dropped in silence.','A direct consequence of the same small-sample problem, applied per group rather than per dataset.')}
+      ${rule(NSS_GAP,'A difference of at least 1.5 points on the 0–10 scale','Self-report drifts. The same room on two days can move a rating by a point without anything about the room changing. A floor of 1.5 points discards differences too small to survive that drift, which means the tool stays quiet about most of what it sees.','In-the-moment logging reduces recall bias but does not remove rating noise: Shiffman, Stone &amp; Hufford (2008), <em>Annual Review of Clinical Psychology</em>. <a href="https://doi.org/10.1146/annurev.clinpsy.3.022806.091415" target="_blank" rel="noopener">doi:10.1146/annurev.clinpsy.3.022806.091415</a>')}
+      ${rule(NSS_MAX_INSIGHTS,'A hard cap of four observations at once','This is the most important guard and the least obvious. The tool checks many environment factors against many outcomes. Test enough pairs and some will clear any threshold by chance alone — that is arithmetic, not bad luck. Candidates are ranked by the size of the difference and everything past the fourth is thrown away.','The multiple-comparisons problem and the false-discovery framing that made it tractable: Benjamini &amp; Hochberg (1995), <em>Journal of the Royal Statistical Society Series B</em>. <a href="https://doi.org/10.1111/j.2517-6161.1995.tb02031.x" target="_blank" rel="noopener">doi:10.1111/j.2517-6161.1995.tb02031.x</a>')}
+      ${rule('A–C','A confidence grade attached to every observation','Preliminary, Emerging, or Moderate — decided by how much data stands behind the specific comparison, not by how good the sentence sounds. Moderate needs at least 5 entries in each group and 12 overall. Emerging needs 3 and 8. Everything else is Preliminary, and Moderate is the highest grade this tool will ever issue.','Grades are a property of your dataset, not of the world. No observation here is evidence about anyone but you.')}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="narrow">
+      <p class="eyebrow">Worked example</p>
+      <h2>The same rules, run on nine entries.</h2>
+      <p class="muted maxw-52">Suppose you have logged nine evenings, recording lighting each time and rating calm from 0 to 10.</p>
+      <div class="card">
+        <div class="workwrap"><table class="work">
+          <thead><tr><th scope="col">Lighting</th><th scope="col">Entries</th><th scope="col">Calm ratings</th><th scope="col">Mean</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Warm</th><td>4</td><td>7, 8, 6, 8</td><td>7.25</td></tr>
+            <tr><th scope="row">Neutral</th><td>3</td><td>6, 5, 7</td><td>6.00</td></tr>
+            <tr><th scope="row">Candle / very warm</th><td>1</td><td>9</td><td>9.00</td></tr>
+            <tr><th scope="row">Cool</th><td>1</td><td>3</td><td>3.00</td></tr>
+          </tbody>
+        </table></div>
+        <ol class="muted small" style="margin:16px 0 0;padding-left:1.2em">
+          <li><strong>Total entries:</strong> 9, which clears the minimum of ${NSS_MIN_LOGS}.</li>
+          <li><strong>Groups dropped:</strong> “Candle” and “Cool” each hold one entry, below the ${NSS_MIN_GROUP}-entry minimum. Both are discarded — including the 9 and the 3, which are the two most interesting-looking numbers on the table. The comparison is between Warm and Neutral only.</li>
+          <li><strong>Difference:</strong> 7.25 − 6.00 = 1.25 points.</li>
+          <li><strong>Outcome:</strong> 1.25 is below the ${NSS_GAP}-point floor, so <strong>nothing is shown</strong>. Not a hedged version, not a “weak signal” — nothing.</li>
+        </ol>
+        <p class="small" style="margin:14px 0 0">A naive version of this tool would have reported “candlelight is your calmest setting” from a single evening rated 9. That sentence would have been the most satisfying output on the page and completely without support. Refusing to print it is the entire product.</p>
+      </div>
+      <p class="muted small" style="margin-top:14px">Change one thing — log a second candlelit evening rated 8 — and the picture shifts: Candle now holds 2 entries with a mean of 8.5, the comparison becomes Candle against Neutral, the difference is 2.5 points, and an observation appears, graded <em>Preliminary</em> because the smaller group holds 2 entries and the total is 10.</p>
+    </div>
+  </section>
+
+  <section class="section-alt section">
+    <div class="narrow">
+      <p class="eyebrow">Where you are</p>
+      <h2>Your own data against these rules.</h2>
+      ${status}
+      <p class="small faint" style="margin-top:12px">Entries are counted, never assessed. This panel says whether a comparison is arithmetically possible, not whether anything is wrong or right about how you feel.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="narrow">
+      <p class="eyebrow">The limit</p>
+      <h2>What clearing every guard still does not buy you.</h2>
+      <div class="card">
+        <p class="muted small">An observation that survives all five rules is still a <strong>correlation in entries you wrote about yourself</strong>. It cannot tell you which way the arrow points — a calm evening is as able to produce a tidy room as a tidy room is to produce a calm evening. It cannot rule out a third thing causing both. And it cannot separate the effect of your environment from the effect of paying attention to your environment, which is what logging is.</p>
+        <p class="muted small">The one route to a stronger personal statement is a within-person test: change a single input deliberately, repeat it several times, and compare against the occasions you did not. Formal single-case design standards ask for <strong>at least three demonstrations of an effect at three different points in time</strong> before a within-case result is treated as credible — which is why every observation here arrives with a small experiment attached rather than a conclusion.</p>
+        <p class="small faint mb-0">What Works Clearinghouse, <em>Procedures and Standards Handbook, Version 5.0</em>, single-case design standards. <a href="https://ies.ed.gov/ncee/wwc/Docs/referenceresources/Final_WWC-HandbookVer5_0-0-508.pdf" target="_blank" rel="noopener">Read the handbook (PDF)</a>. On why recording at all changes behaviour: Harkin et al. (2016), <em>Psychological Bulletin</em>. <a href="https://doi.org/10.1037/bul0000025" target="_blank" rel="noopener">doi:10.1037/bul0000025</a></p>
+      </div>
+      <p class="small" style="margin-top:18px"><a href="#/research">The evidence behind the recommendations &rarr;</a> · <a href="#/insights">See your own patterns &rarr;</a> · <a href="#/disclaimer">Safety &amp; legal &rarr;</a></p>
+    </div>
+  </section>
+`;
+};
+
 views.insights = () => {
   const logs = STATE.logs;
   const ins = computeInsights();
@@ -1983,7 +2470,7 @@ views.insights = () => {
         <a class="btn btn-primary" href="#/add-log">Add a log</a>
       </div>
       <div class="card" style="margin-top:16px;background:var(--surface-2)">
-        <p class="small mb-0">Why the wait? Insights here are grounded in self-tracking research: a handful of days is a tiny, noisy sample, and comparing many factors at once can invent patterns that aren't there. We'd rather show you fewer, sturdier observations. <a href="#/research">How this works &rarr;</a></p>
+        <p class="small mb-0">Why the wait? Insights here are grounded in self-tracking research: a handful of days is a tiny, noisy sample, and comparing many factors at once can invent patterns that aren't there. We'd rather show you fewer, sturdier observations. <a href="#/method">See exactly how an insight is made &rarr;</a></p>
       </div>
     </div></section>`;
   }
@@ -2000,17 +2487,28 @@ views.insights = () => {
         <p class="eyebrow" style="margin:0 0 4px">Test it — a small experiment</p>
         <p class="small mb-0">${esc(i.experiment)}</p>
       </div>
+      ${insightWorking(i)}
     </div>`).join('') : `
     <div class="empty">
       <div class="em-ic">${ICON.focus}</div>
       <h2>No strong patterns yet</h2>
-      <p class="muted small" style="max-width:48ch;margin:0 auto">Your entries so far don't show a difference large or consistent enough to call out responsibly. That's a feature, not a bug — keep logging across different settings and sturdier patterns will surface.</p>
+      <p class="muted small" style="max-width:52ch;margin:0 auto 12px">Your entries so far don't show a difference large or consistent enough to call out responsibly. That's a feature, not a bug — most comparisons should end here.</p>
+      <p class="muted small" style="max-width:52ch;margin:0 auto 12px">Usually it is one of two things. Either both sides of a comparison haven't repeated yet — a factor needs at least ${NSS_MIN_GROUP} entries at each of two different values before it can be compared at all — or the differences that exist are under the ${NSS_GAP}-point floor.</p>
+      ${readiness().comparable.length ? `<p class="muted small" style="max-width:52ch;margin:0 auto 12px">Comparable right now: ${readiness().comparable.map(f=>esc(f.label)).join(', ')}. The differences within them are simply too small so far.</p>` : `<p class="muted small" style="max-width:52ch;margin:0 auto 12px">Nothing is comparable yet: no factor has two values with ${NSS_MIN_GROUP} entries each. Varying one thing deliberately — the lighting, the sound — does more than logging more of the same.</p>`}
+      <a class="btn btn-secondary" href="#/method">See what has to be true for a pattern to appear</a>
     </div>`;
   return `
   <section class="section tight"><div class="narrow">
     <p class="eyebrow">Insights · from ${logs.length} entries</p>
     <h1>Patterns to explore</h1>
     <p class="lede">These describe <strong>associations</strong> in your own self-reports — what tended to co-occur, not what caused what. Each one is a hypothesis with a small experiment to test it.</p>
+    <div class="guardstrip">
+      <div><span class="gn">${NSS_MIN_LOGS}</span><span class="gl">entries minimum</span><span class="gd">before anything is compared</span></div>
+      <div><span class="gn">${NSS_MIN_GROUP}</span><span class="gl">per group minimum</span><span class="gd">both sides must repeat</span></div>
+      <div><span class="gn">${NSS_GAP}</span><span class="gl">point difference floor</span><span class="gd">smaller gaps are discarded</span></div>
+      <div><span class="gn">${NSS_MAX_INSIGHTS}</span><span class="gl">maximum shown at once</span><span class="gd">guards against chance hits</span></div>
+    </div>
+    <p class="small" style="margin:-4px 0 20px">${ins.length? `${ins.length} observation${ins.length===1?'':'s'} cleared all four rules out of everything checked. Open <em>How this was computed</em> on any card to see the groups, the means and the arithmetic.`:'Nothing cleared all four rules, so nothing is shown.'} <a href="#/method">Why these numbers &rarr;</a></p>
     ${body}
     <div class="card" style="background:var(--surface-2)">
       <p class="eyebrow" style="margin:0 0 6px">How to read these honestly</p>
