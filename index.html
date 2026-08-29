@@ -510,6 +510,52 @@ details.working>summary:hover{text-decoration:underline}
 <body>
 <a href="#main" class="skip">Skip to content</a>
 <div id="app"></div>
+
+<!--
+  Everything above renders client-side from the hash router, so without
+  JavaScript this page served 37 words — no crawler and no reader with
+  scripts off saw any of it. The tool genuinely cannot run without JS (it
+  keeps every entry in the browser and never transmits one), but that is a
+  reason to say so, not a reason to serve a blank page.
+-->
+<noscript>
+  <main id="main" style="max-width:68ch;margin:0 auto;padding:3rem 1.25rem;line-height:1.65">
+    <h1>Nervous System Studio</h1>
+    <p>A private log for noticing which settings actually help you, and which
+    do not. You record where you were and how you felt; after enough entries
+    it compares settings against each other and tells you what it found.</p>
+
+    <h2>It needs JavaScript, and it needs it for a reason</h2>
+    <p>Every entry stays in this browser. Nothing is transmitted, there is no
+    account, and there is no server holding your logs — which means the
+    comparison has to run here, in the page. With scripts disabled there is
+    nowhere for it to run.</p>
+
+    <h2>What it will and will not tell you</h2>
+    <p>It only reports a comparison when the data can carry one. Four rules
+    decide that, and they are why this is not a horoscope:</p>
+    <ul>
+      <li>At least <strong>4</strong> entries before anything is compared.</li>
+      <li>Each setting seen at least <strong>2</strong> times, so a single
+      unusual day cannot become a finding.</li>
+      <li>A gap of at least <strong>1.5</strong> points on a 0–10 scale
+      between the two groups being compared.</li>
+      <li>A cap on how many findings are surfaced at once, so the strongest
+      signal is not buried in weak ones.</li>
+    </ul>
+    <p>Each finding shows both groups, how many entries are in each, the
+    difference between them, and how fragile it is — the score one further
+    entry would have to fall below for the finding to disappear.</p>
+
+    <h2>What it is not</h2>
+    <p>It is not a diagnostic instrument, not medical advice, and not
+    evidence about anyone other than the person keeping the log. It compares
+    your own entries with each other. That is the whole claim.</p>
+
+    <p><a href="https://aloha-ai-consulting.vercel.app">Aloha AI Consulting</a>
+    · <a href="https://rn-selected-work.vercel.app">RN Builds</a></p>
+  </main>
+</noscript>
 <div id="toast" hidden role="status" aria-live="polite"></div>
 <script>
 "use strict";
