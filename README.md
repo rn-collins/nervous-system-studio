@@ -15,7 +15,7 @@ actually uses:
 |---|---|---|
 | Minimum entries before any comparison | 4 | Short series are dominated by the day; extreme first entries rebound on their own |
 | Minimum entries per compared group | 2 | A comparison where one side happened once is a single evening with a label on it |
-| Minimum difference on the 0–10 scale | 1.5 | Self-report drifts by about a point without anything changing |
+| Minimum difference on the 0 to 10 scale | 1.5 | Self-report drifts by about a point without anything changing |
 | Maximum observations shown at once | 4 | Check enough pairs and some clear any threshold by chance |
 | Confidence grade | Preliminary / Emerging / Moderate | 3-per-group and 8 total for Emerging; 5 and 12 for Moderate; Moderate is the ceiling |
 
@@ -26,7 +26,7 @@ observation to disappear), and what would raise its grade.
 
 ## What was added
 
-- `#/method` — the guards explained with sources, a worked example on nine entries where the
+- `#/method`: the guards explained with sources, a worked example on nine entries where the
   correct answer is that nothing is shown, and a live readout of your own data against the rules.
 - A substantial journal empty state: what an entry captures, why in-the-moment logging matters,
   and the four-entry path to a first comparison.
